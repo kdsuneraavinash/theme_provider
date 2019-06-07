@@ -3,7 +3,7 @@ import 'package:theme_provider/src/app_theme/app_theme.dart';
 
 import 'package:theme_provider/theme_provider.dart';
 
-class MockupApp extends StatelessWidget {
+class ExampleApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ThemeProvider(
@@ -12,13 +12,13 @@ class MockupApp extends StatelessWidget {
         AppTheme(data: ThemeData.dark()),
       ],
       app: MaterialApp(
-        home: MockupAppScreen(),
+        home: ExampleScreen(),
       ),
     );
   }
 }
 
-class MockupAppScreen extends StatelessWidget {
+class ExampleScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

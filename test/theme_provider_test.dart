@@ -1,24 +1,20 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:provider/provider.dart';
-
-import 'mockup_app.dart';
+import 'package:theme_provider/theme_provider.dart';
 
 void main() {
-  testWidgets('Basic App Theme and Mockup App Smoke Test',
-      (WidgetTester tester) async {
-    await tester.pumpWidget(MockupApp());
+  test('ThemeProvider constructor theme list test', () {
+    AppTheme appTheme = AppTheme(data: ThemeData.light());
 
-    Finder pressMeButton = find.text('Press Me');
-    expect(pressMeButton, findsOneWidget);
-
-    expect(
-        find.ancestor(
-          of: pressMeButton,
-          matching: find.byType(Provider),
-        ),
-        findsOneWidget);
-
-    await tester.tap(pressMeButton);
-    await tester.pump();
+    expect(() => _buildMaterialApp([]), throwsAssertionError);
+    expect(() => _buildMaterialApp([appTheme]), throwsAssertionError);
+    expect(_buildMaterialApp([appTheme, appTheme]), isInstanceOf<Widget>());
   });
+}
+
+Widget _buildMaterialApp(List<AppTheme> themes) {
+  return ThemeProvider(
+    app: MaterialApp(),
+    themes: themes,
+  );
 }
