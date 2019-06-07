@@ -21,10 +21,16 @@ class MockupApp extends StatelessWidget {
 class MockupAppScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: FlatButton(
-        child: Text("Press Me"),
-        onPressed: ThemeCommand.of(context).nextTheme,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Example App"),
+        actions: <Widget>[CycleThemeIconButton()],
+      ),
+      body: Center(
+        child: FlatButton(
+          child: Text("Press Me"),
+          onPressed: ThemeCommand.of(context).nextTheme,
+        ),
       ),
     );
   }

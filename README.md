@@ -53,7 +53,7 @@ Access theme data using default method:
 ## TODO
 
 - [x] Add next theme command
-- [ ] Add theme cycling widget
+- [x] Add theme cycling widget
 - [ ] Add theme selection by theme id
 - [ ] Add theme select and preview widget
 - [ ] Persist current selected theme
