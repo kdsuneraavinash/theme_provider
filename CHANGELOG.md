@@ -1,3 +1,4 @@
-## [0.0.1] - TODO: Add release date.
+## [0.0.1] - 2019/06/08
 
-* TODO: Describe initial release.
+* Added base functionality to add custome theme data
+* Added functionality to cycle theme using the command

@@ -1,7 +1,7 @@
 name: theme_provider
 description: Pluggable Theme Provider
 version: 0.0.1
-author: Sunera Avinash
+author: Sunera Avinash <kdsuneraavinash@gmail.com>
 homepage: https://www.github.com/kdsuneraavinash/theme-provider
 
 environment:
