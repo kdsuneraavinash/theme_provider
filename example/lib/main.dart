@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:theme_provider/src/app_theme/app_theme.dart';
-
 import 'package:theme_provider/theme_provider.dart';
 
-class ExampleApp extends StatelessWidget {
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ThemeProvider(
@@ -12,13 +12,13 @@ class ExampleApp extends StatelessWidget {
         AppTheme(data: ThemeData.dark()),
       ],
       app: MaterialApp(
-        home: ExampleScreen(),
+        home: HomePage(),
       ),
     );
   }
 }
 
-class ExampleScreen extends StatelessWidget {
+class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
