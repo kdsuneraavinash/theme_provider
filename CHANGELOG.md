@@ -2,3 +2,7 @@
 
 * Added base functionality to add custome theme data
 * Added functionality to cycle theme using the command
+
+## [0.0.1+1] - 2019/06/08
+
+* Fixed major bug relating to ProviderNotFoundError
