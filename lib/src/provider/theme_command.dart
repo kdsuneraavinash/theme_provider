@@ -5,7 +5,7 @@ abstract class ThemeCommand {
   /// Cycle to next theme in the theme list
   void nextTheme();
 
-   static ThemeCommand of(BuildContext context) {
+  static ThemeCommand of(BuildContext context) {
     return Provider.of<ThemeCommand>(context);
   }
 }

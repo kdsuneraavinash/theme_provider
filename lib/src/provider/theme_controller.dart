@@ -19,7 +19,7 @@ class ThemeController extends ChangeNotifier implements ThemeCommand {
 
   /// Gets the reference to [ThemeController] directly.
   /// This also provides references to current theme and other objects.
-  /// So this class is not exported. 
+  /// So this class is not exported.
   /// Only the classes inside this package can use this.
   static ThemeController of(BuildContext context) {
     return Provider.of<ThemeController>(context);
