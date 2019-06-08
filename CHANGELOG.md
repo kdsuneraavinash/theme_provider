@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [0.0.1+8] - 2019/06/08
+
+* Added method to get all themes: `ThemeProvider.controllerOf(context).allThemes`
+* Made theme id reqired (instead of optional)
+* Added optional description field to theme
+
 ## [0.0.1+7] - 2019/06/08
 
 * Removed dependency on Provider.

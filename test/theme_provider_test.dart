@@ -80,8 +80,14 @@ void main() {
               home: Scaffold(key: scaffoldKey),
             ),
         themes: [
-          AppTheme<String>.light().copyWith(options: "Hello"),
-          AppTheme<String>.dark().copyWith(options: "Bye")
+          AppTheme<String>.light().copyWith(
+            id: "light_theme",
+            options: "Hello",
+          ),
+          AppTheme<String>.dark().copyWith(
+            id: "dark_theme",
+            options: "Bye",
+          )
         ],
       ),
     );
@@ -115,7 +121,7 @@ void main() {
     expect(
         ThemeProvider.controllerOf(tester.element(find.byKey(scaffoldKey)))
             .currentThemeId,
-        startsWith("themeId_"));
+        startsWith("default_"));
   });
 
   testWidgets('Duplicate Theme Id Test', (tester) async {
@@ -160,7 +166,7 @@ void main() {
         ],
       ),
     );
-    expect(fetchThemeCommand().currentThemeId, startsWith("themeId_"));
+    expect(fetchThemeCommand().currentThemeId, equals("default_light_theme"));
 
     fetchThemeCommand().nextTheme();
     expect(fetchThemeCommand().currentThemeId, equals("test_theme_1"));

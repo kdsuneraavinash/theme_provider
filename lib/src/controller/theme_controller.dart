@@ -35,7 +35,7 @@ class ThemeController extends ChangeNotifier implements ThemeCommand {
 
     for (AppTheme theme in themes) {
       assert(!this._appThemes.containsKey(theme.id),
-          "Conflicting theme ids found.");
+          "Conflicting theme ids found: ${theme.id} is already added to the widget tree,");
       this._appThemes[theme.id] = theme;
       _appThemeIds.add(theme.id);
     }
