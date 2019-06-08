@@ -57,12 +57,18 @@ class AppTheme<T> {
   /// [id] is required and it has to be unique.
   ///
   /// [options] can ba any object. Use it to pass
+  ///
+  /// [description] is optional. If not given it takes default to as 'Light Theme' or 'Dark Theme'.
   AppTheme({
     @required this.id,
-    @required this.data,
-    this.description = "",
+    @required ThemeData data,
+    String description,
     this.options,
-  }) {
+  })  : this.data = data,
+        this.description = description ??
+            (data.brightness == Brightness.light
+                ? "Light Theme"
+                : "Dark Theme") {
     assert(
         description.length < 30, "Theme description too long for theme: $id");
   }
