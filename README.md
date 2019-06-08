@@ -1,8 +1,13 @@
 # theme_provider
 
+[![Codemagic build status](https://api.codemagic.io/apps/5cfb60390824820019d5af6b/5cfb60390824820019d5af6a/status_badge.svg)](https://codemagic.io/apps/5cfb60390824820019d5af6b/5cfb60390824820019d5af6a/latest_build)
+[![Pub Package](https://img.shields.io/pub/v/theme_provider.svg)](https://pub.dartlang.org/packages/theme_provider)
+
 Easy to use, customizable and pluggable Theme Provider. 
 
 **This is still a work in progress.**
+
+![](record.gif)
 
 ## Include in your project
 
@@ -48,7 +53,7 @@ To change the theme:
 Access theme data using default method:
 
 ```dart
- Theme.of(context).data
+ Theme.of(context)
 ```
 
 ## TODO

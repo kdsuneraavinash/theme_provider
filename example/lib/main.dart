@@ -11,9 +11,10 @@ class MyApp extends StatelessWidget {
         AppTheme(data: ThemeData.light()),
         AppTheme(data: ThemeData.dark()),
       ],
-      app: MaterialApp(
-        home: HomePage(),
-      ),
+      builder: (context, theme) => MaterialApp(
+            theme: theme,
+            home: HomePage(),
+          ),
     );
   }
 }
@@ -24,11 +25,10 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Example App"),
-        actions: <Widget>[CycleThemeIconButton()],
       ),
       body: Center(
-        child: FlatButton(
-          child: Text("Press Me"),
+        child: OutlineButton(
+          child: Text("Next Theme"),
           onPressed: ThemeCommand.of(context).nextTheme,
         ),
       ),
