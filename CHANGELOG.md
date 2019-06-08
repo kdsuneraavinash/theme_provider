@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## [0.0.1+6] - 2019/06/08
+
+* Changed directory structure
+* Ranamed,
+  * `ThemeCommand.of(context)` to `ThemeProvider.controllerOf(context)`
+  * `AppThemeOptions.of(context)` to `ThemeProvider.optionsOf(context)`
+* Added `ThemeProvider.themeOf(context)` to get theme.
+
 ## [0.0.1+5] - 2019/06/08
 
 * Improved documentation

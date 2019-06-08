@@ -47,7 +47,8 @@ void main() {
                   key: buttonKey,
                   child: Text("Press Me"),
                   onPressed: () {
-                    ThemeCommand themeCommand = ThemeCommand.of(context);
+                    ThemeCommand themeCommand =
+                        ThemeProvider.controllerOf(context);
                     assert(themeCommand != null);
                     themeCommand.nextTheme();
                   },
@@ -87,9 +88,13 @@ void main() {
 
     await tester.pump();
 
-    expect(AppThemeOptions.of<String>(tester.element(find.byKey(scaffoldKey))),
+    expect(
+        ThemeProvider.optionsOf<String>(
+            tester.element(find.byKey(scaffoldKey))),
         isNot("Bye"));
-    expect(AppThemeOptions.of<String>(tester.element(find.byKey(scaffoldKey))),
+    expect(
+        ThemeProvider.optionsOf<String>(
+            tester.element(find.byKey(scaffoldKey))),
         equals("Hello"));
   });
 
@@ -108,7 +113,8 @@ void main() {
     await tester.pump();
 
     expect(
-        ThemeCommand.of(tester.element(find.byKey(scaffoldKey))).currentThemeId,
+        ThemeProvider.controllerOf(tester.element(find.byKey(scaffoldKey)))
+            .currentThemeId,
         startsWith("themeId_"));
   });
 
@@ -137,8 +143,8 @@ void main() {
   testWidgets('Select by Theme Id Test', (tester) async {
     final Key scaffoldKey = UniqueKey();
 
-    var fetchThemeCommand =
-        () => ThemeCommand.of(tester.element(find.byKey(scaffoldKey)));
+    var fetchThemeCommand = () =>
+        ThemeProvider.controllerOf(tester.element(find.byKey(scaffoldKey)));
 
     await tester.pumpWidget(
       ThemeProvider(

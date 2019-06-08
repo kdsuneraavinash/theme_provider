@@ -6,7 +6,9 @@
 Easy to use, customizable and pluggable Theme Provider.
 **This is still a work in progress.4**
 
-<img src="record.gif" width="360" height="640" />
+| Basic Usage           |
+|:-------------:|
+| ![Record](record.gif) |
 
 ## Include in your project
 
@@ -42,12 +44,14 @@ class MyApp extends StatelessWidget {
 To change the theme:
 
 ```dart
- ThemeCommand.of(context).nextTheme();
+ ThemeProvider.controllerOf(context).nextTheme();
 ```
 
-Access theme data using default method:
+Access theme data:
 
 ```dart
+ ThemeProvider.themeOf(context)
+ // or
  Theme.of(context)
 ```
 
@@ -92,7 +96,7 @@ class MyApp extends StatelessWidget {
 Then the option can be retrieved as,
 
 ```dart
-AppThemeOptions.of<ThemeOptions>(context).specificButtonColor
+ThemeProvider.optionsOf<ThemeOptions>(context).specificButtonColor
 ```
 
 ## TODO
@@ -103,6 +107,7 @@ AppThemeOptions.of<ThemeOptions>(context).specificButtonColor
 - [ ] Add theme select and preview widget
 - [ ] Persist current selected theme
 - [x] Add unit tests and example
+- [ ] Remove provider dependency
 
 ## API Plan
 
@@ -179,14 +184,14 @@ class HomePage extends StatelessWidget{
           builder: (context) => Center(
             child: FlatButton(
               child: Text("Press ME",
-                  style: TextStyle(color: AppThemeOptions.of(context).textColorOnAccentColor)
+                  style: TextStyle(color: ThemeProvider.optionsOf(context).textColorOnAccentColor)
                 ),
               onPressed(){
-                ThemeController.of(context).nextTheme();
-                ThemeController.of(context).prevTheme();
+                ThemeProvider.controllerOf(context).nextTheme();
+                ThemeProvider.controllerOf(context).prevTheme();
 
-                if (ThemeController.of(context).currentTheme == 'lighr_theme'){
-                  ThemeController.of(context).setTheme('dark_theme');
+                if (ThemeProvider.controllerOf(context).currentTheme == 'lighr_theme'){
+                  ThemeProvider.controllerOf(context).setTheme('dark_theme');
                 }
 
                 showDialog(context: context, ThemeSelectorDialog());

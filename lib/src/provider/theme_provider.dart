@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../app_theme/app_theme.dart';
-
-import 'theme_controller.dart';
+import '../data/app_theme.dart';
+import '../controller/theme_controller.dart';
+import '../controller/theme_command.dart';
 
 /// Signature for a function that returs the current theme and context.
 ///
@@ -61,6 +61,30 @@ class ThemeProvider extends StatelessWidget {
     assert(this.themes.length >= 2, "Theme list must have at least 2 themes.");
   }
 
+  /// Obtains the nearest [ThemeController] up its widget tree and
+  /// returns its value as a [ThemeCommand].
+  ///
+  /// Gets the reference to [ThemeController] but as a reduced version.
+  static ThemeCommand controllerOf(BuildContext context) {
+    return ThemeController.of(context);
+  }
+
+  /// Returs the options passed by the [ThemeProvider].
+  /// Call as `ThemeProvider.optionsOf<ColorClass>(context)` to get the
+  /// returned object casted to the required type.
+  static T optionsOf<T>(BuildContext context) {
+    return ThemeController.of(context).theme.options as T;
+  }
+
+  /// Returs the current theme data passed by the [ThemeProvider].
+  /// Call as `ThemeProvider.themeOf(context)` to get the
+  /// returned object casted to the required type.
+  ///
+  /// This is same as `Theme.of(context)` under a theme provider.
+  static ThemeData themeOf(BuildContext context) {
+    return ThemeController.of(context).theme.data;
+  }
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<ThemeController>.value(
@@ -68,7 +92,7 @@ class ThemeProvider extends StatelessWidget {
       child: Builder(
           builder: (context) => builder(
                 context,
-                ThemeController.of(context).theme.data,
+                ThemeProvider.themeOf(context),
               )),
     );
   }
