@@ -1,3 +1,10 @@
+## [0.0.1+4] - 2019/06/08
+
+* Added default values to themes. Now it is not required
+* Added AppTheme.light() and AppTheme.dark() to create dark and light themes easily
+* Added command, setTheme(id)
+* Imporved tests
+
 ## [0.0.1+3] - 2019/06/08
 
 * Fix a bug in the example
