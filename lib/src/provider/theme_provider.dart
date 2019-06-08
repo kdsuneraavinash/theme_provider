@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../data/app_theme.dart';
 import '../controller/theme_controller.dart';
 import '../controller/theme_command.dart';
+import 'inherited_theme.dart';
 
 /// Signature for a function that returs the current theme and context.
 ///
@@ -87,8 +87,8 @@ class ThemeProvider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<ThemeController>.value(
-      value: ThemeController(themes: themes),
+    return InheritedThemeController(
+      controller: ThemeController(themes: themes),
       child: Builder(
           builder: (context) => builder(
                 context,

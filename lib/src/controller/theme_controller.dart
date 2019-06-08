@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
+import '../provider/inherited_theme.dart';
 import '../data/app_theme.dart';
 import 'theme_command.dart';
 
@@ -49,7 +49,7 @@ class ThemeController extends ChangeNotifier implements ThemeCommand {
   /// So this class is not exported.
   /// Only the classes inside this package can use this.
   static ThemeController of(BuildContext context) {
-    return Provider.of<ThemeController>(context);
+    return InheritedThemeController.of(context);
   }
 
   @override
