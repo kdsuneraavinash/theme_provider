@@ -9,11 +9,16 @@ import 'package:flutter/material.dart';
 /// ```
 @immutable
 class AppTheme<T> {
+  static int _themesWithoutIds = 0;
   final ThemeData data;
   final T options;
+  final String id;
 
   AppTheme({
-    @required this.data,
-    this.options,
-  });
+    id,
+    @required data,
+    options,
+  })  : this.data = data,
+        this.options = options,
+        this.id = id ?? "themeId_${++_themesWithoutIds}";
 }

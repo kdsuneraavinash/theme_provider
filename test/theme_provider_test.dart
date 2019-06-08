@@ -4,7 +4,7 @@ import 'package:theme_provider/theme_provider.dart';
 
 void main() {
   test('ThemeProvider constructor theme list test', () {
-    AppTheme appTheme = AppTheme(data: ThemeData.light());
+    final AppTheme appTheme = AppTheme(data: ThemeData.light());
 
     var buildWidgetTree = (List<AppTheme> appThemes) async => ThemeProvider(
           builder: (_, theme) => Container(),
@@ -75,5 +75,50 @@ void main() {
 
     expect(Theme.of(tester.element(find.byKey(buttonKey))).brightness,
         equals(Brightness.dark));
+  });
+
+  testWidgets('Basic Theme Change test', (tester) async {
+    final Key scaffoldKey = UniqueKey();
+
+    await tester.pumpWidget(
+      ThemeProvider(
+        builder: (context, theme) => MaterialApp(
+              theme: theme,
+              home: Scaffold(key: scaffoldKey),
+            ),
+        themes: <AppTheme<String>>[
+          AppTheme(data: ThemeData.light(), options: "Hello"),
+          AppTheme(data: ThemeData.dark(), options: "Bye")
+        ],
+      ),
+    );
+
+    await tester.pump();
+
+    expect(AppThemeOptions.of<String>(tester.element(find.byKey(scaffoldKey))),
+        isNot("Bye"));
+    expect(AppThemeOptions.of<String>(tester.element(find.byKey(scaffoldKey))),
+        equals("Hello"));
+  });
+
+  testWidgets('Default Theme Id Test', (tester) async {
+    final AppTheme appTheme = AppTheme(data: ThemeData.light());
+    final Key scaffoldKey = UniqueKey();
+
+    await tester.pumpWidget(
+      ThemeProvider(
+        builder: (context, theme) => MaterialApp(
+              theme: theme,
+              home: Scaffold(key: scaffoldKey),
+            ),
+        themes: [appTheme, appTheme],
+      ),
+    );
+
+    await tester.pump();
+
+    expect(
+        ThemeCommand.of(tester.element(find.byKey(scaffoldKey))).currentThemeId,
+        startsWith("themeId_"));
   });
 }

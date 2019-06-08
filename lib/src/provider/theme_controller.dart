@@ -5,17 +5,17 @@ import '../app_theme/app_theme.dart';
 import 'theme_command.dart';
 
 class ThemeController extends ChangeNotifier implements ThemeCommand {
-  int _currentThemeId;
+  int _currentThemeIndex;
   final List<AppTheme> _appThemes;
 
   /// Controller which handles updating and controlling current theme.
   /// If [themes] is not given, default set of themes will be used.
   ThemeController({List<AppTheme> themes}) : this._appThemes = themes {
-    _currentThemeId = 0;
+    _currentThemeIndex = 0;
   }
 
   /// Get the current theme
-  AppTheme get theme => _appThemes[_currentThemeId];
+  AppTheme get theme => _appThemes[_currentThemeIndex];
 
   /// Gets the reference to [ThemeController] directly.
   /// This also provides references to current theme and other objects.
@@ -27,7 +27,10 @@ class ThemeController extends ChangeNotifier implements ThemeCommand {
 
   @override
   void nextTheme() {
-    _currentThemeId = (_currentThemeId + 1) % _appThemes.length;
+    _currentThemeIndex = (_currentThemeIndex + 1) % _appThemes.length;
     notifyListeners();
   }
+
+  @override
+  String get currentThemeId => _appThemes[_currentThemeIndex].id;
 }

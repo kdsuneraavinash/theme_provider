@@ -6,6 +6,8 @@ abstract class ThemeCommand {
   /// Cycle to next theme in the theme list
   void nextTheme();
 
+  String get currentThemeId;
+
   static ThemeCommand of(BuildContext context) {
     return Provider.of<ThemeController>(context);
   }
