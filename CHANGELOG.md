@@ -7,6 +7,6 @@
 
 * Fixed major bug relating to ProviderNotFoundError
 
-## [0.0.1+1] - 2019/06/08
+## [0.0.1+2] - 2019/06/08
 
 * Changed api to pass on theme to help apply the theme to app
