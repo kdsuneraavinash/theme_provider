@@ -6,9 +6,9 @@
 Easy to use, customizable and pluggable Theme Provider.
 **This is still a work in progress.**
 
-| Basic Usage           |
-|:-------------:|
-| ![Record](record.gif) |
+| Basic Usage           | Basic Usage           |
+|:-------------:|:-------------:|
+| ![Record](next.gif) | ![Record](select.gif) |
 
 ## Include in your project
 
@@ -99,110 +99,38 @@ Then the option can be retrieved as,
 ThemeProvider.optionsOf<ThemeOptions>(context).specificButtonColor
 ```
 
+## Additonal Widgets
+
+### Theme Cycle Widget
+
+`IconButton` to be added to `AppBar` to cycle to next theme.
+
+```dart
+Scaffold(
+  appBar: AppBar(
+    title: Text("Example App"),
+    actions: [CycleThemeIconButton()]
+  ),
+),
+```
+
+### Theme Selecting Dialog
+
+`SimpleDialog` to let the user select the theme.
+
+```dart
+showDialog(context: context, builder: (_) => ThemeDialog())
+```
+
 ## TODO
 
 - [x] Add next theme command
 - [x] Add theme cycling widget
 - [x] Add theme selection by theme id
-- [ ] Add theme select and preview widget
+- [x] Add theme select and preview widget
 - [ ] Persist current selected theme
 - [x] Add unit tests and example
 - [x] Remove provider dependency
-
-## API Plan
-
-This is what the API is supposed to look like after publishing.
-
-```dart
-import 'package:flutter/material.dart';
-
-class DataOptions{
-final Color textColorOnPrimaryColor;
-  final Color textColorOnAccentColor;
-
-  DataOptions({this.textColorOnPrimaryColor, this.textColorOnAccentColor});
-}
-
-
-class MyApp extends StatelessWidget{
-  @override
-  Widget build(BuildContext context){
-    return ThemeProvider(
-      loadFromDeviceIfPossible: true,
-      saveThemeChangesToDevice: true,
-      defaultThemeId: "dark_theme",
-      themeSwitchErrorHandler: ThemeSwitchErrorHandler.SILENTLY_DEFAULT,
-      themes: [
-        AppTheme<DataOptions>.pinkAppTheme(
-          options: DataOptions(
-              textColorOnPrimaryColor: Colors.black,
-              textColorOnAccentColor: Colors.black,
-            ),
-          ),
-        AppTheme<DataOptions>(
-          id: "dark_theme",
-          description: "Dark theme - white combined with black",
-          data: ThemeData(
-              primaryColor: Colors.black,
-              accentColor: Colors.white,
-              brightness: Brightness.dark,
-            ),
-          options: DataOptions(
-              textColorOnPrimaryColor: Colors.white,
-              textColorOnAccentColor: Colors.black,
-            ),
-        ),
-        AppTheme<DataOptions>(
-          id: "light_theme",
-          description: "Light theme - only white",
-          data: ThemeData(
-              primaryColor: Colors.white,
-              accentColor: Colors.white,
-              brightness: Brightness.dark,
-            ),
-          options: DataOptions(
-              textColorOnPrimaryColor: Colors.black,
-              textColorOnAccentColor: Colors.black,
-            ),
-        ),
-      ],
-      builder: (theme) => MaterialApp(
-        theme: theme,
-        home: HomePage(),
-      ),
-    );
-  }
-}
-
-
-class HomePage extends StatelessWidget{
-  @override
-  Widget build(BuildContext context){
-    return Scaffold(
-        appBar: AppBar(title: Text("Example"), actions: CycleThemeIconButton()),
-        body: Builder(
-          builder: (context) => Center(
-            child: FlatButton(
-              child: Text("Press ME",
-                  style: TextStyle(color: ThemeProvider.optionsOf(context).textColorOnAccentColor)
-                ),
-              onPressed(){
-                ThemeProvider.controllerOf(context).nextTheme();
-                ThemeProvider.controllerOf(context).prevTheme();
-
-                if (ThemeProvider.controllerOf(context).currentTheme == 'light_theme'){
-                  ThemeProvider.controllerOf(context).setTheme('dark_theme');
-                }
-
-                showDialog(context: context, ThemeSelectorDialog());
-              }
-            ),
-          ),
-        ),
-      );
-  }
-}
-```
 
 ## Getting Started
 

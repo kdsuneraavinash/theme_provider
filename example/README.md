@@ -11,8 +11,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ThemeProvider(
       themes: <AppTheme>[
-        AppTheme.light().copyWith(id: "light_theme"),
-        AppTheme.dark().copyWith(id: "dark_theme")
+        AppTheme.light(),
+        AppTheme.dark(),
+        customTheme(),
       ],
       builder: (context, theme) => MaterialApp(
             theme: theme,
@@ -22,6 +23,15 @@ class MyApp extends StatelessWidget {
   }
 }
 
+AppTheme customTheme() => AppTheme(
+      data: ThemeData(
+        accentColor: Colors.yellow,
+        primaryColor: Colors.red,
+      ),
+      id: "custom_theme",
+      description: "Light Theme w/ Red",
+    );
+
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -30,27 +40,37 @@ class HomePage extends StatelessWidget {
         title: Text("Example App"),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                  "Current Theme: ${ThemeProvider.controllerOf(context).currentThemeId}"),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: OutlineButton(
-                child: Text("Next Theme"),
-                onPressed: ThemeProvider.controllerOf(context).nextTheme,
+        child: IntrinsicWidth(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Text(
+                    "Current Theme: ${ThemeProvider.controllerOf(context).currentThemeId}"),
               ),
-            ),
-          ],
+              Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: OutlineButton(
+                  child: Text("Next Theme"),
+                  onPressed: ThemeProvider.controllerOf(context).nextTheme,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: OutlineButton(
+                  child: Text("Theme Dialog"),
+                  onPressed: () => showDialog(
+                      context: context, builder: (_) => ThemeDialog()),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
-
 
 ```
