@@ -68,4 +68,8 @@ class ThemeController extends ChangeNotifier implements ThemeCommand {
     _currentThemeIndex = _appThemeIds.indexOf(themeId);
     notifyListeners();
   }
+
+  @override
+  List<AppTheme> get allThemes =>
+      _appThemeIds.map<AppTheme>((id) => _appThemes[id]).toList();
 }
