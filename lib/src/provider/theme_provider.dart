@@ -10,6 +10,7 @@ import 'inherited_theme.dart';
 /// Used by [ThemeProvider].
 typedef Widget ThemedAppBuilder(BuildContext context, ThemeData themeData);
 
+/// Wrap [MaterialApp] in [ThemeProvider] to get theme functionalities.
 class ThemeProvider extends StatelessWidget {
   /// Called to obtain the child app.
   ///

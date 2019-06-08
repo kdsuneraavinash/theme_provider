@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:theme_provider/src/controller/theme_controller.dart';
 
+/// Object which provides the [ThemeController] down the widget tree.
 class InheritedThemeController extends InheritedNotifier<ThemeController> {
   final ThemeController controller;
 
