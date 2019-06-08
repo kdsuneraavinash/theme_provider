@@ -13,10 +13,10 @@ class ThemeProvider extends StatelessWidget {
 
   ThemeProvider({
     Key key,
-    @required this.themes,
+    themes,
     @required this.builder,
-  }) : super(key: key) {
-    assert(this.themes != null, "Theme list must not be null.");
+  })  : this.themes = themes ?? [AppTheme.light(), AppTheme.dark()],
+        super(key: key) {
     assert(this.themes.length >= 2, "Theme list must have at least 2 themes.");
   }
 

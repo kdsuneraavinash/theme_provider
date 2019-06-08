@@ -4,20 +4,17 @@ import 'package:theme_provider/theme_provider.dart';
 
 void main() {
   test('ThemeProvider constructor theme list test', () {
-    final AppTheme appTheme = AppTheme(data: ThemeData.light());
-
     var buildWidgetTree = (List<AppTheme> appThemes) async => ThemeProvider(
           builder: (_, theme) => Container(),
           themes: appThemes,
         );
 
-    expect(() => buildWidgetTree([]), throwsAssertionError);
-    expect(() => buildWidgetTree([appTheme]), throwsAssertionError);
-    expect(buildWidgetTree([appTheme, appTheme]), isNotNull);
+    expect(() => buildWidgetTree(null), isNotNull);
+    expect(() => buildWidgetTree([AppTheme.light()]), throwsAssertionError);
+    expect(buildWidgetTree([AppTheme.light(), AppTheme.light()]), isNotNull);
   });
 
   testWidgets('ThemeProvider ancestor test', (tester) async {
-    final AppTheme appTheme = AppTheme(data: ThemeData.light());
     final Key scaffoldKey = UniqueKey();
 
     await tester.pumpWidget(
@@ -26,7 +23,6 @@ void main() {
               theme: theme,
               home: Scaffold(key: scaffoldKey),
             ),
-        themes: [appTheme, appTheme],
       ),
     );
 
@@ -58,10 +54,6 @@ void main() {
                 ),
               ),
             ),
-        themes: [
-          AppTheme(data: ThemeData.light()),
-          AppTheme(data: ThemeData.dark())
-        ],
       ),
     );
 
@@ -86,9 +78,9 @@ void main() {
               theme: theme,
               home: Scaffold(key: scaffoldKey),
             ),
-        themes: <AppTheme<String>>[
-          AppTheme(data: ThemeData.light(), options: "Hello"),
-          AppTheme(data: ThemeData.dark(), options: "Bye")
+        themes: [
+          AppTheme<String>.light().copyWith(options: "Hello"),
+          AppTheme<String>.dark().copyWith(options: "Bye")
         ],
       ),
     );
@@ -102,7 +94,6 @@ void main() {
   });
 
   testWidgets('Default Theme Id Test', (tester) async {
-    final AppTheme appTheme = AppTheme(data: ThemeData.light());
     final Key scaffoldKey = UniqueKey();
 
     await tester.pumpWidget(
@@ -111,7 +102,6 @@ void main() {
               theme: theme,
               home: Scaffold(key: scaffoldKey),
             ),
-        themes: [appTheme, appTheme],
       ),
     );
 
@@ -120,5 +110,27 @@ void main() {
     expect(
         ThemeCommand.of(tester.element(find.byKey(scaffoldKey))).currentThemeId,
         startsWith("themeId_"));
+  });
+
+  testWidgets('Duplicate Theme Id Test', (tester) async {
+    final errorHandled = expectAsync0(() {});
+
+    FlutterError.onError = (errorDetails) {
+      errorHandled();
+    };
+
+    await tester.pumpWidget(
+      ThemeProvider(
+        builder: (context, theme) => MaterialApp(
+              theme: theme,
+              home: Scaffold(),
+            ),
+        themes: [
+          AppTheme.light(),
+          AppTheme.light().copyWith(id: "test_theme"),
+          AppTheme.light().copyWith(id: "test_theme"),
+        ],
+      ),
+    );
   });
 }
