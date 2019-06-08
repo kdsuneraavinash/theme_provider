@@ -1,3 +1,9 @@
+# CHANGELOG
+
+## [0.0.1+5] - 2019/06/08
+
+* Improved documentation
+
 ## [0.0.1+4] - 2019/06/08
 
 * Added default values to themes. Now it is not required

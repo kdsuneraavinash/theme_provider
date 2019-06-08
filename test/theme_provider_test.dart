@@ -127,8 +127,8 @@ void main() {
             ),
         themes: [
           AppTheme.light(),
-          AppTheme.light().copyWith(id: "test_theme"),
-          AppTheme.light().copyWith(id: "test_theme"),
+          AppTheme.light(id: "test_theme"),
+          AppTheme.light(id: "test_theme"),
         ],
       ),
     );
@@ -148,9 +148,9 @@ void main() {
             ),
         themes: [
           AppTheme.light(),
-          AppTheme.light().copyWith(id: "test_theme_1"),
-          AppTheme.light().copyWith(id: "test_theme_2"),
-          AppTheme.light().copyWith(id: "test_theme_random"),
+          AppTheme.light(id: "test_theme_1"),
+          AppTheme.light(id: "test_theme_2"),
+          AppTheme.light(id: "test_theme_random"),
         ],
       ),
     );
