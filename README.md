@@ -4,7 +4,7 @@
 [![Pub Package](https://img.shields.io/pub/v/theme_provider.svg)](https://pub.dartlang.org/packages/theme_provider)
 
 Easy to use, customizable and pluggable Theme Provider.
-**This is still a work in progress.4**
+**This is still a work in progress.**
 
 | Basic Usage           |
 |:-------------:|
@@ -107,7 +107,7 @@ ThemeProvider.optionsOf<ThemeOptions>(context).specificButtonColor
 - [ ] Add theme select and preview widget
 - [ ] Persist current selected theme
 - [x] Add unit tests and example
-- [ ] Remove provider dependency
+- [x] Remove provider dependency
 
 ## API Plan
 
