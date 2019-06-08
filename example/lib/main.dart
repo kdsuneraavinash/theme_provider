@@ -8,8 +8,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ThemeProvider(
       themes: <AppTheme>[
-        AppTheme(data: ThemeData.light()),
-        AppTheme(data: ThemeData.dark()),
+        AppTheme.light().copyWith(id: "light_theme"),
+        AppTheme.dark().copyWith(id: "dark_theme")
       ],
       builder: (context, theme) => MaterialApp(
             theme: theme,
@@ -27,9 +27,22 @@ class HomePage extends StatelessWidget {
         title: Text("Example App"),
       ),
       body: Center(
-        child: OutlineButton(
-          child: Text("Next Theme"),
-          onPressed: ThemeCommand.of(context).nextTheme,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                  "Current Theme: ${ThemeCommand.of(context).currentThemeId}"),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: OutlineButton(
+                child: Text("Next Theme"),
+                onPressed: ThemeCommand.of(context).nextTheme,
+              ),
+            ),
+          ],
         ),
       ),
     );
