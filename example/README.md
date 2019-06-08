@@ -11,8 +11,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ThemeProvider(
       themes: <AppTheme>[
-        AppTheme(data: ThemeData.light()),
-        AppTheme(data: ThemeData.dark()),
+        AppTheme.light().copyWith(id: "light_theme"),
+        AppTheme.dark().copyWith(id: "dark_theme")
       ],
       builder: (context, theme) => MaterialApp(
             theme: theme,
@@ -30,28 +30,27 @@ class HomePage extends StatelessWidget {
         title: Text("Example App"),
       ),
       body: Center(
-        child: OutlineButton(
-          child: Text("Next Theme"),
-          onPressed: ThemeCommand.of(context).nextTheme,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                  "Current Theme: ${ThemeProvider.controllerOf(context).currentThemeId}"),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: OutlineButton(
+                child: Text("Next Theme"),
+                onPressed: ThemeProvider.controllerOf(context).nextTheme,
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 }
 
+
 ```
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.

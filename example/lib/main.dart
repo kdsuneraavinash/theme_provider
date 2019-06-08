@@ -33,13 +33,13 @@ class HomePage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                  "Current Theme: ${ThemeCommand.of(context).currentThemeId}"),
+                  "Current Theme: ${ThemeProvider.controllerOf(context).currentThemeId}"),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: OutlineButton(
                 child: Text("Next Theme"),
-                onPressed: ThemeCommand.of(context).nextTheme,
+                onPressed: ThemeProvider.controllerOf(context).nextTheme,
               ),
             ),
           ],

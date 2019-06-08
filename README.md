@@ -190,7 +190,7 @@ class HomePage extends StatelessWidget{
                 ThemeProvider.controllerOf(context).nextTheme();
                 ThemeProvider.controllerOf(context).prevTheme();
 
-                if (ThemeProvider.controllerOf(context).currentTheme == 'lighr_theme'){
+                if (ThemeProvider.controllerOf(context).currentTheme == 'light_theme'){
                   ThemeProvider.controllerOf(context).setTheme('dark_theme');
                 }
 
