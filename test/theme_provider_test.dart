@@ -6,40 +6,74 @@ void main() {
   test('ThemeProvider constructor theme list test', () {
     AppTheme appTheme = AppTheme(data: ThemeData.light());
 
-    expect(() => _buildMaterialApp([]), throwsAssertionError);
-    expect(() => _buildMaterialApp([appTheme]), throwsAssertionError);
-    expect(_buildMaterialApp([appTheme, appTheme]), isInstanceOf<Widget>());
+    var buildWidgetTree = (List<AppTheme> appThemes) async => ThemeProvider(
+          builder: (_, theme) => Container(),
+          themes: appThemes,
+        );
+
+    expect(() => buildWidgetTree([]), throwsAssertionError);
+    expect(() => buildWidgetTree([appTheme]), throwsAssertionError);
+    expect(buildWidgetTree([appTheme, appTheme]), isNotNull);
   });
 
-  testWidgets('Test that ThemeProvider is found as ancestor of MaterialApp',
-      (tester) async {
-    AppTheme appTheme = AppTheme(data: ThemeData.light());
-    await tester.pumpWidget(_buildMaterialApp([appTheme, appTheme]));
+  testWidgets('ThemeProvider ancestor test', (tester) async {
+    final AppTheme appTheme = AppTheme(data: ThemeData.light());
+    final Key scaffoldKey = UniqueKey();
+
+    await tester.pumpWidget(
+      ThemeProvider(
+        builder: (context, theme) => MaterialApp(
+              theme: theme,
+              home: Scaffold(key: scaffoldKey),
+            ),
+        themes: [appTheme, appTheme],
+      ),
+    );
+
     await tester.pump();
     expect(
         find.ancestor(
-            of: find.byType(MaterialApp), matching: find.byType(ThemeProvider)),
-        findsWidgets);
-
-    await tester.tap(find.byType(FlatButton));
-    await tester.pump();
-  });
-}
-
-Widget _buildMaterialApp(List<AppTheme> themes) {
-  return ThemeProvider(
-    app: MaterialApp(
-      home: Container(
-        child: Builder(
-          builder: (context) => FlatButton(
-                child: Text("Hello"),
-                onPressed: () {
-                  ThemeCommand.of(context).toString();
-                },
-              ),
+          of: find.byKey(scaffoldKey),
+          matching: find.byType(ThemeProvider),
         ),
+        findsWidgets);
+  });
+
+  testWidgets('Basic Theme Change test', (tester) async {
+    final Key buttonKey = UniqueKey();
+
+    await tester.pumpWidget(
+      ThemeProvider(
+        builder: (context, theme) => MaterialApp(
+              theme: theme,
+              home: Scaffold(
+                body: FlatButton(
+                  key: buttonKey,
+                  child: Text("Press Me"),
+                  onPressed: () {
+                    ThemeCommand themeCommand = ThemeCommand.of(context);
+                    assert(themeCommand != null);
+                    themeCommand.nextTheme();
+                  },
+                ),
+              ),
+            ),
+        themes: [
+          AppTheme(data: ThemeData.light()),
+          AppTheme(data: ThemeData.dark())
+        ],
       ),
-    ),
-    themes: themes,
-  );
+    );
+
+    await tester.pump();
+
+    expect(Theme.of(tester.element(find.byKey(buttonKey))).brightness,
+        equals(Brightness.light));
+
+    await tester.tap(find.byKey(buttonKey));
+    await tester.pumpAndSettle();
+
+    expect(Theme.of(tester.element(find.byKey(buttonKey))).brightness,
+        equals(Brightness.dark));
+  });
 }
