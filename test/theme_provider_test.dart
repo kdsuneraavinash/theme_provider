@@ -133,4 +133,33 @@ void main() {
       ),
     );
   });
+
+  testWidgets('Select by Theme Id Test', (tester) async {
+    final Key scaffoldKey = UniqueKey();
+
+    var fetchThemeCommand =
+        () => ThemeCommand.of(tester.element(find.byKey(scaffoldKey)));
+
+    await tester.pumpWidget(
+      ThemeProvider(
+        builder: (context, theme) => MaterialApp(
+              theme: theme,
+              home: Scaffold(key: scaffoldKey),
+            ),
+        themes: [
+          AppTheme.light(),
+          AppTheme.light().copyWith(id: "test_theme_1"),
+          AppTheme.light().copyWith(id: "test_theme_2"),
+          AppTheme.light().copyWith(id: "test_theme_random"),
+        ],
+      ),
+    );
+    expect(fetchThemeCommand().currentThemeId, startsWith("themeId_"));
+
+    fetchThemeCommand().nextTheme();
+    expect(fetchThemeCommand().currentThemeId, equals("test_theme_1"));
+
+    fetchThemeCommand().setTheme("test_theme_random");
+    expect(fetchThemeCommand().currentThemeId, equals("test_theme_random"));
+  });
 }

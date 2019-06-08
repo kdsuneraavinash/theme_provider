@@ -31,10 +31,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ThemeProvider(
-      themes: <AppTheme>[
-        AppTheme(data: ThemeData.light()),
-        AppTheme(data: ThemeData.dark()),
-      ],
       builder: (context, theme) => MaterialApp(
         home: HomePage(),
         theme: theme,
@@ -60,7 +56,7 @@ Access theme data using default method:
 
 - [x] Add next theme command
 - [x] Add theme cycling widget
-- [ ] Add theme selection by theme id
+- [x] Add theme selection by theme id
 - [ ] Add theme select and preview widget
 - [ ] Persist current selected theme
 - [x] Add unit tests and example
@@ -89,13 +85,13 @@ class MyApp extends StatelessWidget{
 			defaultThemeId: "dark_theme",
 			themeSwitchErrorHandler: ThemeSwitchErrorHandler.SILENTLY_DEFAULT,
 			themes: [
-				DefaultTheme.pinkAppTheme(
+				AppTheme<DataOptions>.pinkAppTheme(
 					options: DataOptions(
 							textColorOnPrimaryColor: Colors.black,
 							textColorOnAccentColor: Colors.black,
 						),
 					),
-				AppTheme(
+				AppTheme<DataOptions>(
 					id: "dark_theme",
 					description: "Dark theme - white combined with black",
 					data: ThemeData(
@@ -108,7 +104,7 @@ class MyApp extends StatelessWidget{
 							textColorOnAccentColor: Colors.black,
 						),
 				),
-				AppTheme(
+				AppTheme<DataOptions>(
 					id: "light_theme",
 					description: "Light theme - only white",
 					data: ThemeData(

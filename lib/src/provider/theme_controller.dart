@@ -40,4 +40,11 @@ class ThemeController extends ChangeNotifier implements ThemeCommand {
 
   @override
   String get currentThemeId => _appThemeIds[_currentThemeIndex];
+
+  @override
+  void setTheme(String themeId) {
+    assert(_appThemes.containsKey(themeId));
+    _currentThemeIndex = _appThemeIds.indexOf(themeId);
+    notifyListeners();
+  }
 }
