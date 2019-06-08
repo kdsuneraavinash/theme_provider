@@ -5,6 +5,7 @@
 * Added method to get all themes: `ThemeProvider.controllerOf(context).allThemes`
 * Made theme id reqired (instead of optional)
 * Added optional description field to theme
+* Added  dialog to switch themes
 
 ## [0.0.1+7] - 2019/06/08
 
