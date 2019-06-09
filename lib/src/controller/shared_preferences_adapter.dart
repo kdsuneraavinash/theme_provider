@@ -10,19 +10,19 @@ class SharedPreferenceAdapter extends SaveAdapter {
 
   /// Creates a [SaveAdapter] using [SharedPreferences].
   ///
-  /// [saveKey] will be ttring to be used when saving and loading theme.
+  /// [saveKey] will be a String to be used when saving and loading theme.
   /// If not provided this defaults to `theme_provider.theme`.
   SharedPreferenceAdapter({this.saveKey = 'theme_provider.theme'});
 
   @override
   Future<String> loadTheme({String defaultId}) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString(saveKey) ?? defaultId;
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getString(saveKey) ?? defaultId;
   }
 
   @override
   Future<void> saveTheme(String themeId) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString(saveKey, themeId);
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setString(saveKey, themeId);
   }
 }

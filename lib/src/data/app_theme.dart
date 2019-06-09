@@ -47,7 +47,7 @@ class AppTheme<T> {
   /// Unique ID which defines the theme.
   /// Don't use conflicting strings.
   ///
-  /// This has to be a lowercase string seperated by underscores. (can contain numbers)
+  /// This has to be a lowercase string separated by underscores. (can contain numbers)
   ///   * theme_1
   ///   * my_theme
   ///   * dark_extended_theme
@@ -56,15 +56,15 @@ class AppTheme<T> {
   /// Instead use [description] as the field to add description.
   final String id;
 
-  /// Short ddescription which describes the theme. Must be less than 30 characters.
+  /// Short description which describes the theme. Must be less than 30 characters.
   final String description;
 
   /// Constructs a [AppTheme].
   /// [data] is required.
   ///
   /// [id] is required and it has to be unique.
-  /// Use _ sereated lowercase strings.
-  /// Id cannot have whitespaces.
+  /// Use _ separated lowercase strings.
+  /// Id cannot have spaces.
   ///
   /// [options] can ba any object. Use it to pass
   ///
@@ -83,7 +83,7 @@ class AppTheme<T> {
     assert(id.isNotEmpty, "Id cannot be empty");
     assert(id.toLowerCase() == id, "Id has to be a lowercase string");
     assert(
-        !id.contains(" "), "Id cannot contain whitespaces. (Use _ for spaces)");
+        !id.contains(" "), "Id cannot contain spaces. (Use _ for spaces)");
   }
 
   /// Default light theme
@@ -104,7 +104,7 @@ class AppTheme<T> {
     );
   }
 
-  /// Additional purple theme constrcutor
+  /// Additional purple theme constructor
   factory AppTheme.purple({String id}) {
     return AppTheme(
         data: ThemeData.light().copyWith(

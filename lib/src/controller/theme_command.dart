@@ -5,7 +5,7 @@ import '../../theme_provider.dart';
 /// or to change it using [setTheme(String id)] or [nextTheme()] methods.
 abstract class ThemeCommand {
   /// Cycle to next theme in the theme list.
-  /// The seqence is determined by the sequence
+  /// The sequence is determined by the sequence
   /// specified in the [ThemeProvider] in the [themes] parameter.
   void nextTheme();
 

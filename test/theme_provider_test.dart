@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:theme_provider/src/controller/save_adapter.dart';
-import 'package:theme_provider/src/controller/shared_preferneces_adapter.dart';
+import 'package:theme_provider/src/controller/shared_preferences_adapter.dart';
 import 'package:theme_provider/theme_provider.dart';
 
 void main() {
@@ -243,7 +243,7 @@ void main() {
         String value = args['value'];
         testStorage[key] = value;
       } else {
-        throw AssertionError("Invalid methid call: $methodCall");
+        throw AssertionError("Invalid method call: $methodCall");
       }
     });
 

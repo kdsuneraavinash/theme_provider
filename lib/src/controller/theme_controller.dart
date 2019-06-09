@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import '../data/app_theme.dart';
 import 'theme_command.dart';
 import 'save_adapter.dart';
-import 'shared_preferneces_adapter.dart';
+import 'shared_preferences_adapter.dart';
 
-/// Object which controls the behavour of the theme.
-/// This is the object provided throgh the widget tree.
+/// Object which controls the behavior of the theme.
+/// This is the object provided through the widget tree.
 ///
-/// This inmplementation is hidden from the external uses.
+/// This implementation is hidden from the external uses.
 /// Instead [ThemeCommand] is exposed which is inherited by this class.
 ///
 /// [ThemeCommand] is a reduced API to [ThemeController].
@@ -20,7 +20,7 @@ class ThemeController extends ChangeNotifier implements ThemeCommand {
   /// No 2 themes cannot have conflicting theme ids.
   final Map<String, AppTheme> _appThemes = Map<String, AppTheme>();
 
-  /// List which stores the sequence in which the thems were provided.
+  /// List which stores the sequence in which the themes were provided.
   /// List elements are theme ids which maps back to [_appThemes].
   final List<String> _appThemeIds = List<String>();
 
@@ -36,7 +36,7 @@ class ThemeController extends ChangeNotifier implements ThemeCommand {
 
   /// Controller which handles updating and controlling current theme.
   /// [themes] determine the list of themes that will be available.
-  /// **[themes] cannot have confilcting [id] parameters**
+  /// **[themes] cannot have conflicting [id] parameters**
   /// If conflicting [id]s were found [AssertionError] will be thrown.
   ///
   /// [defaultThemeId] is optional.
@@ -52,7 +52,7 @@ class ThemeController extends ChangeNotifier implements ThemeCommand {
   /// [loadThemesOnStartup] is required
   /// This refers to whether to load the theme when the controller is initialized.
   /// If `true`, this will load the default theme provided (or the first theme if default is `null`)
-  /// and then asyncronously load the persisted theme.
+  /// and then asynchronously load the persisted theme.
   /// If no persisted theme found, the theme will remain as the default one.
   ThemeController({
     @required List<AppTheme> themes,
@@ -103,7 +103,7 @@ class ThemeController extends ChangeNotifier implements ThemeCommand {
   String get currentThemeId => _appThemeIds[_currentThemeIndex];
 
   /// Sets the current theme to given index.
-  /// Additionaly this notifies all widgets and saves theme.
+  /// Additionally this notifies all widgets and saves theme.
   void _setCurrentTheme(int themeIndex) {
     _currentThemeIndex = themeIndex;
     notifyListeners();

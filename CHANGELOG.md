@@ -13,7 +13,7 @@
 ## [0.0.1+8] - 2019/06/08
 
 * Added method to get all themes: `ThemeProvider.controllerOf(context).allThemes`
-* Made theme id reqired (instead of optional)
+* Made theme id required (instead of optional)
 * Added optional description field to theme
 * Added  dialog to switch themes
 
@@ -24,7 +24,7 @@
 ## [0.0.1+6] - 2019/06/08
 
 * Changed directory structure
-* Ranamed,
+* Renamed,
   * `ThemeCommand.of(context)` to `ThemeProvider.controllerOf(context)`
   * `AppThemeOptions.of(context)` to `ThemeProvider.optionsOf(context)`
 * Added `ThemeProvider.themeOf(context)` to get theme.
@@ -38,7 +38,7 @@
 * Added default values to themes. Now it is not required
 * Added AppTheme.light() and AppTheme.dark() to create dark and light themes easily
 * Added command, setTheme(id)
-* Imporved tests
+* Improved tests
 
 ## [0.0.1+3] - 2019/06/08
 
@@ -54,5 +54,5 @@
 
 ## [0.0.1] - 2019/06/08
 
-* Added base functionality to add custome theme data
+* Added base functionality to add custom theme data
 * Added functionality to cycle theme using the command

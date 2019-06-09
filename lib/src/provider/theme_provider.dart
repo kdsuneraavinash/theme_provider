@@ -5,7 +5,7 @@ import '../controller/theme_controller.dart';
 import '../controller/theme_command.dart';
 import 'inherited_theme.dart';
 
-/// Signature for a function that returs the current theme and context.
+/// Signature for a function that returns the current theme and context.
 ///
 /// Used by [ThemeProvider].
 typedef Widget ThemedAppBuilder(BuildContext context, ThemeData themeData);
@@ -47,7 +47,7 @@ class ThemeProvider extends StatelessWidget {
 
   /// [loadThemesOnStartup] refers to whether to load the theme when the controller is initialized.
   /// If `true`, this will load the default theme provided (or the first theme if default is `null`)
-  /// and then asyncronously load the persisted theme.
+  /// and then asynchronously load the persisted theme.
   final bool loadThemesOnStartup;
 
   /// Creates a [ThemeProvider].
@@ -62,9 +62,9 @@ class ThemeProvider extends StatelessWidget {
   /// )
   /// ```
   ///
-  /// If [themes] are not suppies [AppTheme.light()] and [AppTheme.dark()] is assumed.
+  /// If [themes] are not supplies [AppTheme.light()] and [AppTheme.dark()] is assumed.
   ///
-  /// If [themes] are supplied, theere have to be at least 2 [AppTheme] objects inside
+  /// If [themes] are supplied, there have to be at least 2 [AppTheme] objects inside
   /// the list. Otherwise an [AssertionError] is thrown.
   ///
   /// [defaultThemeId] can also be provided to override the default theme.
@@ -78,7 +78,7 @@ class ThemeProvider extends StatelessWidget {
   ///
   /// [loadThemesOnStartup] refers to whether to load the theme when the controller is initialized.
   /// If `true`, this will load the default theme provided (or the first theme if default is `null`)
-  /// and then asyncronously load the persisted theme.
+  /// and then asynchronously load the persisted theme.
   /// If no persisted theme found, the theme will remain as the default one.
   /// By default this is `false`
   ThemeProvider({
@@ -101,7 +101,7 @@ class ThemeProvider extends StatelessWidget {
     return InheritedThemeController.of(context);
   }
 
-  /// Returs the options passed by the [ThemeProvider].
+  /// Returns the options passed by the [ThemeProvider].
   /// Call as `ThemeProvider.optionsOf<ColorClass>(context)` to get the
   /// returned object casted to the required type.
   static T optionsOf<T>(BuildContext context) {

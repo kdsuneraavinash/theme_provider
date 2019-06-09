@@ -8,7 +8,7 @@ import '../data/app_theme.dart';
 /// Used by [ThemeDialog].
 typedef Color ColorBuilderByAppTheme(AppTheme theme);
 
-/// Readymade [SimpleDialog] that gives the option to change theme.
+/// Ready-made [SimpleDialog] that gives the option to change theme.
 class ThemeDialog extends StatelessWidget {
   /// The (optional) title of the dialog is displayed in a large font at the top
   /// of the dialog.
@@ -19,7 +19,7 @@ class ThemeDialog extends StatelessWidget {
 
   /// Radius of the inner circle of theme item.
   /// Must be a value less than or equal to 20.
-  /// (If equal to 20, outer circle will dissapear)
+  /// (If equal to 20, outer circle will disappear)
   final double innerCircleRadius;
 
   /// Builder for inner circle color.
@@ -30,7 +30,7 @@ class ThemeDialog extends StatelessWidget {
   /// If not provided, uses `accentColor`.
   final ColorBuilderByAppTheme outerCircleColorBuilder;
 
-  /// Duration for item selection checkmark opacity aniamation.
+  /// Duration for item selection checkmark opacity animation.
   /// Value is in milliseconds.
   /// Defaults to 300.
   final int animatedOpacityDuration;
@@ -40,7 +40,7 @@ class ThemeDialog extends StatelessWidget {
   final Widget selectedThemeIcon;
 
   /// Color for show as an overlay over selected icon.
-  /// Use a transparent color to show behind overlayed.
+  /// Use a transparent color to show behind overlay.
   /// Defaults to transparent grey.
   final Color selectedOverlayColor;
 
@@ -76,7 +76,7 @@ class ThemeDialog extends StatelessWidget {
     );
   }
 
-  /// Capilazie the first letter
+  /// Capitalize the first letter
   String _capitalize(String s) {
     if (s.length == 0) {
       return s;

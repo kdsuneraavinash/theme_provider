@@ -3,7 +3,7 @@
 [![Codemagic build status](https://api.codemagic.io/apps/5cfb60390824820019d5af6b/5cfb60390824820019d5af6a/status_badge.svg)](https://codemagic.io/apps/5cfb60390824820019d5af6b/5cfb60390824820019d5af6a/latest_build)
 [![Pub Package](https://img.shields.io/pub/v/theme_provider.svg)](https://pub.dartlang.org/packages/theme_provider)
 
-Easy to use, customizable and pluggable Theme Provider.
+Easy to use, customizable Theme Provider.
 **This is still a work in progress.**
 
 | Basic Usage           | Basic Usage           |
@@ -112,7 +112,7 @@ This will ensure that the theme is saved and loaded from disk.
 If a previous saved theme was found, it will replace the `defaultThemeId`.
 Otherwise `defaultThemeId` will be used to determine the initial theme.
 
-## Additonal Widgets
+## Additional Widgets
 
 ### Theme Cycle Widget
 
