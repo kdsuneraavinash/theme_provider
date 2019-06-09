@@ -1,8 +1,9 @@
 # CHANGELOG
 
-## [0.1.0] - 2019/06/09
+## [0.0.1+10] - 2019/06/09
 
 * Added ability to provide default theme id.
+* Added ability to persist current theme.
 
 ## [0.0.1+9] - 2019/06/09
 

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:theme_provider/src/controller/save_adapter.dart';
+import 'package:theme_provider/src/controller/shared_preferneces_adapter.dart';
 import 'package:theme_provider/theme_provider.dart';
 
 void main() {
@@ -211,5 +214,34 @@ void main() {
     };
 
     await widgetTreeWithDefaultTheme(defaultTheme: "no_theme");
+  });
+
+  testWidgets('Persistency test', (tester) async {
+    Map<String, dynamic> testStorage = Map();
+
+    const MethodChannel('plugins.flutter.io/shared_preferences')
+        .setMockMethodCallHandler((MethodCall methodCall) async {
+      if (methodCall.method == 'getAll') {
+        return testStorage;
+      } else if (methodCall.method == 'setString') {
+        var args = methodCall.arguments;
+        String key = args['key'];
+        String value = args['value'];
+        testStorage[key] = value;
+      } else {
+        throw AssertionError("Invalid methid call: $methodCall");
+      }
+    });
+
+    String saveKey = 'theme_provider.theme';
+
+    SaveAdapter theme = SharedPreferenceAdapter();
+    expect(testStorage, isNot(contains(saveKey)));
+    expect(
+        await theme.loadTheme(defaultId: "load_failed"), equals("load_failed"));
+
+    await theme.saveTheme("theme");
+    expect(testStorage.keys, contains("flutter.$saveKey"));
+    expect(await theme.loadTheme(), equals("theme"));
   });
 }

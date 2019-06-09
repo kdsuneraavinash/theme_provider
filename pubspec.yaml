@@ -1,6 +1,6 @@
 name: theme_provider
 description: Easy to use, customizable and pluggable Theme Provider. This Widget can be used to easily provide a theme controller across the widget tree.
-version: 0.0.1+9
+version: 0.0.1+10
 author: Sunera Avinash <kdsuneraavinash@gmail.com>
 homepage: https://www.github.com/kdsuneraavinash/theme_provider
 
@@ -10,6 +10,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+  shared_preferences: ^0.5.3+1
 
 dev_dependencies:
   flutter_test:

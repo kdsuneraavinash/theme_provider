@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../data/app_theme.dart';
 import 'theme_command.dart';
+import 'save_adapter.dart';
+import 'shared_preferneces_adapter.dart';
 
 /// Object which controls the behavour of the theme.
 /// This is the object provided throgh the widget tree.
@@ -21,6 +23,16 @@ class ThemeController extends ChangeNotifier implements ThemeCommand {
   /// List which stores the sequence in which the thems were provided.
   /// List elements are theme ids which maps back to [_appThemes].
   final List<String> _appThemeIds = List<String>();
+
+  /// Adapter which helps to save current theme and load it back.
+  /// Currently uses [SharedPreferenceAdapter] which uses shared_preferences plugin.
+  final SaveAdapter _saveAdapter = SharedPreferenceAdapter();
+
+  /// Whether to save the theme on disk every time the theme changes
+  final bool _shouldSave = false;
+
+  /// Whether to load the theme from disk on startup.
+  final bool _shouldLoad = false;
 
   /// Controller which handles updating and controlling current theme.
   /// [themes] determine the list of themes that will be available.
@@ -48,24 +60,49 @@ class ThemeController extends ChangeNotifier implements ThemeCommand {
     }
   }
 
+  /// Load theme from disk
+  void setThemeFromDisk() async {
+    if (_shouldLoad) {
+      String savedTheme = await _saveAdapter.loadTheme();
+      if (savedTheme != null && _appThemes.containsKey(savedTheme)) {
+        setTheme(savedTheme);
+      }
+    }
+  }
+
+  /// Save theme to disk
+  void setThemeToDisk() {
+    if (_shouldSave) {
+      _saveAdapter.saveTheme(currentThemeId);
+    }
+  }
+
   /// Get the current theme
   AppTheme get theme => _appThemes[this.currentThemeId];
 
   /// Get the current theme id
   String get currentThemeId => _appThemeIds[_currentThemeIndex];
 
+  /// Sets the current theme to given index.
+  /// Additionaly this notifies all widgets and saves theme.
+  void _setCurrentTheme(int themeIndex) {
+    _currentThemeIndex = themeIndex;
+    notifyListeners();
+    setThemeToDisk();
+  }
+
   @override
   void nextTheme() {
-    _currentThemeIndex = (_currentThemeIndex + 1) % _appThemes.length;
-    notifyListeners();
+    int nextThemeIndex = (_currentThemeIndex + 1) % _appThemes.length;
+    _setCurrentTheme(nextThemeIndex);
   }
 
   @override
   void setTheme(String themeId) {
     assert(_appThemes.containsKey(themeId));
 
-    _currentThemeIndex = _appThemeIds.indexOf(themeId);
-    notifyListeners();
+    int themeIndex = _appThemeIds.indexOf(themeId);
+    _setCurrentTheme(themeIndex);
   }
 
   @override
