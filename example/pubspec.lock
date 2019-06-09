@@ -81,6 +81,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.3"
+  shared_preferences:
+    dependency: transitive
+    description:
+      name: shared_preferences
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.3+1"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -133,10 +140,10 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: fa580750a7e3a28e8758dc2df3404670244e0afa
+      resolved-ref: "88c95169b983e5405140ffbb5f8013199b8855b0"
       url: "git://github.com/kdsuneraavinash/theme_provider.git"
     source: git
-    version: "0.0.1+8"
+    version: "0.0.1+10"
   typed_data:
     dependency: transitive
     description:
@@ -153,3 +160,4 @@ packages:
     version: "2.0.8"
 sdks:
   dart: ">=2.2.0 <3.0.0"
+  flutter: ">=1.5.0 <2.0.0"

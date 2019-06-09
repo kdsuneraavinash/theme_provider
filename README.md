@@ -112,6 +112,10 @@ This will ensure that the theme is saved and loaded from disk.
 If a previous saved theme was found, it will replace the `defaultThemeId`.
 Otherwise `defaultThemeId` will be used to determine the initial theme.
 
+**Warning: Setting persistance will cause your app to be refreshed at startup(which may cause a flicker)**
+So it is recommended that if you use this feature, show a splash screen or use a theme agnostic startup screen
+so the refreshing won't be visible to the user.
+
 ## Additional Widgets
 
 ### Theme Cycle Widget

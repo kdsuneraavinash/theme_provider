@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       themes: <AppTheme>[
         AppTheme.light(),
         AppTheme.dark(),
-        customTheme(),
+        customAppTheme(),
       ],
       builder: (context, theme) => MaterialApp(
             theme: theme,
@@ -23,54 +23,46 @@ class MyApp extends StatelessWidget {
   }
 }
 
-AppTheme customTheme() => AppTheme(
-      data: ThemeData(
-        accentColor: Colors.yellow,
-        primaryColor: Colors.red,
-      ),
-      id: "custom_theme",
-      description: "Light Theme w/ Red",
-    );
+AppTheme customAppTheme() {
+  return AppTheme(
+    id: "custom_theme",
+    description: "Custom Color Scheme",
+    data: ThemeData(
+      accentColor: Colors.yellow,
+      primaryColor: Colors.red,
+      scaffoldBackgroundColor: Colors.yellow[200],
+      buttonColor: Colors.amber,
+      splashColor: Colors.green,
+      appBarTheme: AppBarTheme(elevation: 10),
+      dialogBackgroundColor: Colors.yellow
+    ),
+  );
+}
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Example App"),
-      ),
+      appBar: AppBar(title: Text("Example App")),
       body: Center(
-        child: IntrinsicWidth(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: Text(
-                    "Current Theme: ${ThemeProvider.controllerOf(context).currentThemeId}"),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: OutlineButton(
-                  child: Text("Next Theme"),
-                  onPressed: ThemeProvider.controllerOf(context).nextTheme,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: OutlineButton(
-                  child: Text("Theme Dialog"),
-                  onPressed: () => showDialog(
-                      context: context, builder: (_) => ThemeDialog()),
-                ),
-              ),
-            ],
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            RaisedButton(
+              child: Text("Next Theme"),
+              onPressed: ThemeProvider.controllerOf(context).nextTheme,
+            ),
+            RaisedButton(
+                child: Text("Theme Dialog"),
+                onPressed: () {
+                  showDialog(context: context, builder: (_) => ThemeDialog());
+                }),
+          ],
         ),
       ),
     );
   }
 }
+
 
 ```
