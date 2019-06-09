@@ -41,10 +41,39 @@ class MyApp extends StatelessWidget {
 }
 ```
 
+Provide additional themes like this:
+
+```dart
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ThemeProvider(
+      themes: [
+        AppTheme.light(), // This is standard light theme
+        AppTheme.dark(), // This is standard dark theme
+        AppTheme(
+          id: "custom_theme", // Id (or name) of the theme(Has to be unique)
+          data: ThemeData(
+            primaryColor: Colors.black,
+            accentColor: Colors.red,
+          ),
+        ),
+      ],
+      builder: (theme) => MaterialApp(
+        home: HomePage(),
+        theme: theme,
+      ),
+    );
+  }
+}
+```
+
 To change the theme:
 
 ```dart
  ThemeProvider.controllerOf(context).nextTheme();
+ // Or
+ ThemeProvider.controllerOf(context).setTheme(THEME_ID);
 ```
 
 Access current `AppTheme`
@@ -107,12 +136,21 @@ ThemeProvider.optionsOf<ThemeOptions>(context).specificButtonColor
 
 ## Persisting theme
 
-To persist themes simply pass `loadThemesOnStartup` and `saveThemesOnChange` as `true`.
-This will ensure that the theme is saved and loaded from disk.
-If a previous saved theme was found, it will replace the `defaultThemeId`.
-Otherwise `defaultThemeId` will be used to determine the initial theme.
+### Saving theme
 
-**Warning: Setting persistance will cause your app to be refreshed at startup(which may cause a flicker)**
+To persist themes simply pass `saveThemesOnChange` as `true`.
+This will ensure that the theme is saved to the disk.
+
+### Loading saved theme
+
+`defaultThemeId` will be used to determine the initial theme.
+But you can load thee previous theme by using:
+
+```dart
+ ThemeProvider.controllerOf(context).loadThemeFromDisk();
+```
+
+**Warning: Loading from disk will cause your app to be refreshed(which may cause a flicker)**
 So it is recommended that if you use this feature, show a splash screen or use a theme agnostic startup screen
 so the refreshing won't be visible to the user.
 
@@ -138,6 +176,7 @@ Scaffold(
 ### Theme Selecting Dialog
 
 `SimpleDialog` to let the user select the theme.
+Many elements in this dialog is customizable.
 
 ```dart
 showDialog(context: context, builder: (_) => ThemeDialog())

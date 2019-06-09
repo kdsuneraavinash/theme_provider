@@ -271,7 +271,6 @@ void main() {
               ),
           defaultThemeId: "test_theme_1",
           saveThemesOnChange: true,
-          loadThemesOnStartup: true,
           themes: [
             AppTheme.light(id: "test_theme_1"),
             AppTheme.light(id: "test_theme_2"),
@@ -298,6 +297,9 @@ void main() {
     Key scaffoldKey2 = UniqueKey();
     await buildWidgetTree(scaffoldKey2);
     await tester.pump();
+    expect(getCurrentTheme(scaffoldKey2).id, "test_theme_1");
+
+    await getCurrentController(scaffoldKey2).loadThemeFromDisk();
     expect(getCurrentTheme(scaffoldKey2).id, "test_theme_3");
   });
 }

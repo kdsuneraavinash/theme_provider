@@ -45,11 +45,6 @@ class ThemeProvider extends StatelessWidget {
   /// If it is `true`, theme will be saved to disk whenever the theme changes.
   final bool saveThemesOnChange;
 
-  /// [loadThemesOnStartup] refers to whether to load the theme when the controller is initialized.
-  /// If `true`, this will load the default theme provided (or the first theme if default is `null`)
-  /// and then asynchronously load the persisted theme.
-  final bool loadThemesOnStartup;
-
   /// Creates a [ThemeProvider].
   /// Wrap [MaterialApp] in [ThemeProvider] to get theme functionalities.
   /// Usage example:
@@ -87,7 +82,6 @@ class ThemeProvider extends StatelessWidget {
     this.defaultThemeId,
     @required this.builder,
     this.saveThemesOnChange = false,
-    this.loadThemesOnStartup = false,
   })  : this.themes = themes ?? [AppTheme.light(), AppTheme.dark()],
         super(key: key) {
     assert(this.themes.length >= 2, "Theme list must have at least 2 themes.");
@@ -122,7 +116,6 @@ class ThemeProvider extends StatelessWidget {
       controller: ThemeController(
         themes: themes,
         defaultThemeId: defaultThemeId,
-        loadThemesOnStartup: loadThemesOnStartup,
         saveThemesOnChange: saveThemesOnChange,
       ),
       child: Builder(

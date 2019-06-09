@@ -31,9 +31,6 @@ class ThemeController extends ChangeNotifier implements ThemeCommand {
   /// Whether to save the theme on disk every time the theme changes
   final bool _saveThemesOnChange;
 
-  /// Whether to load the theme from disk on startup.
-  final bool _loadThemesOnStartup;
-
   /// Controller which handles updating and controlling current theme.
   /// [themes] determine the list of themes that will be available.
   /// **[themes] cannot have conflicting [id] parameters**
@@ -48,19 +45,11 @@ class ThemeController extends ChangeNotifier implements ThemeCommand {
   /// This refers to whether to persist the theme on change.
   /// If it is `true`, theme will be saved to disk whenever the theme changes.
   /// **If you use this, do NOT use nested [ThemeProvider]s as all will be saved in the same key**
-  ///
-  /// [loadThemesOnStartup] is required
-  /// This refers to whether to load the theme when the controller is initialized.
-  /// If `true`, this will load the default theme provided (or the first theme if default is `null`)
-  /// and then asynchronously load the persisted theme.
-  /// If no persisted theme found, the theme will remain as the default one.
   ThemeController({
     @required List<AppTheme> themes,
     String defaultThemeId,
     @required bool saveThemesOnChange,
-    @required bool loadThemesOnStartup,
-  })  : _saveThemesOnChange = saveThemesOnChange,
-        _loadThemesOnStartup = loadThemesOnStartup {
+  }) : _saveThemesOnChange = saveThemesOnChange {
     for (AppTheme theme in themes) {
       assert(!this._appThemes.containsKey(theme.id),
           "Conflicting theme ids found: ${theme.id} is already added to the widget tree,");
@@ -74,18 +63,6 @@ class ThemeController extends ChangeNotifier implements ThemeCommand {
       _currentThemeIndex = _appThemeIds.indexOf(defaultThemeId);
       assert(_currentThemeIndex != -1,
           "No app theme with the default theme id: $defaultThemeId");
-    }
-
-    _loadPreviousTheme();
-  }
-
-  /// Load theme from disk
-  void _loadPreviousTheme() async {
-    if (_loadThemesOnStartup) {
-      String savedTheme = await _saveAdapter.loadTheme();
-      if (savedTheme != null && _appThemes.containsKey(savedTheme)) {
-        setTheme(savedTheme);
-      }
     }
   }
 
@@ -122,6 +99,14 @@ class ThemeController extends ChangeNotifier implements ThemeCommand {
 
     int themeIndex = _appThemeIds.indexOf(themeId);
     _setCurrentTheme(themeIndex);
+  }
+
+  @override
+  Future<void> loadThemeFromDisk() async {
+    String savedTheme = await _saveAdapter.loadTheme();
+    if (savedTheme != null && _appThemes.containsKey(savedTheme)) {
+      setTheme(savedTheme);
+    }
   }
 
   @override

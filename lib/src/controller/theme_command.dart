@@ -13,6 +13,11 @@ abstract class ThemeCommand {
   /// Throws an [AssertionError] if the theme id is not found.
   void setTheme(String themeId);
 
+  /// Loads previously saved theme from disk.
+  /// If this fails(no previous saved theme) it will be ignored.
+  /// (No exceptions will be thrown)
+  Future<void> loadThemeFromDisk();
+
   /// Returns the list of all themes.
   List<AppTheme> get allThemes;
 }
