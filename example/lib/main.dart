@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
         AppTheme.dark(),
         customAppTheme(),
       ],
-      builder: (context, theme) => MaterialApp(
+      builder: (theme) => MaterialApp(
             theme: theme,
             home: HomePage(),
           ),
@@ -25,14 +25,13 @@ AppTheme customAppTheme() {
     id: "custom_theme",
     description: "Custom Color Scheme",
     data: ThemeData(
-      accentColor: Colors.yellow,
-      primaryColor: Colors.red,
-      scaffoldBackgroundColor: Colors.yellow[200],
-      buttonColor: Colors.amber,
-      splashColor: Colors.green,
-      appBarTheme: AppBarTheme(elevation: 10),
-      dialogBackgroundColor: Colors.yellow
-    ),
+        accentColor: Colors.yellow,
+        primaryColor: Colors.red,
+        scaffoldBackgroundColor: Colors.yellow[200],
+        buttonColor: Colors.amber,
+        splashColor: Colors.green,
+        appBarTheme: AppBarTheme(elevation: 10),
+        dialogBackgroundColor: Colors.yellow),
   );
 }
 

@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## [0.0.1+11] - 2019/06/09
+## [0.1.0] - 2019/06/09
 
 * BREAKING CHANGE: Removed context parameter from `ThemeProvider` builder.
 
