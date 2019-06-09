@@ -45,7 +45,15 @@ class AppTheme<T> {
   final T options;
 
   /// Unique ID which defines the theme.
-  /// This can be any string, but don't use conflicting strings.
+  /// Don't use conflicting strings.
+  ///
+  /// This has to be a lowercase string seperated by underscores. (can contain numbers)
+  ///   * theme_1
+  ///   * my_theme
+  ///   * dark_extended_theme
+  /// 
+  /// Don't use very lengthy strings.
+  /// Instead use [description] as the field to add description.
   final String id;
 
   /// Short ddescription which describes the theme. Must be less than 30 characters.
@@ -54,7 +62,9 @@ class AppTheme<T> {
   /// Constructs a [AppTheme].
   /// [data] is required.
   ///
-  /// [id] is required and it has to be unique.
+  /// [id] is required and it has to be unique. 
+  /// Use _ sereated lowercase strings.
+  /// Id cannot have whitespaces.
   ///
   /// [options] can ba any object. Use it to pass
   ///
@@ -70,7 +80,10 @@ class AppTheme<T> {
                 ? "Light Theme"
                 : "Dark Theme") {
     assert(
-        description.length < 30, "Theme description too long for theme: $id");
+        description.length < 30, "Theme description too long ($id)");
+    assert(id.isNotEmpty, "Id cannot be empty");
+    assert(id.toLowerCase() == id, "Id has to be a lowercase string");
+    assert(!id.contains(RegExp("[\w]")), "Id cannot contain whitespaces. (Use _ for spaces)");
   }
 
   /// Default light theme
