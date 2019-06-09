@@ -6,7 +6,7 @@
 Easy to use, customizable Theme Provider.
 **This is still a work in progress.**
 
-| Basic Usage           | Basic Usage           |
+| Basic Usage           | Dialog Box           |
 |:-------------:|:-------------:|
 | ![Record](next.gif) | ![Record](select.gif) |
 

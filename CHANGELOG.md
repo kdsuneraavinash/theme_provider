@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [0.1.0+1] - 2019/06/09
+
+* Fixed some typos in code
+
 ## [0.1.0] - 2019/06/09
 
 * BREAKING CHANGE: Removed context parameter from `ThemeProvider` builder.
