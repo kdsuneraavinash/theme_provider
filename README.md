@@ -47,10 +47,16 @@ To change the theme:
  ThemeProvider.controllerOf(context).nextTheme();
 ```
 
-Access theme data:
+Access current `AppTheme`
 
 ```dart
  ThemeProvider.themeOf(context)
+```
+
+Access theme data:
+
+```dart
+ ThemeProvider.themeOf(context).data
  // or
  Theme.of(context)
 ```

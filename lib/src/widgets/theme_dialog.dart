@@ -64,7 +64,7 @@ class ThemeDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String currentThemeId = ThemeProvider.controllerOf(context).currentThemeId;
+    String currentThemeId = ThemeProvider.themeOf(context).id;
 
     return SimpleDialog(
       title: title,

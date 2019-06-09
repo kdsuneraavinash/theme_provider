@@ -15,9 +15,4 @@ abstract class ThemeCommand {
 
   /// Returns the list of all themes.
   List<AppTheme> get allThemes;
-
-  /// String id of the current active theme.
-  /// This returns the [id] parameter of the [AppTheme] instance
-  /// that is currently active.
-  String get currentThemeId;
 }

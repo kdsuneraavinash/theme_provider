@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## [0.0.1+9] - 2019/06/09
+
+* Changed `ThemeProvider.themeOf(context)` to return the current `AppTheme`.
+* Removed `currentThemeId` from `ThemeCommand`.
+
 ## [0.0.1+8] - 2019/06/08
 
 * Added method to get all themes: `ThemeProvider.controllerOf(context).allThemes`

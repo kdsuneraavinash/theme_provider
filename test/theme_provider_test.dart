@@ -118,9 +118,7 @@ void main() {
 
     await tester.pump();
 
-    expect(
-        ThemeProvider.controllerOf(tester.element(find.byKey(scaffoldKey)))
-            .currentThemeId,
+    expect(ThemeProvider.themeOf(tester.element(find.byKey(scaffoldKey))).id,
         startsWith("default_"));
   });
 
@@ -149,8 +147,10 @@ void main() {
   testWidgets('Select by Theme Id Test', (tester) async {
     final Key scaffoldKey = UniqueKey();
 
-    var fetchThemeCommand = () =>
+    var fetchCommand = () =>
         ThemeProvider.controllerOf(tester.element(find.byKey(scaffoldKey)));
+    var fetchTheme = () =>
+        ThemeProvider.themeOf(tester.element(find.byKey(scaffoldKey)));
 
     await tester.pumpWidget(
       ThemeProvider(
@@ -166,12 +166,12 @@ void main() {
         ],
       ),
     );
-    expect(fetchThemeCommand().currentThemeId, equals("default_light_theme"));
+    expect(fetchTheme().id, equals("default_light_theme"));
 
-    fetchThemeCommand().nextTheme();
-    expect(fetchThemeCommand().currentThemeId, equals("test_theme_1"));
+    fetchCommand().nextTheme();
+    expect(fetchTheme().id, equals("test_theme_1"));
 
-    fetchThemeCommand().setTheme("test_theme_random");
-    expect(fetchThemeCommand().currentThemeId, equals("test_theme_random"));
+    fetchCommand().setTheme("test_theme_random");
+    expect(fetchTheme().id, equals("test_theme_random"));
   });
 }

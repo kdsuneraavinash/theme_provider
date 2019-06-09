@@ -77,13 +77,12 @@ class ThemeProvider extends StatelessWidget {
     return ThemeController.of(context).theme.options as T;
   }
 
-  /// Returs the current theme data passed by the [ThemeProvider].
-  /// Call as `ThemeProvider.themeOf(context)` to get the
-  /// returned object casted to the required type.
+  /// Returns the current app theme passed by the [ThemeProvider].
   ///
+  /// Call as `ThemeProvider.themeOf(context).data` to get [ThemeData].
   /// This is same as `Theme.of(context)` under a theme provider.
-  static ThemeData themeOf(BuildContext context) {
-    return ThemeController.of(context).theme.data;
+  static AppTheme themeOf(BuildContext context) {
+    return ThemeController.of(context).theme;
   }
 
   @override
@@ -93,7 +92,7 @@ class ThemeProvider extends StatelessWidget {
       child: Builder(
           builder: (context) => builder(
                 context,
-                ThemeProvider.themeOf(context),
+                ThemeProvider.themeOf(context).data,
               )),
     );
   }
