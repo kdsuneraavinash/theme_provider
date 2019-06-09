@@ -133,7 +133,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "8027026de6f3dc68531e8dd15fcc13bae5eccdbc"
+      resolved-ref: fa580750a7e3a28e8758dc2df3404670244e0afa
       url: "git://github.com/kdsuneraavinash/theme_provider.git"
     source: git
     version: "0.0.1+8"

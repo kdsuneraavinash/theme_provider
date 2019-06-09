@@ -44,8 +44,8 @@ class HomePage extends StatelessWidget {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.all(4.0),
-                child: Text(
-                    "Current Theme: ${ThemeProvider.controllerOf(context).currentThemeId}"),
+                child:
+                    Text("Current Theme: ${ThemeProvider.themeOf(context).id}"),
               ),
               Padding(
                 padding: const EdgeInsets.all(4.0),
