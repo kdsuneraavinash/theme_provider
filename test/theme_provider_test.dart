@@ -149,8 +149,8 @@ void main() {
 
     var fetchCommand = () =>
         ThemeProvider.controllerOf(tester.element(find.byKey(scaffoldKey)));
-    var fetchTheme = () =>
-        ThemeProvider.themeOf(tester.element(find.byKey(scaffoldKey)));
+    var fetchTheme =
+        () => ThemeProvider.themeOf(tester.element(find.byKey(scaffoldKey)));
 
     await tester.pumpWidget(
       ThemeProvider(
@@ -173,5 +173,43 @@ void main() {
 
     fetchCommand().setTheme("test_theme_random");
     expect(fetchTheme().id, equals("test_theme_random"));
+  });
+  testWidgets('Set default theme id test', (tester) async {
+    final Key scaffoldKey = UniqueKey();
+
+    var getCurrentThemeId =
+        () => ThemeProvider.themeOf(tester.element(find.byKey(scaffoldKey))).id;
+
+    var widgetTreeWithDefaultTheme =
+        ({String defaultTheme}) async => await tester.pumpWidget(
+              ThemeProvider(
+                builder: (context, theme) => MaterialApp(
+                      theme: theme,
+                      home: Scaffold(key: scaffoldKey),
+                    ),
+                defaultThemeId: defaultTheme,
+                themes: [
+                  AppTheme.light(),
+                  AppTheme.light(id: "test_theme_1"),
+                  AppTheme.light(id: "test_theme_2"),
+                  AppTheme.light(id: "test_theme_3"),
+                  AppTheme.light(id: "test_theme_4"),
+                ],
+              ),
+            );
+
+    await widgetTreeWithDefaultTheme();
+    expect(getCurrentThemeId(), equals("default_light_theme"));
+
+    await widgetTreeWithDefaultTheme(defaultTheme: "test_theme_3");
+    expect(getCurrentThemeId(), equals("test_theme_3"));
+
+    final errorHandled = expectAsync0(() {});
+
+    FlutterError.onError = (errorDetails) {
+      errorHandled();
+    };
+
+    await widgetTreeWithDefaultTheme(defaultTheme: "no_theme");
   });
 }

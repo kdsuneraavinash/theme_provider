@@ -31,6 +31,12 @@ class ThemeProvider extends StatelessWidget {
   /// This will ensure that app gets rebuilt when the theme changes.
   final ThemedAppBuilder builder;
 
+  /// [defaultThemeId] is optional.
+  /// If not provided, default theme set by [ThemeController] to be the first provided theme.
+  /// Otherwise the given theme will be set as the default theme.
+  /// [AssertionError] will be thrown if there is no theme with [defaultThemeId].
+  final String defaultThemeId;
+
   /// List of [AppTheme]s. This list will be passed to the
   /// [ThemeController] when widget is built.
   final List<AppTheme> themes;
@@ -52,10 +58,13 @@ class ThemeProvider extends StatelessWidget {
   /// If [themes] are supplied, theere have to be at least 2 [AppTheme] objects inside
   /// the list. Otherwise an [AssertionError] is thrown.
   ///
+  /// [defaultThemeId] can also be provided to override the default theme.
+  /// (which is the first theme in the [themes] list)
   /// **[AppTheme]s must not have conflicting theme ids.**
   ThemeProvider({
     Key key,
     themes,
+    this.defaultThemeId,
     @required this.builder,
   })  : this.themes = themes ?? [AppTheme.light(), AppTheme.dark()],
         super(key: key) {
@@ -67,14 +76,14 @@ class ThemeProvider extends StatelessWidget {
   ///
   /// Gets the reference to [ThemeController] but as a reduced version.
   static ThemeCommand controllerOf(BuildContext context) {
-    return ThemeController.of(context);
+    return InheritedThemeController.of(context);
   }
 
   /// Returs the options passed by the [ThemeProvider].
   /// Call as `ThemeProvider.optionsOf<ColorClass>(context)` to get the
   /// returned object casted to the required type.
   static T optionsOf<T>(BuildContext context) {
-    return ThemeController.of(context).theme.options as T;
+    return InheritedThemeController.of(context).theme.options as T;
   }
 
   /// Returns the current app theme passed by the [ThemeProvider].
@@ -82,13 +91,16 @@ class ThemeProvider extends StatelessWidget {
   /// Call as `ThemeProvider.themeOf(context).data` to get [ThemeData].
   /// This is same as `Theme.of(context)` under a theme provider.
   static AppTheme themeOf(BuildContext context) {
-    return ThemeController.of(context).theme;
+    return InheritedThemeController.of(context).theme;
   }
 
   @override
   Widget build(BuildContext context) {
     return InheritedThemeController(
-      controller: ThemeController(themes: themes),
+      controller: ThemeController(
+        themes: themes,
+        defaultThemeId: defaultThemeId,
+      ),
       child: Builder(
           builder: (context) => builder(
                 context,

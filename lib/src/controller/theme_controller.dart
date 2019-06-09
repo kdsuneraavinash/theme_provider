@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../provider/inherited_theme.dart';
 import '../data/app_theme.dart';
 import 'theme_command.dart';
 
@@ -28,37 +27,38 @@ class ThemeController extends ChangeNotifier implements ThemeCommand {
   /// **[themes] cannot have confilcting [id] parameters**
   /// If conflicting [id]s were found [AssertionError] will be thrown.
   ///
-  /// Default theme will be the first provided theme.
-  /// FEATURE: Set default theme to be specified.
-  ThemeController({@required List<AppTheme> themes}) {
-    _currentThemeIndex = 0;
-
+  /// [defaultThemeId] is optional.
+  /// If not provided, default theme will be the first provided theme.
+  /// Otherwise the given theme will be set as the default theme.
+  /// [AssertionError] will be thrown if there is no theme with [defaultThemeId].
+  ThemeController({@required List<AppTheme> themes, String defaultThemeId}) {
     for (AppTheme theme in themes) {
       assert(!this._appThemes.containsKey(theme.id),
           "Conflicting theme ids found: ${theme.id} is already added to the widget tree,");
       this._appThemes[theme.id] = theme;
       _appThemeIds.add(theme.id);
     }
+
+    if (defaultThemeId == null) {
+      _currentThemeIndex = 0;
+    } else {
+      _currentThemeIndex = _appThemeIds.indexOf(defaultThemeId);
+      assert(_currentThemeIndex != -1,
+          "No app theme with the default theme id: $defaultThemeId");
+    }
   }
 
   /// Get the current theme
   AppTheme get theme => _appThemes[this.currentThemeId];
 
-  /// Gets the reference to [ThemeController] directly.
-  /// This also provides references to current theme and other objects.
-  /// So this class is not exported.
-  /// Only the classes inside this package can use this.
-  static ThemeController of(BuildContext context) {
-    return InheritedThemeController.of(context);
-  }
+  /// Get the current theme id
+  String get currentThemeId => _appThemeIds[_currentThemeIndex];
 
   @override
   void nextTheme() {
     _currentThemeIndex = (_currentThemeIndex + 1) % _appThemes.length;
     notifyListeners();
   }
-
-  String get currentThemeId => _appThemeIds[_currentThemeIndex];
 
   @override
   void setTheme(String themeId) {
