@@ -15,6 +15,20 @@ void main() {
     expect(() => buildWidgetTree(null), isNotNull);
     expect(() => buildWidgetTree([AppTheme.light()]), throwsAssertionError);
     expect(buildWidgetTree([AppTheme.light(), AppTheme.light()]), isNotNull);
+
+    expect(() => buildWidgetTree([AppTheme.light(), AppTheme.light(id: "")]),
+        throwsAssertionError);
+    expect(
+        () => buildWidgetTree(
+            [AppTheme.light(), AppTheme.light(id: "no spaces")]),
+        throwsAssertionError);
+    expect(
+        () =>
+            buildWidgetTree([AppTheme.light(), AppTheme.light(id: "No_Upper")]),
+        throwsAssertionError);
+    expect(
+        () => buildWidgetTree([AppTheme.light(), AppTheme.light(id: "ok_id")]),
+        isNotNull);
   });
 
   testWidgets('ThemeProvider ancestor test', (tester) async {
@@ -216,7 +230,7 @@ void main() {
     await widgetTreeWithDefaultTheme(defaultTheme: "no_theme");
   });
 
-  testWidgets('Persistency test', (tester) async {
+  test('Persistency test', () async {
     Map<String, dynamic> testStorage = Map();
 
     const MethodChannel('plugins.flutter.io/shared_preferences')
@@ -235,13 +249,53 @@ void main() {
 
     String saveKey = 'theme_provider.theme';
 
-    SaveAdapter theme = SharedPreferenceAdapter();
+    SaveAdapter theme = SharedPreferenceAdapter(saveKey: saveKey);
     expect(testStorage, isNot(contains(saveKey)));
     expect(
         await theme.loadTheme(defaultId: "load_failed"), equals("load_failed"));
 
-    await theme.saveTheme("theme");
+    await theme.saveTheme("my_theme");
     expect(testStorage.keys, contains("flutter.$saveKey"));
-    expect(await theme.loadTheme(), equals("theme"));
+    expect(await theme.loadTheme(), equals("my_theme"));
+  });
+
+  testWidgets('Persistency widget test', (tester) async {
+    var buildWidgetTree = (Key scaffoldKey) async {
+      await tester.pumpWidget(
+        ThemeProvider(
+          builder: (context, theme) => MaterialApp(
+                theme: theme,
+                home: Scaffold(key: scaffoldKey),
+              ),
+          defaultThemeId: "test_theme_1",
+          saveThemesOnChange: true,
+          loadThemesOnStartup: true,
+          themes: [
+            AppTheme.light(id: "test_theme_1"),
+            AppTheme.light(id: "test_theme_2"),
+            AppTheme.light(id: "test_theme_3"),
+            AppTheme.light(id: "test_theme_4"),
+          ],
+        ),
+      );
+    };
+
+    var getCurrentTheme = (Key scaffoldKey) =>
+        ThemeProvider.themeOf(tester.element(find.byKey(scaffoldKey)));
+    var getCurrentController = (Key scaffoldKey) =>
+        ThemeProvider.controllerOf(tester.element(find.byKey(scaffoldKey)));
+
+    Key scaffoldKey1 = UniqueKey();
+    await buildWidgetTree(scaffoldKey1);
+    expect(getCurrentTheme(scaffoldKey1).id, "test_theme_1");
+    getCurrentController(scaffoldKey1).setTheme('test_theme_3');
+    expect(getCurrentTheme(scaffoldKey1).id, "test_theme_3");
+
+    await tester.pump();
+
+    Key scaffoldKey2 = UniqueKey();
+    await buildWidgetTree(scaffoldKey2);
+    await tester.pump();
+    expect(getCurrentTheme(scaffoldKey2).id, "test_theme_3");
   });
 }

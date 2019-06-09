@@ -51,7 +51,7 @@ class AppTheme<T> {
   ///   * theme_1
   ///   * my_theme
   ///   * dark_extended_theme
-  /// 
+  ///
   /// Don't use very lengthy strings.
   /// Instead use [description] as the field to add description.
   final String id;
@@ -62,7 +62,7 @@ class AppTheme<T> {
   /// Constructs a [AppTheme].
   /// [data] is required.
   ///
-  /// [id] is required and it has to be unique. 
+  /// [id] is required and it has to be unique.
   /// Use _ sereated lowercase strings.
   /// Id cannot have whitespaces.
   ///
@@ -79,11 +79,11 @@ class AppTheme<T> {
             (data.brightness == Brightness.light
                 ? "Light Theme"
                 : "Dark Theme") {
-    assert(
-        description.length < 30, "Theme description too long ($id)");
+    assert(description.length < 30, "Theme description too long ($id)");
     assert(id.isNotEmpty, "Id cannot be empty");
     assert(id.toLowerCase() == id, "Id has to be a lowercase string");
-    assert(!id.contains(" "), "Id cannot contain whitespaces. (Use _ for spaces)");
+    assert(
+        !id.contains(" "), "Id cannot contain whitespaces. (Use _ for spaces)");
   }
 
   /// Default light theme

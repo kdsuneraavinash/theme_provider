@@ -41,6 +41,15 @@ class ThemeProvider extends StatelessWidget {
   /// [ThemeController] when widget is built.
   final List<AppTheme> themes;
 
+  /// [saveThemesOnChange] refers to whether to persist the theme on change.
+  /// If it is `true`, theme will be saved to disk whenever the theme changes.
+  final bool saveThemesOnChange;
+
+  /// [loadThemesOnStartup] refers to whether to load the theme when the controller is initialized.
+  /// If `true`, this will load the default theme provided (or the first theme if default is `null`)
+  /// and then asyncronously load the persisted theme.
+  final bool loadThemesOnStartup;
+
   /// Creates a [ThemeProvider].
   /// Wrap [MaterialApp] in [ThemeProvider] to get theme functionalities.
   /// Usage example:
@@ -61,11 +70,24 @@ class ThemeProvider extends StatelessWidget {
   /// [defaultThemeId] can also be provided to override the default theme.
   /// (which is the first theme in the [themes] list)
   /// **[AppTheme]s must not have conflicting theme ids.**
+  ///
+  /// [saveThemesOnChange] refers to whether to persist the theme on change.
+  /// On default this is `false`.
+  /// If it is `true`, theme will be saved to disk whenever the theme changes.
+  /// **If you use this, do NOT use nested [ThemeProvider]s as all will be saved in the same key**
+  ///
+  /// [loadThemesOnStartup] refers to whether to load the theme when the controller is initialized.
+  /// If `true`, this will load the default theme provided (or the first theme if default is `null`)
+  /// and then asyncronously load the persisted theme.
+  /// If no persisted theme found, the theme will remain as the default one.
+  /// By default this is `false`
   ThemeProvider({
     Key key,
     themes,
     this.defaultThemeId,
     @required this.builder,
+    this.saveThemesOnChange = false,
+    this.loadThemesOnStartup = false,
   })  : this.themes = themes ?? [AppTheme.light(), AppTheme.dark()],
         super(key: key) {
     assert(this.themes.length >= 2, "Theme list must have at least 2 themes.");
@@ -100,12 +122,15 @@ class ThemeProvider extends StatelessWidget {
       controller: ThemeController(
         themes: themes,
         defaultThemeId: defaultThemeId,
+        loadThemesOnStartup: loadThemesOnStartup,
+        saveThemesOnChange: saveThemesOnChange,
       ),
       child: Builder(
-          builder: (context) => builder(
-                context,
-                ThemeProvider.themeOf(context).data,
-              )),
+        builder: (context) => builder(
+              context,
+              ThemeProvider.themeOf(context).data,
+            ),
+      ),
     );
   }
 }

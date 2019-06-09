@@ -105,6 +105,13 @@ Then the option can be retrieved as,
 ThemeProvider.optionsOf<ThemeOptions>(context).specificButtonColor
 ```
 
+## Persisting theme
+
+To persist themes simply pass `loadThemesOnStartup` and `saveThemesOnChange` as `true`.
+This will ensure that the theme is saved and loaded from disk.
+If a previous saved theme was found, it will replace the `defaultThemeId`.
+Otherwise `defaultThemeId` will be used to determine the initial theme.
+
 ## Additonal Widgets
 
 ### Theme Cycle Widget
