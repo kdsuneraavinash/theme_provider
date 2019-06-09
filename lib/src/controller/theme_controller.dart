@@ -58,7 +58,6 @@ class ThemeController extends ChangeNotifier implements ThemeCommand {
     notifyListeners();
   }
 
-  @override
   String get currentThemeId => _appThemeIds[_currentThemeIndex];
 
   @override
