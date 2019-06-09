@@ -14,7 +14,7 @@ Easy to use, customizable Theme Provider.
 
 ```yaml
 dependencies:
-  theme_provider: ^0.0.1
+  theme_provider: ^0.1.0
 ```
 
 run packages get and import it
