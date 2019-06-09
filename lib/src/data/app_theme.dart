@@ -83,7 +83,7 @@ class AppTheme<T> {
         description.length < 30, "Theme description too long ($id)");
     assert(id.isNotEmpty, "Id cannot be empty");
     assert(id.toLowerCase() == id, "Id has to be a lowercase string");
-    assert(!id.contains(RegExp("[\w]")), "Id cannot contain whitespaces. (Use _ for spaces)");
+    assert(!id.contains(" "), "Id cannot contain whitespaces. (Use _ for spaces)");
   }
 
   /// Default light theme
