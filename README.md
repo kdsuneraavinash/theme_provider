@@ -115,9 +115,10 @@ Otherwise `defaultThemeId` will be used to determine the initial theme.
 **Warning: Setting persistance will cause your app to be refreshed at startup(which may cause a flicker)**
 So it is recommended that if you use this feature, show a splash screen or use a theme agnostic startup screen
 so the refreshing won't be visible to the user.
+
 Example: Login screen may be designed so that it looks same in all screens.
 So when the theme loads, it won't be noticeable to the user.
-Then other screen can be themed.
+Then other screens can be themed.
 
 ## Additional Widgets
 
@@ -148,7 +149,7 @@ showDialog(context: context, builder: (_) => ThemeDialog())
 - [x] Add theme cycling widget
 - [x] Add theme selection by theme id
 - [x] Add theme select and preview widget
-- [ ] Persist current selected theme
+- [x] Persist current selected theme
 - [x] Add unit tests and example
 - [x] Remove provider dependency
 
