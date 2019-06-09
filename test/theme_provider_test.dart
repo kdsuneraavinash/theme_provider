@@ -8,7 +8,7 @@ import 'package:theme_provider/theme_provider.dart';
 void main() {
   test('ThemeProvider constructor theme list test', () {
     var buildWidgetTree = (List<AppTheme> appThemes) async => ThemeProvider(
-          builder: (_, theme) => Container(),
+          builder: (theme) => Container(),
           themes: appThemes,
         );
 
@@ -36,7 +36,7 @@ void main() {
 
     await tester.pumpWidget(
       ThemeProvider(
-        builder: (context, theme) => MaterialApp(
+        builder: (theme) => MaterialApp(
               theme: theme,
               home: Scaffold(key: scaffoldKey),
             ),
@@ -57,18 +57,20 @@ void main() {
 
     await tester.pumpWidget(
       ThemeProvider(
-        builder: (context, theme) => MaterialApp(
+        builder: (theme) => MaterialApp(
               theme: theme,
               home: Scaffold(
-                body: FlatButton(
-                  key: buttonKey,
-                  child: Text("Press Me"),
-                  onPressed: () {
-                    ThemeCommand themeCommand =
-                        ThemeProvider.controllerOf(context);
-                    assert(themeCommand != null);
-                    themeCommand.nextTheme();
-                  },
+                body: Builder(
+                  builder: (context) => FlatButton(
+                        key: buttonKey,
+                        child: Text("Press Me"),
+                        onPressed: () {
+                          ThemeCommand themeCommand =
+                              ThemeProvider.controllerOf(context);
+                          assert(themeCommand != null);
+                          themeCommand.nextTheme();
+                        },
+                      ),
                 ),
               ),
             ),
@@ -92,7 +94,7 @@ void main() {
 
     await tester.pumpWidget(
       ThemeProvider(
-        builder: (context, theme) => MaterialApp(
+        builder: (theme) => MaterialApp(
               theme: theme,
               home: Scaffold(key: scaffoldKey),
             ),
@@ -126,7 +128,7 @@ void main() {
 
     await tester.pumpWidget(
       ThemeProvider(
-        builder: (context, theme) => MaterialApp(
+        builder: (theme) => MaterialApp(
               theme: theme,
               home: Scaffold(key: scaffoldKey),
             ),
@@ -148,7 +150,7 @@ void main() {
 
     await tester.pumpWidget(
       ThemeProvider(
-        builder: (context, theme) => MaterialApp(
+        builder: (theme) => MaterialApp(
               theme: theme,
               home: Scaffold(),
             ),
@@ -171,7 +173,7 @@ void main() {
 
     await tester.pumpWidget(
       ThemeProvider(
-        builder: (context, theme) => MaterialApp(
+        builder: (theme) => MaterialApp(
               theme: theme,
               home: Scaffold(key: scaffoldKey),
             ),
@@ -200,7 +202,7 @@ void main() {
     var widgetTreeWithDefaultTheme =
         ({String defaultTheme}) async => await tester.pumpWidget(
               ThemeProvider(
-                builder: (context, theme) => MaterialApp(
+                builder: (theme) => MaterialApp(
                       theme: theme,
                       home: Scaffold(key: scaffoldKey),
                     ),
@@ -263,7 +265,7 @@ void main() {
     var buildWidgetTree = (Key scaffoldKey) async {
       await tester.pumpWidget(
         ThemeProvider(
-          builder: (context, theme) => MaterialApp(
+          builder: (theme) => MaterialApp(
                 theme: theme,
                 home: Scaffold(key: scaffoldKey),
               ),

@@ -5,10 +5,10 @@ import '../controller/theme_controller.dart';
 import '../controller/theme_command.dart';
 import 'inherited_theme.dart';
 
-/// Signature for a function that returns the current theme and context.
+/// Signature for a function that returns the current theme.
 ///
 /// Used by [ThemeProvider].
-typedef Widget ThemedAppBuilder(BuildContext context, ThemeData themeData);
+typedef Widget ThemedAppBuilder(ThemeData themeData);
 
 /// Wrap [MaterialApp] in [ThemeProvider] to get theme functionalities.
 class ThemeProvider extends StatelessWidget {
@@ -126,10 +126,7 @@ class ThemeProvider extends StatelessWidget {
         saveThemesOnChange: saveThemesOnChange,
       ),
       child: Builder(
-        builder: (context) => builder(
-              context,
-              ThemeProvider.themeOf(context).data,
-            ),
+        builder: (context) => builder(ThemeProvider.themeOf(context).data),
       ),
     );
   }

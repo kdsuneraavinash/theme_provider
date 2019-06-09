@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ThemeProvider(
-      builder: (context, theme) => MaterialApp(
+      builder: (theme) => MaterialApp(
         home: HomePage(),
         theme: theme,
       ),
@@ -90,7 +90,7 @@ class MyApp extends StatelessWidget {
               options: ThemeOptions(Colors.red),
           ),
         ],
-        builder: (context, theme) => MaterialApp(
+        builder: (theme) => MaterialApp(
           home: HomePage(),
           theme: theme,
         ),
@@ -115,6 +115,9 @@ Otherwise `defaultThemeId` will be used to determine the initial theme.
 **Warning: Setting persistance will cause your app to be refreshed at startup(which may cause a flicker)**
 So it is recommended that if you use this feature, show a splash screen or use a theme agnostic startup screen
 so the refreshing won't be visible to the user.
+Example: Login screen may be designed so that it looks same in all screens.
+So when the theme loads, it won't be noticeable to the user.
+Then other screen can be themed.
 
 ## Additional Widgets
 
