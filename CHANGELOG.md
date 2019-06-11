@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [0.2.0+1] - 2019/06/11
+
+* Fixed some typo and updated README and bumped example theme_provider version.
+
 ## [0.2.0] - 2019/06/10
 
 * BREAKING CHANGE: `loadThemesOnStartup` is no longer supported. Use `ThemeProvider.controllerOf(context).loadThemeFromDisk()` manually to load theme.

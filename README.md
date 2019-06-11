@@ -14,7 +14,7 @@ Easy to use, customizable Theme Provider.
 
 ```yaml
 dependencies:
-  theme_provider: ^0.1.0
+  theme_provider: ^0.2.0
 ```
 
 run packages get and import it
@@ -25,7 +25,7 @@ import 'package:theme_provider/theme_provider.dart';
 
 ## Usage
 
-Wrap your material app like this:
+Wrap your material app like this to use dark theme and light theme out of the box.
 
 ```dart
 class MyApp extends StatelessWidget {
@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-Provide additional themes like this:
+Or to provide additional themes, wrap like this:
 
 ```dart
 class MyApp extends StatelessWidget {
@@ -49,11 +49,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ThemeProvider(
       themes: [
-        AppTheme.light(), // This is standard light theme
-        AppTheme.dark(), // This is standard dark theme
+        AppTheme.light(), // This is standard light theme (id is default_light_theme)
+        AppTheme.dark(), // This is standard dark theme (id is default_dark_theme)
         AppTheme(
-          id: "custom_theme", // Id (or name) of the theme(Has to be unique)
-          data: ThemeData(
+          id: "custom_theme", // Id(or name) of the theme(Has to be unique)
+          data: ThemeData(  // Real theme data
             primaryColor: Colors.black,
             accentColor: Colors.red,
           ),
@@ -109,12 +109,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ThemeProvider(
-      themes: themes: [
+      themes: [
           AppTheme<ThemeOptions>(
+              id: "light_theme",
               data: ThemeData.light(),
               options: ThemeOptions(Colors.blue),
           ),
           AppTheme<ThemeOptions>(
+              id: "light_theme",
               data: ThemeData.dark(),
               options: ThemeOptions(Colors.red),
           ),
@@ -126,7 +128,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-  ```
+```
 
 Then the option can be retrieved as,
 
@@ -140,6 +142,21 @@ ThemeProvider.optionsOf<ThemeOptions>(context).specificButtonColor
 
 To persist themes simply pass `saveThemesOnChange` as `true`.
 This will ensure that the theme is saved to the disk.
+
+```dart
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ThemeProvider(
+      saveThemesOnChange: true,
+      builder: (theme) => MaterialApp(
+        home: HomePage(),
+        theme: theme,
+      ),
+    );
+  }
+}
+```
 
 ### Loading saved theme
 
@@ -155,8 +172,8 @@ So it is recommended that if you use this feature, show a splash screen or use a
 so the refreshing won't be visible to the user.
 
 Example: Login screen may be designed so that it looks same in all screens.
-So when the theme loads, it won't be noticeable to the user.
-Then other screens can be themed.
+When the theme loads, it won't be noticeable to the user.
+Load the theme in that screen and then the other screens can be themed.
 
 ## Additional Widgets
 
@@ -199,11 +216,4 @@ showDialog(context: context, builder: (_) => ThemeDialog())
 ## Bugs/Requests
 
 If you encounter any problems feel free to open an issue.
-If you feel the library is missing a feature, feel free to file an issue.
 Pull request are also welcome.
-
-## Getting Started
-
-For help getting started with Flutter, view our online [documentation](https://flutter.io/).
-
-For help on editing package code, view the [documentation](https://flutter.io/developing-packages/).
