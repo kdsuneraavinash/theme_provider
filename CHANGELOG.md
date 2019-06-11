@@ -2,8 +2,7 @@
 
 ## [0.2.0] - 2019/06/10
 
-* BREAKING CHANGE: `loadThemesOnStartup` is no longer supported.
-* Use `ThemeProvider.controllerOf(context).loadThemeFromDisk()` manually to load theme.
+* BREAKING CHANGE: `loadThemesOnStartup` is no longer supported. Use `ThemeProvider.controllerOf(context).loadThemeFromDisk()` manually to load theme.
 
 ## [0.1.0+1] - 2019/06/09
 

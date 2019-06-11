@@ -196,6 +196,12 @@ showDialog(context: context, builder: (_) => ThemeDialog())
 - [ ] Ids for theme_prociders to allow multiple theme providers
 - [ ] Add example to demostrate persistence
 
+## Bugs/Requests
+
+If you encounter any problems feel free to open an issue.
+If you feel the library is missing a feature, feel free to file an issue.
+Pull request are also welcome.
+
 ## Getting Started
 
 For help getting started with Flutter, view our online [documentation](https://flutter.io/).
