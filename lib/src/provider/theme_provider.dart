@@ -14,9 +14,6 @@ typedef Widget ThemedAppBuilder(ThemeData themeData);
 class ThemeProvider extends StatelessWidget {
   /// Called to obtain the child app.
   ///
-  /// Here the [context] provided is the context directly under [Provider<T>].
-  /// So it can be used to access the [ThemeCommand] as `ThemeCommand.of(context)`.
-  ///
   /// [themeData] provided refers to the current theme.
   /// Use it to provide theme data to the [MaterialApp] as,
   /// ```dart

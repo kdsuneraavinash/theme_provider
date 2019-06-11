@@ -66,13 +66,6 @@ class ThemeController extends ChangeNotifier implements ThemeCommand {
     }
   }
 
-  /// Save theme to disk
-  void _saveCurrentTheme() {
-    if (_saveThemesOnChange) {
-      _saveAdapter.saveTheme(currentThemeId);
-    }
-  }
-
   /// Get the current theme
   AppTheme get theme => _appThemes[this.currentThemeId];
 
@@ -81,16 +74,19 @@ class ThemeController extends ChangeNotifier implements ThemeCommand {
 
   /// Sets the current theme to given index.
   /// Additionally this notifies all widgets and saves theme.
-  void _setCurrentTheme(int themeIndex) {
+  void _setThemeByIndex(int themeIndex) {
     _currentThemeIndex = themeIndex;
     notifyListeners();
-    _saveCurrentTheme();
+
+    if (_saveThemesOnChange) {
+      _saveAdapter.saveTheme(currentThemeId);
+    }
   }
 
   @override
   void nextTheme() {
     int nextThemeIndex = (_currentThemeIndex + 1) % _appThemes.length;
-    _setCurrentTheme(nextThemeIndex);
+    _setThemeByIndex(nextThemeIndex);
   }
 
   @override
@@ -98,7 +94,7 @@ class ThemeController extends ChangeNotifier implements ThemeCommand {
     assert(_appThemes.containsKey(themeId));
 
     int themeIndex = _appThemeIds.indexOf(themeId);
-    _setCurrentTheme(themeIndex);
+    _setThemeByIndex(themeIndex);
   }
 
   @override
