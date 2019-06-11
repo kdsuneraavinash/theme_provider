@@ -18,6 +18,9 @@ abstract class ThemeCommand {
   /// (No exceptions will be thrown)
   Future<void> loadThemeFromDisk();
 
+  /// Loads current theme to disk.
+  Future<void> saveThemeToDisk();
+
   /// Returns the list of all themes.
   List<AppTheme> get allThemes;
 }

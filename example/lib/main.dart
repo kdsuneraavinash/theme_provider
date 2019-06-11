@@ -25,13 +25,12 @@ AppTheme customAppTheme() {
     id: "custom_theme",
     description: "Custom Color Scheme",
     data: ThemeData(
-        accentColor: Colors.yellow,
-        primaryColor: Colors.red,
-        scaffoldBackgroundColor: Colors.yellow[200],
-        buttonColor: Colors.amber,
-        splashColor: Colors.green,
-        appBarTheme: AppBarTheme(elevation: 10),
-        dialogBackgroundColor: Colors.yellow),
+      accentColor: Colors.yellow,
+      primaryColor: Colors.red,
+      scaffoldBackgroundColor: Colors.yellow[200],
+      buttonColor: Colors.amber,
+      dialogBackgroundColor: Colors.yellow,
+    ),
   );
 }
 
@@ -49,10 +48,11 @@ class HomePage extends StatelessWidget {
               onPressed: ThemeProvider.controllerOf(context).nextTheme,
             ),
             RaisedButton(
-                child: Text("Theme Dialog"),
-                onPressed: () {
-                  showDialog(context: context, builder: (_) => ThemeDialog());
-                }),
+              child: Text("Theme Dialog"),
+              onPressed: () {
+                showDialog(context: context, builder: (_) => ThemeDialog());
+              },
+            ),
           ],
         ),
       ),

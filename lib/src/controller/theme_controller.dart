@@ -79,7 +79,7 @@ class ThemeController extends ChangeNotifier implements ThemeCommand {
     notifyListeners();
 
     if (_saveThemesOnChange) {
-      _saveAdapter.saveTheme(currentThemeId);
+      saveThemeToDisk();
     }
   }
 
@@ -103,6 +103,11 @@ class ThemeController extends ChangeNotifier implements ThemeCommand {
     if (savedTheme != null && _appThemes.containsKey(savedTheme)) {
       setTheme(savedTheme);
     }
+  }
+
+  @override
+  Future<void> saveThemeToDisk() async {
+    _saveAdapter.saveTheme(currentThemeId);
   }
 
   @override

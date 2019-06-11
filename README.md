@@ -158,6 +158,12 @@ class MyApp extends StatelessWidget {
 }
 ```
 
+Or manually save the current theme by just using,
+
+```dart
+ThemeProvider.controllerOf(context).saveThemeToDisk();
+```
+
 ### Loading saved theme
 
 `defaultThemeId` will be used to determine the initial theme.
@@ -167,8 +173,11 @@ But you can load thee previous theme by using:
  ThemeProvider.controllerOf(context).loadThemeFromDisk();
 ```
 
-**Warning: Loading from disk will cause your app to be refreshed(which may cause a flicker)**
-So it is recommended that if you use this feature, show a splash screen or use a theme agnostic startup screen
+**Warning: Loading the theme will redraw you app.**
+So if you loaded the theme immediately at startup, user will see a fliker.
+
+So it is recommended that if you want to load the theme at startup,
+show a splash screen or use a theme agnostic startup screen
 so the refreshing won't be visible to the user.
 
 Example: Login screen may be designed so that it looks same in all screens.

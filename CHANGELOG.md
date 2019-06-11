@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [0.2.0+2] - 2019/06/11
+
+* Now theme can be saved manually using `ThemeProvider.controllerOf(context).saveThemeToDisk()`
+
 ## [0.2.0+1] - 2019/06/11
 
 * Fixed some typo and updated README and bumped example theme_provider version.

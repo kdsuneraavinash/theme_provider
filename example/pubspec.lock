@@ -138,10 +138,12 @@ packages:
   theme_provider:
     dependency: "direct main"
     description:
-      name: theme_provider
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.2.0"
+      path: "."
+      ref: HEAD
+      resolved-ref: bdaaf6756a3a078aebce34f2aac0f6e9c9bfc2c1
+      url: "https://www.github.com/kdsuneraavinash/theme_provider.git"
+    source: git
+    version: "0.2.0+1"
   typed_data:
     dependency: transitive
     description:
