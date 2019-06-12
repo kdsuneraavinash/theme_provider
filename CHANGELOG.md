@@ -3,6 +3,7 @@
 ## [0.2.0+2] - 2019/06/11
 
 * Now theme can be saved manually using `ThemeProvider.controllerOf(context).saveThemeToDisk()`
+* Modified README
 
 ## [0.2.0+1] - 2019/06/11
 

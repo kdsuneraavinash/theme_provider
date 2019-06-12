@@ -1,10 +1,17 @@
 # theme_provider
 
+Easy to use, customizable Theme Provider. This provides app color schemes throughout the app and automatically rebuilds the UI dynamically.
+
+You can also persist your color theme as well. Easily store and retrieve user preference without hassle.
+
+This package also provides you with several widgets that can help you to easily add theme switching abilities.
+
+Additionally you can pass option classes to store and provide data which should be associated with the current theme.
+
 [![Codemagic build status](https://api.codemagic.io/apps/5cfb60390824820019d5af6b/5cfb60390824820019d5af6a/status_badge.svg)](https://codemagic.io/apps/5cfb60390824820019d5af6b/5cfb60390824820019d5af6a/latest_build)
 [![Pub Package](https://img.shields.io/pub/v/theme_provider.svg)](https://pub.dartlang.org/packages/theme_provider)
 
-Easy to use, customizable Theme Provider.
-**This is still a work in progress.**
+## Basic Demonstration
 
 | Basic Usage           | Dialog Box           |
 |:-------------:|:-------------:|
@@ -14,7 +21,7 @@ Easy to use, customizable Theme Provider.
 
 ```yaml
 dependencies:
-  theme_provider: ^0.2.0
+  theme_provider: ^0.2.0+1
 ```
 
 run packages get and import it
@@ -93,7 +100,7 @@ Access theme data:
 ### Passing Additional Options
 
 This can also be used to pass additional data associated with the theme. Use `options` to pass additional data that should be associated with the theme.
-eg: If font color on a specific button changes create a class to encapsulate the value.
+eg: If font color on a specific button changes according to the current theme, create a class to encapsulate the value.
 
 ```dart
   class ThemeOptions{
@@ -102,9 +109,9 @@ eg: If font color on a specific button changes create a class to encapsulate the
   }
 ```
 
-  Then provide the options with the theme.
+Then provide the options with the theme.
 
-  ```dart
+```dart
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -140,7 +147,7 @@ ThemeProvider.optionsOf<ThemeOptions>(context).specificButtonColor
 
 ### Saving theme
 
-To persist themes simply pass `saveThemesOnChange` as `true`.
+To persist themes, simply pass `saveThemesOnChange` as `true`.
 This will ensure that the theme is saved to the disk.
 
 ```dart
@@ -166,14 +173,14 @@ ThemeProvider.controllerOf(context).saveThemeToDisk();
 
 ### Loading saved theme
 
-`defaultThemeId` will be used to determine the initial theme.
-But you can load thee previous theme by using:
+`defaultThemeId` will always be used to determine the initial theme. (If not provided the first theme you specify will be the default app theme.)
+But you can manually load the previous(saved) theme by using:
 
 ```dart
  ThemeProvider.controllerOf(context).loadThemeFromDisk();
 ```
 
-**Warning: Loading the theme will redraw you app.**
+**Warning: Loading a theme will redraw you app.**
 So if you loaded the theme immediately at startup, user will see a fliker.
 
 So it is recommended that if you want to load the theme at startup,
@@ -217,10 +224,10 @@ showDialog(context: context, builder: (_) => ThemeDialog())
 - [x] Persist current selected theme
 - [x] Add unit tests and example
 - [x] Remove provider dependency
-- [ ] Add widget - theme selector grid
-- [ ] Add dark mode support and automatic mode switch
-- [ ] Ids for theme_prociders to allow multiple theme providers
-- [ ] Add example to demostrate persistence
+- [-] Add widget - theme selector grid
+- [-] Add dark mode support and automatic mode switch
+- [-] Ids for theme_prociders to allow multiple theme providers
+- [-] Add example to demostrate persistence
 
 ## Bugs/Requests
 
