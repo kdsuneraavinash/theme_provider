@@ -18,7 +18,7 @@ Additionally you can pass option classes to store and provide data which should 
 
 ```yaml
 dependencies:
-  theme_provider: ^0.2.0+1
+  theme_provider: ^0.2.0+2
 ```
 
 run packages get and import it

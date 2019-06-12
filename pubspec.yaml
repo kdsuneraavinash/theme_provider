@@ -1,6 +1,6 @@
 name: theme_provider
 description: Easy to use and customizable Theme Provider. This Widget can be used to easily provide a theme controller across the widget tree.
-version: 0.2.0+1
+version: 0.2.0+2
 author: Sunera Avinash <kdsuneraavinash@gmail.com>
 homepage: https://www.github.com/kdsuneraavinash/theme_provider
 
