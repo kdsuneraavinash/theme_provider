@@ -1,11 +1,8 @@
 # theme_provider
 
 Easy to use, customizable Theme Provider. This provides app color schemes throughout the app and automatically rebuilds the UI dynamically.
-
 You can also persist your color theme as well. Easily store and retrieve user preference without hassle.
-
 This package also provides you with several widgets that can help you to easily add theme switching abilities.
-
 Additionally you can pass option classes to store and provide data which should be associated with the current theme.
 
 [![Codemagic build status](https://api.codemagic.io/apps/5cfb60390824820019d5af6b/5cfb60390824820019d5af6a/status_badge.svg)](https://codemagic.io/apps/5cfb60390824820019d5af6b/5cfb60390824820019d5af6a/latest_build)
@@ -224,10 +221,10 @@ showDialog(context: context, builder: (_) => ThemeDialog())
 - [x] Persist current selected theme
 - [x] Add unit tests and example
 - [x] Remove provider dependency
-- [-] Add widget - theme selector grid
-- [-] Add dark mode support and automatic mode switch
-- [-] Ids for theme_prociders to allow multiple theme providers
-- [-] Add example to demostrate persistence
+- [ ] Add widget - theme selector grid
+- [ ] Add dark mode support and automatic mode switch
+- [ ] Ids for theme_prociders to allow multiple theme providers
+- [ ] Add example to demostrate persistence
 
 ## Bugs/Requests
 
