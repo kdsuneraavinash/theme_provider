@@ -42,6 +42,10 @@ class ThemeProvider extends StatelessWidget {
   /// If it is `true`, theme will be saved to disk whenever the theme changes.
   final bool saveThemesOnChange;
 
+  /// [onInitCallback] is the callback which is called when the ThemeController is first initialed.
+  /// You can use this to call `controller.loadThemeById(ID)` or equalent to set theme.
+  final ThemeControllerHandler onInitCallback;
+
   /// Creates a [ThemeProvider].
   /// Wrap [MaterialApp] in [ThemeProvider] to get theme functionalities.
   /// Usage example:
@@ -77,6 +81,7 @@ class ThemeProvider extends StatelessWidget {
     Key key,
     themes,
     this.defaultThemeId,
+    this.onInitCallback,
     @required this.builder,
     this.saveThemesOnChange = false,
   })  : this.themes = themes ?? [AppTheme.light(), AppTheme.dark()],
@@ -113,6 +118,7 @@ class ThemeProvider extends StatelessWidget {
       controller: ThemeController(
         themes: themes,
         defaultThemeId: defaultThemeId,
+        onInitCallback: onInitCallback,
         saveThemesOnChange: saveThemesOnChange,
       ),
       child: Builder(

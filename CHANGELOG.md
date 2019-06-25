@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## [0.2.0+3] - 2019/06/25
+
+* Added `onInitCallback` parameter to ThemeProvider.
+* Modified README
+
 ## [0.2.0+2] - 2019/06/11
 
 * Now theme can be saved manually using `ThemeProvider.controllerOf(context).saveThemeToDisk()`

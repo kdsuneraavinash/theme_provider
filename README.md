@@ -18,7 +18,7 @@ Additionally you can pass option classes to store and provide data which should 
 
 ```yaml
 dependencies:
-  theme_provider: ^0.2.0+2
+  theme_provider: ^0.2.0+3
 ```
 
 run packages get and import it
@@ -175,6 +175,34 @@ But you can manually load the previous(saved) theme by using:
 
 ```dart
  ThemeProvider.controllerOf(context).loadThemeFromDisk();
+```
+
+To load a theme/do some task at theme controller initialization use `onInitCallback`.
+This will get called on the start.
+
+For example, snippet below will load the previously saved theme from the disk. (if previosuly saved.)
+
+```dart
+ThemeProvider(
+  builder: (theme) => MaterialApp(
+        theme: theme,
+        home: Scaffold(key: scaffoldKey),
+      ),
+  defaultThemeId: "theme_1",
+  themes: [
+    AppTheme.light(id: "theme_1"),
+    AppTheme.light(id: "theme_2"),
+    AppTheme.light(id: "theme_3"),
+  ],
+  saveThemesOnChange: true,
+  onInitCallback: (controller, previouslySavedThemeFuture) async {
+    // Do some other task here if you need to
+    String savedTheme = await previouslySavedThemeFuture;
+    if (savedTheme != null) {
+      controller.setTheme(savedTheme);
+    }
+  },
+)
 ```
 
 **Warning: Loading a theme will redraw you app.**

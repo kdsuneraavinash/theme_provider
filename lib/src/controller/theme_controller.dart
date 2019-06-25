@@ -5,6 +5,10 @@ import 'theme_command.dart';
 import 'save_adapter.dart';
 import 'shared_preferences_adapter.dart';
 
+/// Handler which provides the activated controller.
+typedef void ThemeControllerHandler(
+    ThemeCommand controller, Future<String> previouslySavedThemeFuture);
+
 /// Object which controls the behavior of the theme.
 /// This is the object provided through the widget tree.
 ///
@@ -45,10 +49,14 @@ class ThemeController extends ChangeNotifier implements ThemeCommand {
   /// This refers to whether to persist the theme on change.
   /// If it is `true`, theme will be saved to disk whenever the theme changes.
   /// **If you use this, do NOT use nested [ThemeProvider]s as all will be saved in the same key**
+  ///
+  /// [onInitCallback] is the callback which is called when the ThemeController is first initialed.
+  /// You can use this to call `controller.loadThemeById(ID)` or equalent to set theme.
   ThemeController({
     @required List<AppTheme> themes,
     String defaultThemeId,
     @required bool saveThemesOnChange,
+    ThemeControllerHandler onInitCallback,
   }) : _saveThemesOnChange = saveThemesOnChange {
     for (AppTheme theme in themes) {
       assert(!this._appThemes.containsKey(theme.id),
@@ -64,6 +72,20 @@ class ThemeController extends ChangeNotifier implements ThemeCommand {
       assert(_currentThemeIndex != -1,
           "No app theme with the default theme id: $defaultThemeId");
     }
+
+    if (onInitCallback != null) {
+      onInitCallback(this, _getPreviousSavedTheme());
+    }
+  }
+
+  /// Get the previously saved theme id from disk.
+  /// If no previous saved theme, returns nulll.
+  Future<String> _getPreviousSavedTheme() async {
+    String savedTheme = await _saveAdapter.loadTheme();
+    if (savedTheme != null && _appThemes.containsKey(savedTheme)) {
+      return savedTheme;
+    }
+    return null;
   }
 
   /// Get the current theme
@@ -99,8 +121,8 @@ class ThemeController extends ChangeNotifier implements ThemeCommand {
 
   @override
   Future<void> loadThemeFromDisk() async {
-    String savedTheme = await _saveAdapter.loadTheme();
-    if (savedTheme != null && _appThemes.containsKey(savedTheme)) {
+    String savedTheme = await _getPreviousSavedTheme();
+    if (savedTheme != null) {
       setTheme(savedTheme);
     }
   }

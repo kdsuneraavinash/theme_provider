@@ -234,20 +234,7 @@ void main() {
 
   test('Persistency test', () async {
     Map<String, dynamic> testStorage = Map();
-
-    const MethodChannel('plugins.flutter.io/shared_preferences')
-        .setMockMethodCallHandler((MethodCall methodCall) async {
-      if (methodCall.method == 'getAll') {
-        return testStorage;
-      } else if (methodCall.method == 'setString') {
-        var args = methodCall.arguments;
-        String key = args['key'];
-        String value = args['value'];
-        testStorage[key] = value;
-      } else {
-        throw AssertionError("Invalid method call: $methodCall");
-      }
-    });
+    defineStorageMethodCallHandler(testStorage);
 
     String saveKey = 'theme_provider.theme';
 
@@ -262,6 +249,8 @@ void main() {
   });
 
   testWidgets('Persistency widget test', (tester) async {
+    defineStorageMethodCallHandler(Map());
+
     var buildWidgetTree = (Key scaffoldKey) async {
       await tester.pumpWidget(
         ThemeProvider(
@@ -301,5 +290,67 @@ void main() {
 
     await getCurrentController(scaffoldKey2).loadThemeFromDisk();
     expect(getCurrentTheme(scaffoldKey2).id, "test_theme_3");
+  });
+
+  testWidgets('Persistency widget set theme on init test', (tester) async {
+    defineStorageMethodCallHandler(Map());
+
+    var buildWidgetTree = (Key scaffoldKey) async {
+      await tester.pumpWidget(
+        ThemeProvider(
+          builder: (theme) => MaterialApp(
+                theme: theme,
+                home: Scaffold(key: scaffoldKey),
+              ),
+          defaultThemeId: "second_test_theme_1",
+          saveThemesOnChange: true,
+          themes: [
+            AppTheme.light(id: "second_test_theme_1"),
+            AppTheme.light(id: "second_test_theme_2"),
+            AppTheme.light(id: "second_test_theme_3"),
+          ],
+          onInitCallback: (controller, previouslySavedThemeFuture) async {
+            String savedTheme = await previouslySavedThemeFuture;
+            if (savedTheme != null) {
+              controller.setTheme(savedTheme);
+            }
+          },
+        ),
+      );
+    };
+
+    var getCurrentTheme = (Key scaffoldKey) =>
+        ThemeProvider.themeOf(tester.element(find.byKey(scaffoldKey)));
+    var getCurrentController = (Key scaffoldKey) =>
+        ThemeProvider.controllerOf(tester.element(find.byKey(scaffoldKey)));
+
+    Key scaffoldKey1 = UniqueKey();
+    await buildWidgetTree(scaffoldKey1);
+    expect(getCurrentTheme(scaffoldKey1).id, "second_test_theme_1");
+    getCurrentController(scaffoldKey1).setTheme('second_test_theme_3');
+    expect(getCurrentTheme(scaffoldKey1).id, "second_test_theme_3");
+
+    await tester.pump();
+
+    Key scaffoldKey2 = UniqueKey();
+    await buildWidgetTree(scaffoldKey2);
+    await tester.pump();
+    expect(getCurrentTheme(scaffoldKey2).id, "second_test_theme_3");
+  });
+}
+
+void defineStorageMethodCallHandler(Map<String, dynamic> testStorage) {
+  const MethodChannel('plugins.flutter.io/shared_preferences')
+      .setMockMethodCallHandler((MethodCall methodCall) async {
+    if (methodCall.method == 'getAll') {
+      return testStorage;
+    } else if (methodCall.method == 'setString') {
+      var args = methodCall.arguments;
+      String key = args['key'];
+      String value = args['value'];
+      testStorage[key] = value;
+    } else {
+      throw AssertionError("Invalid method call: $methodCall");
+    }
   });
 }
