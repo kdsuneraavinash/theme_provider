@@ -35,6 +35,10 @@ class ThemeController extends ChangeNotifier implements ThemeCommand {
   /// Whether to save the theme on disk every time the theme changes
   final bool _saveThemesOnChange;
 
+  /// Whether to load the theme on initialization.
+  /// If this is true, default onInitCallback will be executed instead.
+  final bool _loadThemeOnInit;
+
   /// Controller which handles updating and controlling current theme.
   /// [themes] determine the list of themes that will be available.
   /// **[themes] cannot have conflicting [id] parameters**
@@ -52,12 +56,18 @@ class ThemeController extends ChangeNotifier implements ThemeCommand {
   ///
   /// [onInitCallback] is the callback which is called when the ThemeController is first initialed.
   /// You can use this to call `controller.loadThemeById(ID)` or equalent to set theme.
+  ///
+  /// [loadThemeOnInit] will load a previously saved theme from disk.
+  /// If [loadThemeOnInit] is provided, [onInitCallback] will be ignored.
+  /// So [onInitCallback] and [loadThemeOnInit] can't both be provided at the same time.
   ThemeController({
     @required List<AppTheme> themes,
     String defaultThemeId,
     @required bool saveThemesOnChange,
+    @required bool loadThemeOnInit,
     ThemeControllerHandler onInitCallback,
-  }) : _saveThemesOnChange = saveThemesOnChange {
+  })  : _saveThemesOnChange = saveThemesOnChange,
+        _loadThemeOnInit = loadThemeOnInit {
     for (AppTheme theme in themes) {
       assert(!this._appThemes.containsKey(theme.id),
           "Conflicting theme ids found: ${theme.id} is already added to the widget tree,");
@@ -73,7 +83,13 @@ class ThemeController extends ChangeNotifier implements ThemeCommand {
           "No app theme with the default theme id: $defaultThemeId");
     }
 
-    if (onInitCallback != null) {
+    assert(!(onInitCallback != null && _loadThemeOnInit));
+
+    if (_loadThemeOnInit) {
+      _getPreviousSavedTheme().then((savedTheme) {
+        if (savedTheme != null) setTheme(savedTheme);
+      });
+    } else if (onInitCallback != null) {
       onInitCallback(this, _getPreviousSavedTheme());
     }
   }

@@ -177,7 +177,20 @@ But you can manually load the previous(saved) theme by using:
  ThemeProvider.controllerOf(context).loadThemeFromDisk();
 ```
 
-To load a theme/do some task at theme controller initialization use `onInitCallback`.
+To load a previously saved theme pass `loadThemeOnInit` as true:
+
+```dart
+ThemeProvider(
+  builder: (theme) => MaterialApp(
+        theme: theme,
+        home: Scaffold(key: scaffoldKey),
+      ),
+  saveThemesOnChange: true,
+  loadThemeOnInit: true,
+)
+```
+
+Or to load a theme/do some task at theme controller initialization use `onInitCallback`.
 This will get called on the start.
 
 For example, snippet below will load the previously saved theme from the disk. (if previosuly saved.)

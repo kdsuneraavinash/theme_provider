@@ -42,6 +42,10 @@ class ThemeProvider extends StatelessWidget {
   /// If it is `true`, theme will be saved to disk whenever the theme changes.
   final bool saveThemesOnChange;
 
+  /// Whether to load the theme on initialization.
+  /// If this is true, default onInitCallback will be executed instead.
+  final bool loadThemeOnInit;
+
   /// [onInitCallback] is the callback which is called when the ThemeController is first initialed.
   /// You can use this to call `controller.loadThemeById(ID)` or equalent to set theme.
   final ThemeControllerHandler onInitCallback;
@@ -77,6 +81,10 @@ class ThemeProvider extends StatelessWidget {
   /// and then asynchronously load the persisted theme.
   /// If no persisted theme found, the theme will remain as the default one.
   /// By default this is `false`
+  ///
+  /// [loadThemeOnInit] will load a previously saved theme from disk.
+  /// If [loadThemeOnInit] is provided, [onInitCallback] will be ignored.
+  /// So [onInitCallback] and [loadThemeOnInit] can't both be provided at the same time.
   ThemeProvider({
     Key key,
     themes,
@@ -84,6 +92,7 @@ class ThemeProvider extends StatelessWidget {
     this.onInitCallback,
     @required this.builder,
     this.saveThemesOnChange = false,
+    this.loadThemeOnInit = false,
   })  : this.themes = themes ?? [AppTheme.light(), AppTheme.dark()],
         super(key: key) {
     assert(this.themes.length >= 2, "Theme list must have at least 2 themes.");
@@ -119,6 +128,7 @@ class ThemeProvider extends StatelessWidget {
         themes: themes,
         defaultThemeId: defaultThemeId,
         onInitCallback: onInitCallback,
+        loadThemeOnInit: loadThemeOnInit,
         saveThemesOnChange: saveThemesOnChange,
       ),
       child: Builder(
