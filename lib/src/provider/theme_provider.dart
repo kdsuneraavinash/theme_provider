@@ -87,7 +87,7 @@ class ThemeProvider extends StatelessWidget {
   /// So [onInitCallback] and [loadThemeOnInit] can't both be provided at the same time.
   ThemeProvider({
     Key key,
-    themes,
+    List<AppTheme> themes,
     this.defaultThemeId,
     this.onInitCallback,
     @required this.builder,
