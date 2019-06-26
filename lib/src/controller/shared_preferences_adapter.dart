@@ -1,3 +1,4 @@
+import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'save_adapter.dart';
@@ -15,14 +16,15 @@ class SharedPreferenceAdapter extends SaveAdapter {
   SharedPreferenceAdapter({this.saveKey = 'theme_provider.theme'});
 
   @override
-  Future<String> loadTheme({String defaultId}) async {
+  Future<String> loadTheme(
+      {@required String providerId, String defaultId}) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    return preferences.getString(saveKey) ?? defaultId;
+    return preferences.getString("$saveKey.$providerId") ?? defaultId;
   }
 
   @override
-  Future<void> saveTheme(String themeId) async {
+  Future<void> saveTheme(String providerId, String themeId) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    await preferences.setString(saveKey, themeId);
+    await preferences.setString("$saveKey.$providerId", themeId);
   }
 }

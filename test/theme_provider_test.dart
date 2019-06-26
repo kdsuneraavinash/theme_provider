@@ -240,12 +240,12 @@ void main() {
 
     SaveAdapter theme = SharedPreferenceAdapter(saveKey: saveKey);
     expect(testStorage, isNot(contains(saveKey)));
-    expect(
-        await theme.loadTheme(defaultId: "load_failed"), equals("load_failed"));
+    expect(await theme.loadTheme(providerId: "abc", defaultId: "load_failed"),
+        equals("load_failed"));
 
-    await theme.saveTheme("my_theme");
-    expect(testStorage.keys, contains("flutter.$saveKey"));
-    expect(await theme.loadTheme(), equals("my_theme"));
+    await theme.saveTheme("abc", "my_theme");
+    expect(testStorage.keys, contains("flutter.$saveKey.abc"));
+    expect(await theme.loadTheme(providerId: "abc"), equals("my_theme"));
   });
 
   testWidgets('Persistency widget test', (tester) async {
@@ -377,6 +377,61 @@ void main() {
     await buildWidgetTree(scaffoldKey2);
     await tester.pump();
     expect(getCurrentTheme(scaffoldKey2).id, "third_test_theme_3");
+  });
+
+  testWidgets('Multiple Theme Provider', (tester) async {
+    defineStorageMethodCallHandler(Map());
+
+    var buildWidgetTree = (Key scaffoldKey, [String providerId]) async {
+      await tester.pumpWidget(
+        ThemeProvider(
+          builder: (theme) => MaterialApp(
+                theme: theme,
+                home: Scaffold(key: scaffoldKey),
+              ),
+          providerId: providerId,
+          defaultThemeId: "fourth_test_theme_1",
+          saveThemesOnChange: true,
+          loadThemeOnInit: true,
+          themes: [
+            AppTheme.light(id: "fourth_test_theme_1"),
+            AppTheme.light(id: "fourth_test_theme_2"),
+            AppTheme.light(id: "fourth_test_theme_3"),
+          ],
+        ),
+      );
+    };
+
+    var getCurrentTheme = (Key scaffoldKey) =>
+        ThemeProvider.themeOf(tester.element(find.byKey(scaffoldKey)));
+    var getCurrentController = (Key scaffoldKey) =>
+        ThemeProvider.controllerOf(tester.element(find.byKey(scaffoldKey)));
+
+    Key scaffoldKey1 = UniqueKey();
+    String firstId = "A";
+    await buildWidgetTree(scaffoldKey1, firstId);
+    expect(getCurrentTheme(scaffoldKey1).id, "fourth_test_theme_1");
+    getCurrentController(scaffoldKey1).setTheme('fourth_test_theme_3');
+    expect(getCurrentTheme(scaffoldKey1).id, "fourth_test_theme_3");
+
+    Key scaffoldKey2 = UniqueKey();
+    String secondId = "B";
+    await buildWidgetTree(scaffoldKey2, secondId);
+    expect(getCurrentTheme(scaffoldKey2).id, "fourth_test_theme_1");
+    getCurrentController(scaffoldKey2).setTheme('fourth_test_theme_2');
+    expect(getCurrentTheme(scaffoldKey2).id, "fourth_test_theme_2");
+
+    await tester.pump();
+
+    Key scaffoldKey3 = UniqueKey();
+    await buildWidgetTree(scaffoldKey3, firstId);
+    await tester.pump();
+    expect(getCurrentTheme(scaffoldKey3).id, "fourth_test_theme_3");
+
+    Key scaffoldKey4 = UniqueKey();
+    await buildWidgetTree(scaffoldKey4, secondId);
+    await tester.pump();
+    expect(getCurrentTheme(scaffoldKey4).id, "fourth_test_theme_2");
   });
 }
 

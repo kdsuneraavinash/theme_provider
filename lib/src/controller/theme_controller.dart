@@ -39,6 +39,9 @@ class ThemeController extends ChangeNotifier implements ThemeCommand {
   /// If this is true, default onInitCallback will be executed instead.
   final bool _loadThemeOnInit;
 
+  /// ThemeProvider id to identify between 2 providers and allow more than 1 provider.
+  final String _providerId;
+
   /// Controller which handles updating and controlling current theme.
   /// [themes] determine the list of themes that will be available.
   /// **[themes] cannot have conflicting [id] parameters**
@@ -61,13 +64,15 @@ class ThemeController extends ChangeNotifier implements ThemeCommand {
   /// If [loadThemeOnInit] is provided, [onInitCallback] will be ignored.
   /// So [onInitCallback] and [loadThemeOnInit] can't both be provided at the same time.
   ThemeController({
+    @required String providerId,
     @required List<AppTheme> themes,
     String defaultThemeId,
     @required bool saveThemesOnChange,
     @required bool loadThemeOnInit,
     ThemeControllerHandler onInitCallback,
   })  : _saveThemesOnChange = saveThemesOnChange,
-        _loadThemeOnInit = loadThemeOnInit {
+        _loadThemeOnInit = loadThemeOnInit,
+        _providerId = providerId {
     for (AppTheme theme in themes) {
       assert(!this._appThemes.containsKey(theme.id),
           "Conflicting theme ids found: ${theme.id} is already added to the widget tree,");
@@ -97,7 +102,7 @@ class ThemeController extends ChangeNotifier implements ThemeCommand {
   /// Get the previously saved theme id from disk.
   /// If no previous saved theme, returns nulll.
   Future<String> _getPreviousSavedTheme() async {
-    String savedTheme = await _saveAdapter.loadTheme();
+    String savedTheme = await _saveAdapter.loadTheme(providerId: _providerId);
     if (savedTheme != null && _appThemes.containsKey(savedTheme)) {
       return savedTheme;
     }
@@ -145,7 +150,7 @@ class ThemeController extends ChangeNotifier implements ThemeCommand {
 
   @override
   Future<void> saveThemeToDisk() async {
-    _saveAdapter.saveTheme(currentThemeId);
+    _saveAdapter.saveTheme(_providerId, currentThemeId);
   }
 
   @override

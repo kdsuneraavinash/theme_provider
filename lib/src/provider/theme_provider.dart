@@ -50,6 +50,9 @@ class ThemeProvider extends StatelessWidget {
   /// You can use this to call `controller.loadThemeById(ID)` or equalent to set theme.
   final ThemeControllerHandler onInitCallback;
 
+  /// Theme provider id to distinguish between ThemeProviders.
+  final String providerId;
+
   /// Creates a [ThemeProvider].
   /// Wrap [MaterialApp] in [ThemeProvider] to get theme functionalities.
   /// Usage example:
@@ -85,8 +88,12 @@ class ThemeProvider extends StatelessWidget {
   /// [loadThemeOnInit] will load a previously saved theme from disk.
   /// If [loadThemeOnInit] is provided, [onInitCallback] will be ignored.
   /// So [onInitCallback] and [loadThemeOnInit] can't both be provided at the same time.
+  ///
+  /// Theme provider id to distinguish between ThemeProviders.
+  /// Use this to add multiple themeproviders to your app.
   ThemeProvider({
     Key key,
+    this.providerId = "default",
     List<AppTheme> themes,
     this.defaultThemeId,
     this.onInitCallback,
@@ -125,6 +132,7 @@ class ThemeProvider extends StatelessWidget {
   Widget build(BuildContext context) {
     return InheritedThemeController(
       controller: ThemeController(
+        providerId: providerId,
         themes: themes,
         defaultThemeId: defaultThemeId,
         onInitCallback: onInitCallback,
