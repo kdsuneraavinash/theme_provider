@@ -1,8 +1,9 @@
 # CHANGELOG
 
-## [0.2.0+3]
+## [0.2.1]
 
 * Added `loadThemeOnInit` parameter.
+* Added `providerId` parameter to allow multiple theme providers.
 
 ## [0.2.0+3] - 2019/06/25
 

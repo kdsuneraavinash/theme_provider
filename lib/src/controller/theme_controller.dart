@@ -115,6 +115,9 @@ class ThemeController extends ChangeNotifier implements ThemeCommand {
   /// Get the current theme id
   String get currentThemeId => _appThemeIds[_currentThemeIndex];
 
+  // Get id of the attached provider
+  String get providerId => _providerId;
+
   /// Sets the current theme to given index.
   /// Additionally this notifies all widgets and saves theme.
   void _setThemeByIndex(int themeIndex) {

@@ -264,7 +264,7 @@ showDialog(context: context, builder: (_) => ThemeDialog())
 - [x] Remove provider dependency
 - [ ] Add widget - theme selector grid
 - [ ] Add dark mode support and automatic mode switch
-- [ ] Ids for theme_prociders to allow multiple theme providers
+- [x] Ids for theme_providers to allow multiple theme providers
 - [ ] Add example to demostrate persistence
 
 ## Bugs/Requests
