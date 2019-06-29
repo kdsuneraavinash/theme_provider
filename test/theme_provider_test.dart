@@ -8,7 +8,9 @@ import 'package:theme_provider/theme_provider.dart';
 void main() {
   test('ThemeProvider constructor theme list test', () {
     var buildWidgetTree = (List<AppTheme> appThemes) async => ThemeProvider(
-          builder: (theme) => Container(),
+          child: MaterialApp(
+            home: ThemeConsumer(child: Container()),
+          ),
           themes: appThemes,
         );
 
@@ -36,10 +38,11 @@ void main() {
 
     await tester.pumpWidget(
       ThemeProvider(
-        builder: (theme) => MaterialApp(
-              theme: theme,
-              home: Scaffold(key: scaffoldKey),
-            ),
+        child: MaterialApp(
+          home: ThemeConsumer(
+            child: Scaffold(key: scaffoldKey),
+          ),
+        ),
       ),
     );
 
@@ -57,23 +60,24 @@ void main() {
 
     await tester.pumpWidget(
       ThemeProvider(
-        builder: (theme) => MaterialApp(
-              theme: theme,
-              home: Scaffold(
-                body: Builder(
-                  builder: (context) => FlatButton(
-                        key: buttonKey,
-                        child: Text("Press Me"),
-                        onPressed: () {
-                          ThemeCommand themeCommand =
-                              ThemeProvider.controllerOf(context);
-                          assert(themeCommand != null);
-                          themeCommand.nextTheme();
-                        },
-                      ),
-                ),
+        child: MaterialApp(
+          home: ThemeConsumer(
+            child: Scaffold(
+              body: Builder(
+                builder: (context) => FlatButton(
+                      key: buttonKey,
+                      child: Text("Press Me"),
+                      onPressed: () {
+                        ThemeCommand themeCommand =
+                            ThemeProvider.controllerOf(context);
+                        assert(themeCommand != null);
+                        themeCommand.nextTheme();
+                      },
+                    ),
               ),
             ),
+          ),
+        ),
       ),
     );
 
@@ -94,10 +98,11 @@ void main() {
 
     await tester.pumpWidget(
       ThemeProvider(
-        builder: (theme) => MaterialApp(
-              theme: theme,
-              home: Scaffold(key: scaffoldKey),
-            ),
+        child: MaterialApp(
+          home: ThemeConsumer(
+            child: Scaffold(key: scaffoldKey),
+          ),
+        ),
         themes: [
           AppTheme<String>.light().copyWith(
             id: "light_theme",
@@ -128,10 +133,11 @@ void main() {
 
     await tester.pumpWidget(
       ThemeProvider(
-        builder: (theme) => MaterialApp(
-              theme: theme,
-              home: Scaffold(key: scaffoldKey),
-            ),
+        child: MaterialApp(
+          home: ThemeConsumer(
+            child: Scaffold(key: scaffoldKey),
+          ),
+        ),
       ),
     );
 
@@ -150,10 +156,11 @@ void main() {
 
     await tester.pumpWidget(
       ThemeProvider(
-        builder: (theme) => MaterialApp(
-              theme: theme,
-              home: Scaffold(),
-            ),
+        child: MaterialApp(
+          home: ThemeConsumer(
+            child: Scaffold(),
+          ),
+        ),
         themes: [
           AppTheme.light(),
           AppTheme.light(id: "test_theme"),
@@ -173,10 +180,11 @@ void main() {
 
     await tester.pumpWidget(
       ThemeProvider(
-        builder: (theme) => MaterialApp(
-              theme: theme,
-              home: Scaffold(key: scaffoldKey),
-            ),
+        child: MaterialApp(
+          home: ThemeConsumer(
+            child: Scaffold(key: scaffoldKey),
+          ),
+        ),
         themes: [
           AppTheme.light(),
           AppTheme.light(id: "test_theme_1"),
@@ -202,10 +210,11 @@ void main() {
     var widgetTreeWithDefaultTheme =
         ({String defaultTheme}) async => await tester.pumpWidget(
               ThemeProvider(
-                builder: (theme) => MaterialApp(
-                      theme: theme,
-                      home: Scaffold(key: scaffoldKey),
-                    ),
+                child: MaterialApp(
+                  home: ThemeConsumer(
+                    child: Scaffold(key: scaffoldKey),
+                  ),
+                ),
                 defaultThemeId: defaultTheme,
                 themes: [
                   AppTheme.light(),
@@ -254,10 +263,11 @@ void main() {
     var buildWidgetTree = (Key scaffoldKey) async {
       await tester.pumpWidget(
         ThemeProvider(
-          builder: (theme) => MaterialApp(
-                theme: theme,
-                home: Scaffold(key: scaffoldKey),
-              ),
+          child: MaterialApp(
+            home: ThemeConsumer(
+              child: Scaffold(key: scaffoldKey),
+            ),
+          ),
           defaultThemeId: "test_theme_1",
           saveThemesOnChange: true,
           themes: [
@@ -298,10 +308,11 @@ void main() {
     var buildWidgetTree = (Key scaffoldKey) async {
       await tester.pumpWidget(
         ThemeProvider(
-          builder: (theme) => MaterialApp(
-                theme: theme,
-                home: Scaffold(key: scaffoldKey),
-              ),
+          child: MaterialApp(
+            home: ThemeConsumer(
+              child: Scaffold(key: scaffoldKey),
+            ),
+          ),
           defaultThemeId: "second_test_theme_1",
           saveThemesOnChange: true,
           themes: [
@@ -344,10 +355,11 @@ void main() {
     var buildWidgetTree = (Key scaffoldKey) async {
       await tester.pumpWidget(
         ThemeProvider(
-          builder: (theme) => MaterialApp(
-                theme: theme,
-                home: Scaffold(key: scaffoldKey),
-              ),
+          child: MaterialApp(
+            home: ThemeConsumer(
+              child: Scaffold(key: scaffoldKey),
+            ),
+          ),
           defaultThemeId: "third_test_theme_1",
           saveThemesOnChange: true,
           themes: [
@@ -385,10 +397,11 @@ void main() {
     var buildWidgetTree = (Key scaffoldKey, [String providerId]) async {
       await tester.pumpWidget(
         ThemeProvider(
-          builder: (theme) => MaterialApp(
-                theme: theme,
-                home: Scaffold(key: scaffoldKey),
-              ),
+          child: MaterialApp(
+            home: ThemeConsumer(
+              child: Scaffold(key: scaffoldKey),
+            ),
+          ),
           providerId: providerId,
           defaultThemeId: "fourth_test_theme_1",
           saveThemesOnChange: true,

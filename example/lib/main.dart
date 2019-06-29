@@ -7,14 +7,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ThemeProvider(
+      saveThemesOnChange: true,
+      loadThemeOnInit: true,
       themes: <AppTheme>[
         AppTheme.light(),
         AppTheme.dark(),
         customAppTheme(),
       ],
       builder: (theme) => MaterialApp(
-            theme: theme,
-            home: HomePage(),
+            home: Theme(
+              child: HomePage(),
+              data: theme,
+            ),
           ),
     );
   }
@@ -51,6 +55,21 @@ class HomePage extends StatelessWidget {
               child: Text("Theme Dialog"),
               onPressed: () {
                 showDialog(context: context, builder: (_) => ThemeDialog());
+              },
+            ),
+            RaisedButton(
+              child: Text("Second Screen"),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => Scaffold(
+                          appBar: AppBar(
+                            title: Text("Second Screen"),
+                          ),
+                        ),
+                  ),
+                );
               },
             ),
           ],

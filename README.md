@@ -262,10 +262,8 @@ showDialog(context: context, builder: (_) => ThemeDialog())
 - [x] Persist current selected theme
 - [x] Add unit tests and example
 - [x] Remove provider dependency
-- [ ] Add widget - theme selector grid
-- [ ] Add dark mode support and automatic mode switch
 - [x] Ids for theme_providers to allow multiple theme providers
-- [ ] Add example to demostrate persistence
+- [x] Add example to demostrate persistence
 
 ## Bugs/Requests
 

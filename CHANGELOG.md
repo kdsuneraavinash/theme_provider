@@ -1,7 +1,9 @@
 # CHANGELOG
 
-## [0.2.1]
+## [0.3.0]
 
+* Changed `ThemeProvider` to accept a child instead of builder.
+* Added `ThemeConsumer` widget.
 * Added `loadThemeOnInit` parameter.
 * Added `providerId` parameter to allow multiple theme providers.
 
