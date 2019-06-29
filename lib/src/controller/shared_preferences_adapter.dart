@@ -1,4 +1,3 @@
-import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'save_adapter.dart';
@@ -16,8 +15,8 @@ class SharedPreferenceAdapter extends SaveAdapter {
   SharedPreferenceAdapter({this.saveKey = 'theme_provider.theme'});
 
   @override
-  Future<String> loadTheme(
-      {@required String providerId, String defaultId}) async {
+  Future<String> loadTheme({String providerId, String defaultId}) async {
+    assert(providerId != null, "Provider ID must be provided");
     SharedPreferences preferences = await SharedPreferences.getInstance();
     return preferences.getString("$saveKey.$providerId") ?? defaultId;
   }
