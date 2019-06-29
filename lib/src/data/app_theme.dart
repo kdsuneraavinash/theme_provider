@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../theme_provider.dart';
+
 ///  Main App theme object.
 ///
 /// Usage:
@@ -10,7 +12,7 @@ import 'package:flutter/material.dart';
 ///   ),
 /// ```
 @immutable
-class AppTheme<T> {
+class AppTheme {
   /// [ThemeData] associated with the [AppTheme]
   final ThemeData data;
 
@@ -20,7 +22,7 @@ class AppTheme<T> {
   /// eg: If font color on a specific button changes create a class
   /// to encapsulate the value.
   /// ```dart
-  /// class ThemeOptions{
+  /// class MyThemeOptions implements AppThemeOptions{
   ///   final Color specificButtonColor;
   ///   ThemeOptions(this.specificButtonColor);
   /// }
@@ -29,20 +31,20 @@ class AppTheme<T> {
   /// Then provide the options with the theme.
   /// ```dart
   /// themes: [
-  ///   AppTheme<ThemeOptions>(
+  ///   AppTheme(
   ///     data: ThemeData.light(),
-  ///     options: ThemeOptions(Colors.blue),
+  ///     options: MyThemeOptions(Colors.blue),
   ///   ),
-  ///   AppTheme<ThemeOptions>(
+  ///   AppTheme(
   ///     data: ThemeData.dark(),
-  ///     options: ThemeOptions(Colors.red),
+  ///     options: MyThemeOptions(Colors.red),
   ///   ),
   /// ]
   /// ```
   ///
   /// Then the option can be retrieved as
-  /// `AppThemeOptions.of<ThemeOptions>(context).specificButtonColor`.
-  final T options;
+  /// `ThemeProvider.optionsOf<MyThemeOptions>(context).specificButtonColor`.
+  final AppThemeOptions options;
 
   /// Unique ID which defines the theme.
   /// Don't use conflicting strings.
@@ -119,7 +121,7 @@ class AppTheme<T> {
     @required String id,
     String description,
     ThemeData data,
-    T options,
+    AppThemeOptions options,
   }) {
     return AppTheme(
       id: id,

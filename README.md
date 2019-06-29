@@ -18,7 +18,7 @@ Additionally you can pass option classes to store and provide data which should 
 
 ```yaml
 dependencies:
-  theme_provider: ^0.2.0+3
+  theme_provider: ^0.3.0
 ```
 
 run packages get and import it
@@ -36,9 +36,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ThemeProvider(
-      builder: (theme) => MaterialApp(
-        home: HomePage(),
-        theme: theme,
+      child: MaterialApp(
+        home: ThemeConsumer(
+          child: HomePage(),
+        ),
       ),
     );
   }
@@ -63,9 +64,10 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ],
-      builder: (theme) => MaterialApp(
-        home: HomePage(),
-        theme: theme,
+      child: MaterialApp(
+        home: ThemeConsumer(
+          child: HomePage(),
+        ),
       ),
     );
   }
@@ -94,15 +96,25 @@ Access theme data:
  Theme.of(context)
 ```
 
+**Wrap each route in `ThemeConsumer` as well.**
+
+```dart
+MaterialPageRoute(
+  builder: (_) => ThemeConsumer(child: SecondPage()),
+),
+```
+
 ### Passing Additional Options
 
 This can also be used to pass additional data associated with the theme. Use `options` to pass additional data that should be associated with the theme.
 eg: If font color on a specific button changes according to the current theme, create a class to encapsulate the value.
 
+Options classes must implement or extend `AppThemeOptions`.
+
 ```dart
-  class ThemeOptions{
+  class MyThemeOptions implements AppThemeOptions{
     final Color specificButtonColor;
-    ThemeOptions(this.specificButtonColor);
+    MyThemeOptions(this.specificButtonColor);
   }
 ```
 
@@ -114,21 +126,22 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ThemeProvider(
       themes: [
-          AppTheme<ThemeOptions>(
-              id: "light_theme",
-              data: ThemeData.light(),
-              options: ThemeOptions(Colors.blue),
-          ),
-          AppTheme<ThemeOptions>(
-              id: "light_theme",
-              data: ThemeData.dark(),
-              options: ThemeOptions(Colors.red),
-          ),
-        ],
-        builder: (theme) => MaterialApp(
-          home: HomePage(),
-          theme: theme,
+        AppTheme(
+          id: "light_theme",
+          data: ThemeData.light(),
+          options: MyThemeOptions(Colors.blue),
         ),
+        AppTheme(
+          id: "light_theme",
+          data: ThemeData.dark(),
+          options: MyThemeOptions(Colors.red),
+        ),
+      ],
+      child: MaterialApp(
+        home: ThemeConsumer(
+          child: HomePage(),
+        ),
+      ),
     );
   }
 }
@@ -137,7 +150,7 @@ class MyApp extends StatelessWidget {
 Then the option can be retrieved as,
 
 ```dart
-ThemeProvider.optionsOf<ThemeOptions>(context).specificButtonColor
+ThemeProvider.optionsOf<MyThemeOptions>(context).specificButtonColor
 ```
 
 ## Persisting theme
@@ -153,9 +166,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ThemeProvider(
       saveThemesOnChange: true,
-      builder: (theme) => MaterialApp(
-        home: HomePage(),
-        theme: theme,
+       child: MaterialApp(
+        home: ThemeConsumer(
+          child: HomePage(),
+        ),
       ),
     );
   }
@@ -181,10 +195,11 @@ To load a previously saved theme pass `loadThemeOnInit` as true:
 
 ```dart
 ThemeProvider(
-  builder: (theme) => MaterialApp(
-        theme: theme,
-        home: Scaffold(key: scaffoldKey),
-      ),
+  child: MaterialApp(
+    home: ThemeConsumer(
+      child: HomePage(),
+    ),
+  ),
   saveThemesOnChange: true,
   loadThemeOnInit: true,
 )
@@ -197,10 +212,11 @@ For example, snippet below will load the previously saved theme from the disk. (
 
 ```dart
 ThemeProvider(
-  builder: (theme) => MaterialApp(
-        theme: theme,
-        home: Scaffold(key: scaffoldKey),
+  child: MaterialApp(
+      home: ThemeConsumer(
+        child: HomePage(),
       ),
+    ),
   defaultThemeId: "theme_1",
   themes: [
     AppTheme.light(id: "theme_1"),
@@ -217,17 +233,6 @@ ThemeProvider(
   },
 )
 ```
-
-**Warning: Loading a theme will redraw you app.**
-So if you loaded the theme immediately at startup, user will see a fliker.
-
-So it is recommended that if you want to load the theme at startup,
-show a splash screen or use a theme agnostic startup screen
-so the refreshing won't be visible to the user.
-
-Example: Login screen may be designed so that it looks same in all screens.
-When the theme loads, it won't be noticeable to the user.
-Load the theme in that screen and then the other screens can be themed.
 
 ## Additional Widgets
 

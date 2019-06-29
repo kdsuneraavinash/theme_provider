@@ -140,10 +140,10 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: ae6c6f2101fe3d6581e0a4a0ed127fa7b1e6eee8
+      resolved-ref: "77306c685005e1364919a6dee795106a372e3914"
       url: "https://www.github.com/kdsuneraavinash/theme_provider.git"
     source: git
-    version: "0.2.0+3"
+    version: "0.3.0"
   typed_data:
     dependency: transitive
     description:

@@ -14,12 +14,11 @@ class MyApp extends StatelessWidget {
         AppTheme.dark(),
         customAppTheme(),
       ],
-      builder: (theme) => MaterialApp(
-            home: Theme(
-              child: HomePage(),
-              data: theme,
-            ),
-          ),
+      child: MaterialApp(
+        home: ThemeConsumer(
+          child: HomePage(),
+        ),
+      ),
     );
   }
 }
@@ -63,17 +62,28 @@ class HomePage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => Scaffold(
-                          appBar: AppBar(
-                            title: Text("Second Screen"),
-                          ),
-                        ),
+                    builder: (_) => ThemeConsumer(child: SecondPage()),
                   ),
                 );
               },
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class SecondPage extends StatelessWidget {
+  const SecondPage({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Second Screen"),
       ),
     );
   }

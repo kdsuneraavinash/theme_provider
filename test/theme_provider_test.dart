@@ -5,6 +5,11 @@ import 'package:theme_provider/src/controller/save_adapter.dart';
 import 'package:theme_provider/src/controller/shared_preferences_adapter.dart';
 import 'package:theme_provider/theme_provider.dart';
 
+class AppThemeOptionsTester implements AppThemeOptions {
+  final Color color;
+  AppThemeOptionsTester(this.color);
+}
+
 void main() {
   test('ThemeProvider constructor theme list test', () {
     var buildWidgetTree = (List<AppTheme> appThemes) async => ThemeProvider(
@@ -104,13 +109,13 @@ void main() {
           ),
         ),
         themes: [
-          AppTheme<String>.light().copyWith(
+          AppTheme.light().copyWith(
             id: "light_theme",
-            options: "Hello",
+            options: AppThemeOptionsTester(Colors.blue),
           ),
-          AppTheme<String>.dark().copyWith(
+          AppTheme.dark().copyWith(
             id: "dark_theme",
-            options: "Bye",
+            options: AppThemeOptionsTester(Colors.red),
           )
         ],
       ),
@@ -119,13 +124,15 @@ void main() {
     await tester.pump();
 
     expect(
-        ThemeProvider.optionsOf<String>(
-            tester.element(find.byKey(scaffoldKey))),
-        isNot("Bye"));
+        ThemeProvider.optionsOf<AppThemeOptionsTester>(
+                tester.element(find.byKey(scaffoldKey)))
+            .color,
+        isNot(Colors.red));
     expect(
-        ThemeProvider.optionsOf<String>(
-            tester.element(find.byKey(scaffoldKey))),
-        equals("Hello"));
+        ThemeProvider.optionsOf<AppThemeOptionsTester>(
+                tester.element(find.byKey(scaffoldKey)))
+            .color,
+        equals(Colors.blue));
   });
 
   testWidgets('Default Theme Id Test', (tester) async {
