@@ -10,15 +10,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ThemeProvider(
+      saveThemesOnChange: true,
+      loadThemeOnInit: true,
       themes: <AppTheme>[
         AppTheme.light(),
         AppTheme.dark(),
         customAppTheme(),
       ],
-      builder: (theme) => MaterialApp(
-            theme: theme,
-            home: HomePage(),
-          ),
+      child: MaterialApp(
+        home: ThemeConsumer(
+          child: HomePage(),
+        ),
+      ),
     );
   }
 }
@@ -28,13 +31,12 @@ AppTheme customAppTheme() {
     id: "custom_theme",
     description: "Custom Color Scheme",
     data: ThemeData(
-        accentColor: Colors.yellow,
-        primaryColor: Colors.red,
-        scaffoldBackgroundColor: Colors.yellow[200],
-        buttonColor: Colors.amber,
-        splashColor: Colors.green,
-        appBarTheme: AppBarTheme(elevation: 10),
-        dialogBackgroundColor: Colors.yellow),
+      accentColor: Colors.yellow,
+      primaryColor: Colors.red,
+      scaffoldBackgroundColor: Colors.yellow[200],
+      buttonColor: Colors.amber,
+      dialogBackgroundColor: Colors.yellow,
+    ),
   );
 }
 
@@ -52,10 +54,24 @@ class HomePage extends StatelessWidget {
               onPressed: ThemeProvider.controllerOf(context).nextTheme,
             ),
             RaisedButton(
-                child: Text("Theme Dialog"),
-                onPressed: () {
-                  showDialog(context: context, builder: (_) => ThemeDialog());
-                }),
+              child: Text("Theme Dialog"),
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (_) => ThemeConsumer(child: ThemeDialog()));
+              },
+            ),
+            RaisedButton(
+              child: Text("Second Screen"),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => ThemeConsumer(child: SecondPage()),
+                  ),
+                );
+              },
+            ),
           ],
         ),
       ),
@@ -63,4 +79,24 @@ class HomePage extends StatelessWidget {
   }
 }
 
+class SecondPage extends StatelessWidget {
+  const SecondPage({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Second Screen"),
+      ),
+      body: Center(
+        child: RaisedButton(
+          child: Text("Next Theme"),
+          onPressed: ThemeProvider.controllerOf(context).nextTheme,
+        ),
+      ),
+    );
+  }
+}
 ```

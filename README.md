@@ -8,13 +8,13 @@ Additionally you can pass option classes to store and provide data which should 
 [![Codemagic build status](https://api.codemagic.io/apps/5cfb60390824820019d5af6b/5cfb60390824820019d5af6a/status_badge.svg)](https://codemagic.io/apps/5cfb60390824820019d5af6b/5cfb60390824820019d5af6a/latest_build)
 [![Pub Package](https://img.shields.io/pub/v/theme_provider.svg)](https://pub.dartlang.org/packages/theme_provider)
 
-## Basic Demonstration
+## ▶️ Basic Demonstration
 
 | Basic Usage           | Dialog Box           |
 |:-------------:|:-------------:|
 | ![Record](next.gif) | ![Record](select.gif) |
 
-## Include in your project
+## 💻 Include in your project
 
 ```yaml
 dependencies:
@@ -27,7 +27,7 @@ run packages get and import it
 import 'package:theme_provider/theme_provider.dart';
 ```
 
-## Usage
+## 👨‍💻 Usage
 
 Wrap your material app like this to use dark theme and light theme out of the box.
 
@@ -96,13 +96,18 @@ Access theme data:
  Theme.of(context)
 ```
 
-**Wrap each route in `ThemeConsumer` as well.**
+**Wrap each route and dialog in `ThemeConsumer` as well.**
 
 ```dart
 MaterialPageRoute(
   builder: (_) => ThemeConsumer(child: SecondPage()),
 ),
 ```
+
+*Note: You may wrap `MaterialApp` with `ThemeConsumer`.*
+Then you don't have to provide `ThemeConsumer` on routes. 
+However that would disable the ability to use multiple theme controllers.
+Also a visible flickr may occur at the start of app when the saved theme is loaded.
 
 ### Passing Additional Options
 
@@ -153,7 +158,7 @@ Then the option can be retrieved as,
 ThemeProvider.optionsOf<MyThemeOptions>(context).specificButtonColor
 ```
 
-## Persisting theme
+## 💾 Persisting theme
 
 ### Saving theme
 
@@ -234,7 +239,7 @@ ThemeProvider(
 )
 ```
 
-## Additional Widgets
+## 🎁 Additional Widgets
 
 ### Theme Cycle Widget
 
@@ -253,12 +258,13 @@ Scaffold(
 
 `SimpleDialog` to let the user select the theme.
 Many elements in this dialog is customizable.
+*Remember to wrap dialog is a `ThemeConsumer`.*
 
 ```dart
-showDialog(context: context, builder: (_) => ThemeDialog())
+showDialog(context: context, builder: (_) => ThemeConsumer(child: ThemeDialog()))
 ```
 
-## TODO
+## ☑️ TODO
 
 - [x] Add next theme command
 - [x] Add theme cycling widget
@@ -270,7 +276,7 @@ showDialog(context: context, builder: (_) => ThemeDialog())
 - [x] Ids for theme_providers to allow multiple theme providers
 - [x] Add example to demostrate persistence
 
-## Bugs/Requests
+## 🐞 Bugs/Requests
 
 If you encounter any problems feel free to open an issue.
 Pull request are also welcome.

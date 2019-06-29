@@ -53,7 +53,9 @@ class HomePage extends StatelessWidget {
             RaisedButton(
               child: Text("Theme Dialog"),
               onPressed: () {
-                showDialog(context: context, builder: (_) => ThemeDialog());
+                showDialog(
+                    context: context,
+                    builder: (_) => ThemeConsumer(child: ThemeDialog()));
               },
             ),
             RaisedButton(
@@ -84,6 +86,12 @@ class SecondPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Second Screen"),
+      ),
+      body: Center(
+        child: RaisedButton(
+          child: Text("Next Theme"),
+          onPressed: ThemeProvider.controllerOf(context).nextTheme,
+        ),
       ),
     );
   }
