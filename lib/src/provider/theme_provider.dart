@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:theme_provider/theme_provider.dart';
 
 import '../data/app_theme.dart';
 import '../controller/theme_controller.dart';
@@ -64,7 +65,7 @@ class ThemeProvider extends StatelessWidget {
   /// Returns the options passed by the nearest [ThemeProvider] up the widget tree.
   /// Call as `ThemeProvider.optionsOf<ColorClass>(context)` to get the
   /// returned object casted to the required type.
-  static T optionsOf<T>(BuildContext context) {
+  static T optionsOf<T extends AppThemeOptions>(BuildContext context) {
     return InheritedThemeController.of(context).theme.options as T;
   }
 
