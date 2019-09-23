@@ -70,15 +70,15 @@ void main() {
             child: Scaffold(
               body: Builder(
                 builder: (context) => FlatButton(
-                      key: buttonKey,
-                      child: Text("Press Me"),
-                      onPressed: () {
-                        ThemeCommand themeCommand =
-                            ThemeProvider.controllerOf(context);
-                        assert(themeCommand != null);
-                        themeCommand.nextTheme();
-                      },
-                    ),
+                  key: buttonKey,
+                  child: Text("Press Me"),
+                  onPressed: () {
+                    ThemeCommand themeCommand =
+                        ThemeProvider.controllerOf(context);
+                    assert(themeCommand != null);
+                    themeCommand.nextTheme();
+                  },
+                ),
               ),
             ),
           ),
@@ -356,6 +356,52 @@ void main() {
     expect(getCurrentTheme(scaffoldKey2).id, "second_test_theme_3");
   });
 
+  testWidgets('On theme changed callback test', (tester) async {
+    var _oldThemeId;
+    var _currentThemeId = "second_test_theme_1";
+
+    var buildWidgetTree = (Key scaffoldKey) async {
+      await tester.pumpWidget(
+        ThemeProvider(
+          child: MaterialApp(
+            home: ThemeConsumer(
+              child: Scaffold(key: scaffoldKey),
+            ),
+          ),
+          defaultThemeId: _currentThemeId,
+          themes: [
+            AppTheme.light(id: "second_test_theme_1"),
+            AppTheme.light(id: "second_test_theme_2"),
+            AppTheme.light(id: "second_test_theme_3"),
+          ],
+          onThemeChanged: (oldTheme, newTheme) {
+            _oldThemeId = oldTheme.id;
+            _currentThemeId = newTheme.id;
+          },
+        ),
+      );
+    };
+
+    var getCurrentTheme = (Key scaffoldKey) =>
+        ThemeProvider.themeOf(tester.element(find.byKey(scaffoldKey)));
+    var getCurrentController = (Key scaffoldKey) =>
+        ThemeProvider.controllerOf(tester.element(find.byKey(scaffoldKey)));
+
+    Key scaffoldKey1 = UniqueKey();
+    await buildWidgetTree(scaffoldKey1);
+
+    expect(_oldThemeId, isNull);
+    expect(getCurrentTheme(scaffoldKey1).id, equals(_currentThemeId));
+
+    getCurrentController(scaffoldKey1).setTheme('second_test_theme_3');
+
+    expect(_oldThemeId, equals("second_test_theme_1"));
+    expect(_currentThemeId, equals("second_test_theme_3"));
+    expect(getCurrentTheme(scaffoldKey1).id, equals(_currentThemeId));
+
+    await tester.pump();
+  });
+
   testWidgets('Persistency auto load parameter', (tester) async {
     defineStorageMethodCallHandler(Map());
 
@@ -465,6 +511,7 @@ void defineStorageMethodCallHandler(Map<String, dynamic> testStorage) {
       String key = args['key'];
       String value = args['value'];
       testStorage[key] = value;
+      return true;
     } else {
       throw AssertionError("Invalid method call: $methodCall");
     }

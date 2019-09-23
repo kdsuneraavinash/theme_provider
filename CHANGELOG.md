@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [0.3.1]
+
+* Added ability to add a `onThemeChanged` callback to `ThemeProvider` to be called after each time the theme is switched.
+
 ## [0.3.0]
 
 * Changed `ThemeProvider` to accept a child instead of builder.

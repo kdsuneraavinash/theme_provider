@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../provider/theme_provider.dart' show ThemeChanged;
 import '../data/app_theme.dart';
 import 'theme_command.dart';
 import 'save_adapter.dart';
@@ -39,6 +40,8 @@ class ThemeController extends ChangeNotifier implements ThemeCommand {
   /// If this is true, default onInitCallback will be executed instead.
   final bool _loadThemeOnInit;
 
+  final ThemeChanged onThemeChanged;
+
   /// ThemeProvider id to identify between 2 providers and allow more than 1 provider.
   final String _providerId;
 
@@ -67,6 +70,7 @@ class ThemeController extends ChangeNotifier implements ThemeCommand {
     @required String providerId,
     @required List<AppTheme> themes,
     String defaultThemeId,
+    @required this.onThemeChanged,
     @required bool saveThemesOnChange,
     @required bool loadThemeOnInit,
     ThemeControllerHandler onInitCallback,
@@ -121,11 +125,19 @@ class ThemeController extends ChangeNotifier implements ThemeCommand {
   /// Sets the current theme to given index.
   /// Additionally this notifies all widgets and saves theme.
   void _setThemeByIndex(int themeIndex) {
+    int _oldThemeIndex = _currentThemeIndex;
     _currentThemeIndex = themeIndex;
     notifyListeners();
 
     if (_saveThemesOnChange) {
       saveThemeToDisk();
+    }
+
+    if (onThemeChanged != null) {
+      onThemeChanged(
+        _appThemes[_appThemeIds[_oldThemeIndex]],
+        _appThemes[_appThemeIds[_currentThemeIndex]],
+      );
     }
   }
 

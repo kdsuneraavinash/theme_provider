@@ -6,6 +6,9 @@ import '../controller/theme_controller.dart';
 import '../controller/theme_command.dart';
 import 'inherited_theme.dart';
 
+// Callback to called after theme changed
+typedef void ThemeChanged(AppTheme oldTheme, AppTheme newTheme);
+
 /// Wrap [MaterialApp] in [ThemeProvider] to get theme functionalities.
 /// You may wrap seperate parts of the app with multiple [ThemeProvider]s
 /// to use multiple theme sections across the app.
@@ -34,6 +37,9 @@ class ThemeProvider extends StatelessWidget {
   /// The callback which is to be called when the [ThemeController] is first initialed.
   final ThemeControllerHandler onInitCallback;
 
+  /// The callback which is to be called when the [AppTheme] is changed.
+  final ThemeChanged onThemeChanged;
+
   /// Theme provider id to distinguish between ThemeProviders.
   /// Provide distinct values if you intend to use multiple theme providers.
   final String providerId;
@@ -48,6 +54,7 @@ class ThemeProvider extends StatelessWidget {
     List<AppTheme> themes,
     this.defaultThemeId,
     this.onInitCallback,
+    this.onThemeChanged,
     @required this.child,
     this.saveThemesOnChange = false,
     this.loadThemeOnInit = false,
@@ -83,6 +90,7 @@ class ThemeProvider extends StatelessWidget {
         themes: themes,
         defaultThemeId: defaultThemeId,
         onInitCallback: onInitCallback,
+        onThemeChanged: onThemeChanged,
         loadThemeOnInit: loadThemeOnInit,
         saveThemesOnChange: saveThemesOnChange,
       ),

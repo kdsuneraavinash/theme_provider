@@ -18,7 +18,7 @@ Additionally you can pass option classes to store and provide data which should 
 
 ```yaml
 dependencies:
-  theme_provider: ^0.3.0
+  theme_provider: ^0.3.1
 ```
 
 run packages get and import it
@@ -105,9 +105,11 @@ MaterialPageRoute(
 ```
 
 *Note: You may wrap `MaterialApp` with `ThemeConsumer`.*
-Then you don't have to provide `ThemeConsumer` on routes. 
+Then you don't have to provide `ThemeConsumer` on routes.
 However that would disable the ability to use multiple theme controllers.
 Also a visible flickr may occur at the start of app when the saved theme is loaded.
+
+If you want to change the StatusBarColor when the theme changes, you can provide a `onThemeChanged` callback to the `ThemeProvider`.
 
 ### Passing Additional Options
 
