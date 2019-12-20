@@ -14,8 +14,8 @@ class InheritedThemeController extends InheritedNotifier<ThemeController> {
   /// So this class is not exported.
   /// Only the classes inside this package can use this.
   static ThemeController of(BuildContext context) {
-    return (context.inheritFromWidgetOfExactType(InheritedThemeController)
-            as InheritedThemeController)
+    return context
+        .dependOnInheritedWidgetOfExactType<InheritedThemeController>()
         .controller;
   }
 }

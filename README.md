@@ -18,7 +18,7 @@ Additionally you can pass option classes to store and provide data which should 
 
 ```yaml
 dependencies:
-  theme_provider: ^0.3.1
+  theme_provider: <latest version>
 ```
 
 run packages get and import it
@@ -28,6 +28,8 @@ import 'package:theme_provider/theme_provider.dart';
 ```
 
 ## 👨‍💻 Usage
+
+### Basic Usage
 
 Wrap your material app like this to use dark theme and light theme out of the box.
 
@@ -46,7 +48,9 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-Or to provide additional themes, wrap like this:
+### Provide additional themes
+
+You may also provide additional themes using the `themes` parameter. Here you have to provide a theme id string and theme data value. (Make sure to provide unique theme ids)
 
 ```dart
 class MyApp extends StatelessWidget {
@@ -74,7 +78,9 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-To change the theme:
+### Changing and accessing the current theme
+
+You can use the theme id strings to change the current theme of the app.
 
 ```dart
  ThemeProvider.controllerOf(context).nextTheme();
@@ -96,7 +102,9 @@ Access theme data:
  Theme.of(context)
 ```
 
-**Wrap each route and dialog in `ThemeConsumer` as well.**
+### Apps with routing
+
+**Wrap each route and dialog in `ThemeConsumer`.**
 
 ```dart
 MaterialPageRoute(
@@ -104,12 +112,22 @@ MaterialPageRoute(
 ),
 ```
 
-*Note: You may wrap `MaterialApp` with `ThemeConsumer`.*
-Then you don't have to provide `ThemeConsumer` on routes.
-However that would disable the ability to use multiple theme controllers.
-Also a visible flickr may occur at the start of app when the saved theme is loaded.
+**Or you may wrap `MaterialApp` with `ThemeConsumer`.**
+If you provide the theme consumer on `MaterialTheme` then you don't have to provide `ThemeConsumer` on routes. However that would disable the ability to use multiple theme controllers. Also a visible flickr may occur at the start of app when the saved theme is loaded.
 
-If you want to change the StatusBarColor when the theme changes, you can provide a `onThemeChanged` callback to the `ThemeProvider`.
+```dart
+ThemeProvider(
+    child: ThemeConsumer(
+        child: MaterialApp(
+            home: HomePage(),
+        ),
+    ),
+)
+```
+
+### Provide callbacks for theme changing event
+
+If you want to change the `StatusBarColor` when the theme changes, you can provide a `onThemeChanged` callback to the `ThemeProvider`.
 
 ### Passing Additional Options
 
