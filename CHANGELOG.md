@@ -2,6 +2,11 @@
 
 ## [0.3.1]
 
+* Used `dependOnInheritedWidgetOfExactType` instead of `inheritFromWidgetOfExactType`.
+* Modified README
+
+## [0.3.1]
+
 * Added ability to add a `onThemeChanged` callback to `ThemeProvider` to be called after each time the theme is switched.
 
 ## [0.3.0]
