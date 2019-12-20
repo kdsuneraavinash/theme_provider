@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## [0.3.1]
+## [0.3.2]
 
 * Used `dependOnInheritedWidgetOfExactType` instead of `inheritFromWidgetOfExactType`.
 * Modified README
