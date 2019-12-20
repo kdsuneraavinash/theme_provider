@@ -5,10 +5,11 @@ You can also persist your color theme as well. Easily store and retrieve user pr
 This package also provides you with several widgets that can help you to easily add theme switching abilities.
 Additionally you can pass option classes to store and provide data which should be associated with the current theme.
 
-[![Codemagic build status](https://api.codemagic.io/apps/5cfb60390824820019d5af6b/5cfb60390824820019d5af6a/status_badge.svg)](https://codemagic.io/apps/5cfb60390824820019d5af6b/5cfb60390824820019d5af6a/latest_build)
-[![Pub Package](https://img.shields.io/pub/v/theme_provider.svg)](https://pub.dartlang.org/packages/theme_provider)
+[![Codemagic build status](https://api.codemagic.io/apps/5cfb60390824820019d5af6b/5cfb60390824820019d5af6a/status_badge.svg)](https://codemagic.io/apps/5cfb60390824820019d5af6b/5cfb60390824820019d5af6a/latest_build) [![Pub Package](https://img.shields.io/pub/v/theme_provider.svg)](https://pub.dartlang.org/packages/theme_provider)
 
 ## ▶️ Basic Demonstration
+
+**Web demo is available in [https://kdsuneraavinash.github.io/theme_provider](https://kdsuneraavinash.github.io/theme_provider)**
 
 | Basic Usage           | Dialog Box           |
 |:-------------:|:-------------:|
