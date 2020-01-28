@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [0.3.3]
+
+* Added better error messages when description is not provided with theme.
+
 ## [0.3.2]
 
 * Used `dependOnInheritedWidgetOfExactType` instead of `inheritFromWidgetOfExactType`.

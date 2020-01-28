@@ -81,6 +81,7 @@ class AppTheme {
             (data.brightness == Brightness.light
                 ? "Light Theme"
                 : "Dark Theme") {
+    assert(description != null, "Theme $id does not have a description");
     assert(description.length < 30, "Theme description too long ($id)");
     assert(id.isNotEmpty, "Id cannot be empty");
     assert(id.toLowerCase() == id, "Id has to be a lowercase string");
