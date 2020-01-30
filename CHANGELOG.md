@@ -2,7 +2,8 @@
 
 ## [0.3.3]
 
-* Added better error messages when description is not provided with theme.
+* Added better error messages when description is not provided with theme. [#1](https://github.com/kdsuneraavinash/theme_provider/issues/1)
+* Bumped `shared_preferences` version
 
 ## [0.3.2]
 

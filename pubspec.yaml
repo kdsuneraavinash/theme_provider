@@ -10,7 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  shared_preferences: ^0.5.3+4
+  shared_preferences: ^0.5.6+1
 
 dev_dependencies:
   flutter_test:
