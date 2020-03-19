@@ -116,14 +116,26 @@ MaterialPageRoute(
 **Or you may wrap `MaterialApp` with `ThemeConsumer`.**
 If you provide the theme consumer on `MaterialTheme` then you don't have to provide `ThemeConsumer` on routes. However that would disable the ability to use multiple theme controllers. Also a visible flickr may occur at the start of app when the saved theme is loaded.
 
+This approach is much easier to integrate and works well with all other material components such as `SearchDelegates` and `DialogBoxes` without wrapping with `ThemeConsumer`s.
+
+**Note that you have to pass the theme from `ThemeProvider` into the `theme` parameter of the `MaterialApp` if you try this approach.**
+
 ```dart
-ThemeProvider(
-    child: ThemeConsumer(
-        child: MaterialApp(
-            home: HomePage(),
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ThemeProvider(
+      child: ThemeConsumer(
+        child: Builder(
+          builder: (themeContext) => MaterialApp(
+            theme: ThemeProvider.themeOf(themeContext).data,
+            title: 'Material App',
+            home: MyApp(),
+          ),
         ),
-    ),
-)
+      ),
+    );
+  }
 ```
 
 ### Provide callbacks for theme changing event
