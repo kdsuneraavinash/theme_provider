@@ -7,4 +7,7 @@ abstract class SaveAdapter {
 
   /// Saves the given theme id on the disk.
   Future<void> saveTheme(String providerId, String themeId);
+
+  /// Remove current configuration from disk.
+  Future<void> forgetTheme(String providerId);
 }

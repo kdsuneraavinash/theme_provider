@@ -292,6 +292,58 @@ if (ThemeController.of(context).hasTheme('new_theme')){
 }
 ```
 
+## 🔌 Checking system theme when loading initial theme
+
+You can do this by simply checking for the system theme in `onInitCallback` callback. Following is an example usage.
+In the following snippet, the theme will be set to the previously saved theme. 
+If there is no previously saved theme, it is set to light/dark depending on system theme.
+
+You can use any kind of logic here to change the initialization callback.
+
+**Dynamically listening to theme changes is not yet available. The theme check is only possible on app start.**
+
+```dart
+import 'package:flutter/scheduler.dart';
+
+
+ThemeProvider(
+  saveThemesOnChange: true, // Auto save any theme change we do
+  loadThemeOnInit: false, // Do not load the saved theme(use onInitCallback callback)
+  onInitCallback: (controller, previouslySavedThemeFuture) async {
+    String savedTheme = await previouslySavedThemeFuture;
+
+    if (savedTheme != null) {
+      // If previous theme saved, use saved theme
+      controller.setTheme(savedTheme);
+    } else {
+      // If previous theme not found, use platform default
+      Brightness platformBrightness =
+          SchedulerBinding.instance.window.platformBrightness;
+      if (platformBrightness == Brightness.dark) {
+        controller.setTheme('dark');
+      } else {
+        controller.setTheme('light');
+      }
+      // Forget the saved theme(which were saved just now by previous lines)
+      controller.forgetSavedTheme();
+    }
+  },
+  themes: <AppTheme>[
+    AppTheme.light(id: 'light'),
+    AppTheme.dark(id: 'dark'),
+  ],
+  child: ThemeConsumer(
+    child: Builder(
+      builder: (themeContext) => MaterialApp(
+        theme: ThemeProvider.themeOf(themeContext).data,
+        title: 'Material App',
+        home: HomePage(),
+      ),
+    ),
+  ),
+);
+```
+
 ## 🎁 Additional Widgets
 
 ### Theme Cycle Widget

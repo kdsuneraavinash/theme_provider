@@ -26,4 +26,10 @@ class SharedPreferenceAdapter extends SaveAdapter {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.setString("$saveKey.$providerId", themeId);
   }
+
+  @override
+  Future<void> forgetTheme(String providerId) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.remove("$saveKey.$providerId");
+  }
 }

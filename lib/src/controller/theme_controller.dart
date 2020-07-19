@@ -211,4 +211,9 @@ class ThemeController extends ChangeNotifier {
     _appThemeIds.remove(themeId);
     notifyListeners();
   }
+
+  /// Removes last saved theme configuration.
+  Future<void> forgetSavedTheme() async {
+    await _saveAdapter.forgetTheme(providerId);
+  }
 }

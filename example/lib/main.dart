@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:theme_provider/theme_provider.dart';
 
 void main() => runApp(MyApp());
@@ -8,10 +9,25 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ThemeProvider(
       saveThemesOnChange: true,
-      loadThemeOnInit: true,
+      loadThemeOnInit: false,
+      onInitCallback: (controller, previouslySavedThemeFuture) async {
+        String savedTheme = await previouslySavedThemeFuture;
+        if (savedTheme != null) {
+          controller.setTheme(savedTheme);
+        } else {
+          Brightness platformBrightness =
+              SchedulerBinding.instance.window.platformBrightness;
+          if (platformBrightness == Brightness.dark) {
+            controller.setTheme('dark');
+          } else {
+            controller.setTheme('light');
+          }
+          controller.forgetSavedTheme();
+        }
+      },
       themes: <AppTheme>[
-        AppTheme.light(),
-        AppTheme.dark(),
+        AppTheme.light(id: 'light'),
+        AppTheme.dark(id: 'dark'),
       ],
       child: ThemeConsumer(
         child: Builder(
