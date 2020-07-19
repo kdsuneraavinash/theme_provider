@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [0.4.0+1]
+
+* Updated readme to change the recommended method of wrapping the app with the `ThemeProvider`.
+
 ## [0.4.0]
 
 * Added the ability to add/remove themes dynamically. [#9](https://github.com/kdsuneraavinash/theme_provider/issues/9)

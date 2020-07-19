@@ -39,9 +39,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ThemeProvider(
-      child: MaterialApp(
-        home: ThemeConsumer(
-          child: HomePage(),
+      child: ThemeConsumer(
+        child: Builder(
+          builder: (themeContext) => MaterialApp(
+            theme: ThemeProvider.themeOf(themeContext).data,
+            title: 'Material App',
+            home: HomePage(),
+          ),
         ),
       ),
     );
@@ -69,9 +73,13 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ],
-      child: MaterialApp(
-        home: ThemeConsumer(
-          child: HomePage(),
+      child: ThemeConsumer(
+        child: Builder(
+          builder: (themeContext) => MaterialApp(
+            theme: ThemeProvider.themeOf(themeContext).data,
+            title: 'Material App',
+            home: HomePage(),
+          ),
         ),
       ),
     );
@@ -105,37 +113,17 @@ Access theme data:
 
 ### Apps with routing
 
-**Wrap each route and dialog in `ThemeConsumer`.**
+If you provide the theme consumer on `MaterialTheme` then you don't have to provide `ThemeConsumer` on routes. However that would disable the ability to use multiple theme controllers. Also a visible flickr may occur at the start of app when the saved theme is loaded.
+
+This approach is much easier to integrate and works well with all other material components such as `SearchDelegates` and `DialogBoxes` without wrapping with `ThemeConsumer`s.
+
+However you could also,wrap each route and dialog in `ThemeConsumer` instead of wrapping the whole material app. 
+This will give a more granular control and will not cause a visual flikr.
 
 ```dart
 MaterialPageRoute(
   builder: (_) => ThemeConsumer(child: SecondPage()),
 ),
-```
-
-**Or you may wrap `MaterialApp` with `ThemeConsumer`.**
-If you provide the theme consumer on `MaterialTheme` then you don't have to provide `ThemeConsumer` on routes. However that would disable the ability to use multiple theme controllers. Also a visible flickr may occur at the start of app when the saved theme is loaded.
-
-This approach is much easier to integrate and works well with all other material components such as `SearchDelegates` and `DialogBoxes` without wrapping with `ThemeConsumer`s.
-
-**Note that you have to pass the theme from `ThemeProvider` into the `theme` parameter of the `MaterialApp` if you try this approach.**
-
-```dart
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return ThemeProvider(
-      child: ThemeConsumer(
-        child: Builder(
-          builder: (themeContext) => MaterialApp(
-            theme: ThemeProvider.themeOf(themeContext).data,
-            title: 'Material App',
-            home: MyApp(),
-          ),
-        ),
-      ),
-    );
-  }
 ```
 
 ### Provide callbacks for theme changing event
@@ -175,11 +163,7 @@ class MyApp extends StatelessWidget {
           options: MyThemeOptions(Colors.red),
         ),
       ],
-      child: MaterialApp(
-        home: ThemeConsumer(
-          child: HomePage(),
-        ),
-      ),
+      // ....
     );
   }
 }
@@ -204,11 +188,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ThemeProvider(
       saveThemesOnChange: true,
-       child: MaterialApp(
-        home: ThemeConsumer(
-          child: HomePage(),
-        ),
-      ),
+      // ...
     );
   }
 }
@@ -233,13 +213,9 @@ To load a previously saved theme pass `loadThemeOnInit` as true:
 
 ```dart
 ThemeProvider(
-  child: MaterialApp(
-    home: ThemeConsumer(
-      child: HomePage(),
-    ),
-  ),
   saveThemesOnChange: true,
   loadThemeOnInit: true,
+  // ...
 )
 ```
 
@@ -250,11 +226,6 @@ For example, snippet below will load the previously saved theme from the disk. (
 
 ```dart
 ThemeProvider(
-  child: MaterialApp(
-      home: ThemeConsumer(
-        child: HomePage(),
-      ),
-    ),
   defaultThemeId: "theme_1",
   themes: [
     AppTheme.light(id: "theme_1"),
@@ -269,6 +240,7 @@ ThemeProvider(
       controller.setTheme(savedTheme);
     }
   },
+  // ...
 )
 ```
 ## ⚡ Dynamically Adding/Removing Themes
