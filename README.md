@@ -113,12 +113,17 @@ Access theme data:
 
 ### Apps with routing
 
+#### Wrapping material app with `ThemeProvider`
+
 If you provide the theme consumer on `MaterialTheme` then you don't have to provide `ThemeConsumer` on routes. However that would disable the ability to use multiple theme controllers. Also a visible flickr may occur at the start of app when the saved theme is loaded.
 
 This approach is much easier to integrate and works well with all other material components such as `SearchDelegates` and `DialogBoxes` without wrapping with `ThemeConsumer`s.
 
-However you could also,wrap each route and dialog in `ThemeConsumer` instead of wrapping the whole material app. 
-This will give a more granular control and will not cause a visual flikr.
+#### Wrapping each route independently with `ThemeProvider`
+
+However you could also wrap each route and dialog in `ThemeConsumer` instead of wrapping the whole material app. 
+This will give a more granular control and will not cause a visual flikr. 
+However, some integrations(eg: `SearchDelegates`) might not be trivial.
 
 ```dart
 MaterialPageRoute(
