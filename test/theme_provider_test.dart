@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:theme_provider/src/controller/save_adapter.dart';
-import 'package:theme_provider/src/controller/shared_preferences_adapter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:theme_provider/src/controller/theme_controller.dart';
 import 'package:theme_provider/theme_provider.dart';
 
 class AppThemeOptionsTester implements AppThemeOptions {
@@ -73,10 +73,10 @@ void main() {
                   key: buttonKey,
                   child: Text("Press Me"),
                   onPressed: () {
-                    ThemeCommand themeCommand =
+                    ThemeController controller =
                         ThemeProvider.controllerOf(context);
-                    assert(themeCommand != null);
-                    themeCommand.nextTheme();
+                    assert(controller != null);
+                    controller.nextTheme();
                   },
                 ),
               ),
@@ -248,24 +248,8 @@ void main() {
     await widgetTreeWithDefaultTheme(defaultTheme: "no_theme");
   });
 
-  test('Persistency test', () async {
-    Map<String, dynamic> testStorage = Map();
-    defineStorageMethodCallHandler(testStorage);
-
-    String saveKey = 'theme_provider.theme';
-
-    SaveAdapter theme = SharedPreferenceAdapter(saveKey: saveKey);
-    expect(testStorage, isNot(contains(saveKey)));
-    expect(await theme.loadTheme(providerId: "abc", defaultId: "load_failed"),
-        equals("load_failed"));
-
-    await theme.saveTheme("abc", "my_theme");
-    expect(testStorage.keys, contains("flutter.$saveKey.abc"));
-    expect(await theme.loadTheme(providerId: "abc"), equals("my_theme"));
-  });
-
   testWidgets('Persistency widget test', (tester) async {
-    defineStorageMethodCallHandler(Map());
+    SharedPreferences.setMockInitialValues(Map());
 
     var buildWidgetTree = (Key scaffoldKey) async {
       await tester.pumpWidget(
@@ -310,7 +294,7 @@ void main() {
   });
 
   testWidgets('Persistency widget set theme on init test', (tester) async {
-    defineStorageMethodCallHandler(Map());
+    SharedPreferences.setMockInitialValues(Map());
 
     var buildWidgetTree = (Key scaffoldKey) async {
       await tester.pumpWidget(
@@ -403,7 +387,7 @@ void main() {
   });
 
   testWidgets('Persistency auto load parameter', (tester) async {
-    defineStorageMethodCallHandler(Map());
+    SharedPreferences.setMockInitialValues(Map());
 
     var buildWidgetTree = (Key scaffoldKey) async {
       await tester.pumpWidget(
@@ -444,8 +428,8 @@ void main() {
     expect(getCurrentTheme(scaffoldKey2).id, "third_test_theme_3");
   });
 
-  testWidgets('Multiple Theme Provider', (tester) async {
-    defineStorageMethodCallHandler(Map());
+  testWidgets('Multiple Theme Providers', (tester) async {
+    SharedPreferences.setMockInitialValues(Map());
 
     var buildWidgetTree = (Key scaffoldKey, [String providerId]) async {
       await tester.pumpWidget(
@@ -499,21 +483,54 @@ void main() {
     await tester.pump();
     expect(getCurrentTheme(scaffoldKey4).id, "fourth_test_theme_2");
   });
-}
 
-void defineStorageMethodCallHandler(Map<String, dynamic> testStorage) {
-  const MethodChannel('plugins.flutter.io/shared_preferences')
-      .setMockMethodCallHandler((MethodCall methodCall) async {
-    if (methodCall.method == 'getAll') {
-      return testStorage;
-    } else if (methodCall.method == 'setString') {
-      var args = methodCall.arguments;
-      String key = args['key'];
-      String value = args['value'];
-      testStorage[key] = value;
-      return true;
-    } else {
-      throw AssertionError("Invalid method call: $methodCall");
-    }
+  testWidgets('Dynamically theme adding/removing/membership checking',
+      (tester) async {
+    final Key scaffoldKey = UniqueKey();
+
+    var fetchCommand = () =>
+        ThemeProvider.controllerOf(tester.element(find.byKey(scaffoldKey)));
+    var fetchTheme =
+        () => ThemeProvider.themeOf(tester.element(find.byKey(scaffoldKey)));
+
+    final AppTheme customTheme = AppTheme.light(id: 'custom');
+
+    await tester.pumpWidget(
+      ThemeProvider(
+        child: MaterialApp(
+          home: ThemeConsumer(
+            child: Scaffold(key: scaffoldKey),
+          ),
+        ),
+        themes: [
+          AppTheme.light(),
+          AppTheme.light(id: "test_theme_1"),
+          AppTheme.light(id: "test_theme_2"),
+        ],
+      ),
+    );
+    expect(fetchTheme().id, equals("default_light_theme"));
+
+    fetchCommand().nextTheme();
+    expect(fetchTheme().id, equals("test_theme_1"));
+
+    expect(fetchCommand().hasTheme('custom'), equals(false));
+    expect(() => fetchCommand().removeTheme('custom'), throwsException);
+
+    fetchCommand().addTheme(customTheme);
+    expect(fetchTheme().id, equals("test_theme_1"));
+    expect(fetchCommand().hasTheme('custom'), equals(true));
+    expect(() => fetchCommand().addTheme(customTheme), throwsException);
+
+    fetchCommand().setTheme('custom');
+    expect(fetchTheme().id, equals("custom"));
+
+    expect(fetchCommand().hasTheme('custom'), equals(true));
+    expect(() => fetchCommand().removeTheme('custom'), throwsException);
+
+    fetchCommand().nextTheme();
+    fetchCommand().removeTheme('custom');
+
+    expect(fetchCommand().hasTheme('custom'), equals(false));
   });
 }

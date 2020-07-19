@@ -271,6 +271,26 @@ ThemeProvider(
   },
 )
 ```
+## ⚡ Dynamically Adding/Removing Themes
+
+Themes can be dynamically added/removed via `addTheme` and `removeTheme`. Whether a theme id exists or not can be checked via `hasTheme`.
+A theme can only be added if it is not added previously. Similarly, a theme can only be removed if it is previously added.
+So the membership must be checked before adding/removing themes. (Whether a theme exists or not is decided via its theme id)
+Note that the active theme cannot be removed.
+
+```dart
+// Add theme
+if (ThemeController.of(context).hasTheme('new_theme')){
+  ThemeController.of(context).addTheme(newAppTheme);
+}
+
+// Remove theme
+if (ThemeController.of(context).hasTheme('new_theme')){
+  if (ThemeController.of(context).theme.id != 'new_theme'){
+    ThemeController.of(context).removeTheme('new_theme')
+  }
+}
+```
 
 ## 🎁 Additional Widgets
 

@@ -2,7 +2,7 @@ library theme_provider;
 
 export 'src/data/app_theme.dart';
 export 'src/provider/theme_provider.dart';
-export 'src/controller/theme_command.dart';
+export 'src/controller/theme_controller.dart';
 export 'src/provider/theme_consumer.dart';
 export 'src/data/app_theme_options.dart';
 

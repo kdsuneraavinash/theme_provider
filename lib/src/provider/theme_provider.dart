@@ -3,7 +3,6 @@ import 'package:theme_provider/theme_provider.dart';
 
 import '../data/app_theme.dart';
 import '../controller/theme_controller.dart';
-import '../controller/theme_command.dart';
 import 'inherited_theme.dart';
 
 // Callback to called after theme changed
@@ -65,7 +64,7 @@ class ThemeProvider extends StatelessWidget {
 
   /// Gives reference to a [ThemeCommand] of the nearest [ThemeProvider] up the widget tree
   /// and will provide commands to change the theme.
-  static ThemeCommand controllerOf(BuildContext context) {
+  static ThemeController controllerOf(BuildContext context) {
     return InheritedThemeController.of(context);
   }
 
