@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [0.4.0]
+
+* Added the ability to add/remove themes dynamically. [#9](https://github.com/kdsuneraavinash/theme_provider/issues/9)
+* Added docs to describe on automatic theme mode detection on startup. [#7](https://github.com/kdsuneraavinash/theme_provider/issues/7)
+* Bumped `shared_preferences` version
+* BREAKING CHANGE: Changed return type of `ThemeProvider.controllerOf` to `ThemeController` and removed `ThemeCommand` abstract class.
+
 ## [0.3.3]
 
 * Added better error messages when description is not provided with theme. [#1](https://github.com/kdsuneraavinash/theme_provider/issues/1)
