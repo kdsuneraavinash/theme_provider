@@ -67,6 +67,7 @@ class MyApp extends StatelessWidget {
         AppTheme.dark(), // This is standard dark theme (id is default_dark_theme)
         AppTheme(
           id: "custom_theme", // Id(or name) of the theme(Has to be unique)
+          description: "My Custom Theme", // Description of theme
           data: ThemeData(  // Real theme data
             primaryColor: Colors.black,
             accentColor: Colors.red,
@@ -159,11 +160,13 @@ class MyApp extends StatelessWidget {
       themes: [
         AppTheme(
           id: "light_theme",
+          description: "Light Theme",
           data: ThemeData.light(),
           options: MyThemeOptions(Colors.blue),
         ),
         AppTheme(
           id: "light_theme",
+          description: "Light Theme 2",
           data: ThemeData.dark(),
           options: MyThemeOptions(Colors.red),
         ),
