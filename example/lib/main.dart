@@ -55,6 +55,9 @@ class HomePage extends StatelessWidget {
         scaffoldBackgroundColor: Colors.yellow[200],
         buttonColor: Colors.amber,
         dialogBackgroundColor: Colors.yellow,
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(primary: Colors.red)
+        )
       ),
     );
   }
@@ -69,32 +72,32 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            RaisedButton(
-              child: Text("Next Theme"),
+            _buildButton(
+              text: "Next Theme",
               onPressed: controller.nextTheme,
             ),
-            RaisedButton(
-              child: Text("Theme Dialog"),
+            _buildButton(
+              text: "Theme Dialog",
               onPressed: () {
                 showDialog(context: context, builder: (_) => ThemeDialog());
               },
             ),
-            RaisedButton(
-              child: Text("Second Screen"),
+            _buildButton(
+              text: "Second Screen",
               onPressed: () {
                 Navigator.push(
                     context, MaterialPageRoute(builder: (_) => SecondPage()));
               },
             ),
             Divider(),
-            RaisedButton(
-              child: Text("Add Custom Theme"),
+            _buildButton(
+              text: "Add Custom Theme",
               onPressed: controller.hasTheme(customAppThemeId)
                   ? null
                   : () => controller.addTheme(customAppTheme()),
             ),
-            RaisedButton(
-              child: Text("Remove Custom Theme"),
+            _buildButton(
+              text: "Remove Custom Theme",
               onPressed: controller.hasTheme(customAppThemeId)
                   ? controller.theme.id != customAppThemeId
                       ? () => controller.removeTheme(customAppThemeId)
@@ -108,6 +111,16 @@ class HomePage extends StatelessWidget {
             Text('Current theme: ${controller.theme.id}'),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildButton({String text, VoidCallback onPressed}) {
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: ElevatedButton(
+        child: Text(text),
+        onPressed: onPressed,
       ),
     );
   }
@@ -125,7 +138,7 @@ class SecondPage extends StatelessWidget {
         title: Text("Second Screen"),
       ),
       body: Center(
-        child: RaisedButton(
+        child: ElevatedButton(
           child: Text("Next Theme"),
           onPressed: ThemeProvider.controllerOf(context).nextTheme,
         ),
