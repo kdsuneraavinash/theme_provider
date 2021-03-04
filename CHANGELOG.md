@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [0.5.0]
+
+* Refactor code base to be null-safe.
+* Updated example to be null-safe and include both versions in README.
+* Make description field required for an `AppTheme`.
+
 ## [0.4.0+1]
 
 * Updated readme to change the recommended method of wrapping the app with the `ThemeProvider`.
