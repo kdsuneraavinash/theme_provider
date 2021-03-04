@@ -11,12 +11,13 @@ class MyApp extends StatelessWidget {
       saveThemesOnChange: true,
       loadThemeOnInit: false,
       onInitCallback: (controller, previouslySavedThemeFuture) async {
-        String savedTheme = await previouslySavedThemeFuture;
+        String? savedTheme = await previouslySavedThemeFuture;
         if (savedTheme != null) {
           controller.setTheme(savedTheme);
         } else {
           Brightness platformBrightness =
-              SchedulerBinding.instance.window.platformBrightness;
+              SchedulerBinding.instance?.window.platformBrightness ??
+                  Brightness.light;
           if (platformBrightness == Brightness.dark) {
             controller.setTheme('dark');
           } else {
@@ -56,8 +57,8 @@ class HomePage extends StatelessWidget {
         buttonColor: Colors.amber,
         dialogBackgroundColor: Colors.yellow,
         elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(primary: Colors.red)
-        )
+          style: ElevatedButton.styleFrom(primary: Colors.red),
+        ),
       ),
     );
   }
@@ -115,7 +116,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildButton({String text, VoidCallback onPressed}) {
+  Widget _buildButton({required String text, VoidCallback? onPressed}) {
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: ElevatedButton(
@@ -128,7 +129,7 @@ class HomePage extends StatelessWidget {
 
 class SecondPage extends StatelessWidget {
   const SecondPage({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
