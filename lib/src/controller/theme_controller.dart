@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-import '../provider/theme_provider.dart' show ThemeChanged;
 import '../data/app_theme.dart';
+import '../provider/theme_provider.dart' show ThemeChanged;
 import 'save_adapter.dart';
 import 'shared_preferences_adapter.dart';
 
 /// Handler which provides the activated controller.
 typedef void ThemeControllerHandler(
-    ThemeController controller, Future<String> previouslySavedThemeFuture);
+    ThemeController controller, Future<String?> previouslySavedThemeFuture);
 
 /// Object which controls the behavior of the theme.
 /// This is the object provided through the widget tree.
@@ -26,7 +26,7 @@ class ThemeController extends ChangeNotifier {
 
   /// List which stores the sequence in which the themes were provided.
   /// List elements are theme ids which maps back to [_appThemes].
-  final List<String> _appThemeIds = List<String>();
+  final List<String> _appThemeIds = <String>[];
 
   /// Adapter which helps to save current theme and load it back.
   /// Currently uses [SharedPreferenceAdapter] which uses shared_preferences plugin.
@@ -60,39 +60,41 @@ class ThemeController extends ChangeNotifier {
   /// **If you use this, do NOT use nested [ThemeProvider]s as all will be saved in the same key**
   ///
   /// [onInitCallback] is the callback which is called when the ThemeController is first initialed.
-  /// You can use this to call `controller.loadThemeById(ID)` or equalent to set theme.
+  /// You can use this to call `controller.loadThemeById(ID)` or equivalent to set theme.
   ///
   /// [loadThemeOnInit] will load a previously saved theme from disk.
   /// If [loadThemeOnInit] is provided, [onInitCallback] will be ignored.
   /// So [onInitCallback] and [loadThemeOnInit] can't both be provided at the same time.
   ThemeController({
-    @required String providerId,
-    @required List<AppTheme> themes,
-    String defaultThemeId,
-    @required ThemeChanged onThemeChanged,
-    @required bool saveThemesOnChange,
-    @required bool loadThemeOnInit,
-    ThemeControllerHandler onInitCallback,
+    required String providerId,
+    required List<AppTheme> themes,
+    required String? defaultThemeId,
+    required bool saveThemesOnChange,
+    required bool loadThemeOnInit,
+    ThemeChanged? onThemeChanged,
+    ThemeControllerHandler? onInitCallback,
   })  : _saveThemesOnChange = saveThemesOnChange,
         _loadThemeOnInit = loadThemeOnInit,
         _providerId = providerId,
-        _onThemeChanged = onThemeChanged {
+        _onThemeChanged = onThemeChanged ?? _defaultOnThemeChanged,
+        _currentThemeIndex = 0 {
     for (AppTheme theme in themes) {
-      assert(!this._appThemes.containsKey(theme.id),
-          "Conflicting theme ids found: ${theme.id} is already added to the widget tree,");
-      this._appThemes[theme.id] = theme;
+      assert(
+          !_appThemes.containsKey(theme.id),
+          "Conflicting theme ids found: "
+          "${theme.id} is already added to the widget tree,");
+      _appThemes[theme.id] = theme;
       _appThemeIds.add(theme.id);
     }
 
-    if (defaultThemeId == null) {
-      _currentThemeIndex = 0;
-    } else {
+    if (defaultThemeId != null) {
       _currentThemeIndex = _appThemeIds.indexOf(defaultThemeId);
       assert(_currentThemeIndex != -1,
           "No app theme with the default theme id: $defaultThemeId");
     }
 
-    assert(!(onInitCallback != null && _loadThemeOnInit));
+    assert(!(onInitCallback != null && _loadThemeOnInit),
+        "Cannot set both onInitCallback and loadThemeOnInit");
 
     if (_loadThemeOnInit) {
       _getPreviousSavedTheme().then((savedTheme) {
@@ -104,9 +106,9 @@ class ThemeController extends ChangeNotifier {
   }
 
   /// Get the previously saved theme id from disk.
-  /// If no previous saved theme, returns nulll.
-  Future<String> _getPreviousSavedTheme() async {
-    String savedTheme = await _saveAdapter.loadTheme(providerId: _providerId);
+  /// If no previous saved theme, returns null.
+  Future<String?> _getPreviousSavedTheme() async {
+    String? savedTheme = await _saveAdapter.loadTheme(_providerId);
     if (savedTheme != null && _appThemes.containsKey(savedTheme)) {
       return savedTheme;
     }
@@ -124,18 +126,19 @@ class ThemeController extends ChangeNotifier {
       saveThemeToDisk();
     }
 
-    if (_onThemeChanged != null) {
-      _onThemeChanged(
-        _appThemes[_appThemeIds[_oldThemeIndex]],
-        _appThemes[_appThemeIds[_currentThemeIndex]],
-      );
+    AppTheme? oldTheme = _appThemes[_appThemeIds[_oldThemeIndex]];
+    AppTheme? currentTheme = _appThemes[_appThemeIds[_currentThemeIndex]];
+    assert(oldTheme != null && currentTheme != null,
+        "Old theme/Current theme referenced to null values.");
+    if (oldTheme != null && currentTheme != null) {
+      _onThemeChanged(oldTheme, currentTheme);
     }
   }
 
   // Public methods
 
   /// Get the current theme
-  AppTheme get theme => _appThemes[this.currentThemeId];
+  AppTheme get theme => _appThemes[this.currentThemeId]!;
 
   /// Get the current theme id
   String get currentThemeId => _appThemeIds[_currentThemeIndex];
@@ -164,7 +167,7 @@ class ThemeController extends ChangeNotifier {
   /// If this fails(no previous saved theme) it will be ignored.
   /// (No exceptions will be thrown)
   Future<void> loadThemeFromDisk() async {
-    String savedTheme = await _getPreviousSavedTheme();
+    String? savedTheme = await _getPreviousSavedTheme();
     if (savedTheme != null) {
       setTheme(savedTheme);
     }
@@ -177,7 +180,7 @@ class ThemeController extends ChangeNotifier {
 
   /// Returns the list of all themes.
   List<AppTheme> get allThemes =>
-      _appThemeIds.map<AppTheme>((id) => _appThemes[id]).toList();
+      _appThemeIds.map<AppTheme>((id) => _appThemes[id]!).toList();
 
   /// Returns whether there is a theme with the given id.
   bool hasTheme(String themeId) {
@@ -216,4 +219,6 @@ class ThemeController extends ChangeNotifier {
   Future<void> forgetSavedTheme() async {
     await _saveAdapter.forgetTheme(providerId);
   }
+
+  static void _defaultOnThemeChanged(AppTheme oldTheme, AppTheme newTheme) {}
 }

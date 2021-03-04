@@ -7,12 +7,13 @@ import 'package:theme_provider/theme_provider.dart';
 
 class AppThemeOptionsTester implements AppThemeOptions {
   final Color color;
+
   AppThemeOptionsTester(this.color);
 }
 
 void main() {
   test('ThemeProvider constructor theme list test', () {
-    var buildWidgetTree = (List<AppTheme> appThemes) async => ThemeProvider(
+    var buildWidgetTree = (List<AppTheme>? appThemes) async => ThemeProvider(
           child: MaterialApp(
             home: ThemeConsumer(child: Container()),
           ),
@@ -20,6 +21,7 @@ void main() {
         );
 
     expect(() => buildWidgetTree(null), isNotNull);
+    expect(() => buildWidgetTree([]), throwsAssertionError);
     expect(() => buildWidgetTree([AppTheme.light()]), throwsAssertionError);
     expect(buildWidgetTree([AppTheme.light(), AppTheme.light()]), isNotNull);
 
@@ -69,13 +71,12 @@ void main() {
           home: ThemeConsumer(
             child: Scaffold(
               body: Builder(
-                builder: (context) => FlatButton(
+                builder: (context) => TextButton(
                   key: buttonKey,
                   child: Text("Press Me"),
                   onPressed: () {
                     ThemeController controller =
                         ThemeProvider.controllerOf(context);
-                    assert(controller != null);
                     controller.nextTheme();
                   },
                 ),
@@ -215,7 +216,7 @@ void main() {
         () => ThemeProvider.themeOf(tester.element(find.byKey(scaffoldKey))).id;
 
     var widgetTreeWithDefaultTheme =
-        ({String defaultTheme}) async => await tester.pumpWidget(
+        ({String? defaultTheme}) async => await tester.pumpWidget(
               ThemeProvider(
                 child: MaterialApp(
                   home: ThemeConsumer(
@@ -248,7 +249,7 @@ void main() {
     await widgetTreeWithDefaultTheme(defaultTheme: "no_theme");
   });
 
-  testWidgets('Persistency widget test', (tester) async {
+  testWidgets('Persistence widget test', (tester) async {
     SharedPreferences.setMockInitialValues(Map());
 
     var buildWidgetTree = (Key scaffoldKey) async {
@@ -293,7 +294,7 @@ void main() {
     expect(getCurrentTheme(scaffoldKey2).id, "test_theme_3");
   });
 
-  testWidgets('Persistency widget set theme on init test', (tester) async {
+  testWidgets('Persistence widget set theme on init test', (tester) async {
     SharedPreferences.setMockInitialValues(Map());
 
     var buildWidgetTree = (Key scaffoldKey) async {
@@ -312,7 +313,7 @@ void main() {
             AppTheme.light(id: "second_test_theme_3"),
           ],
           onInitCallback: (controller, previouslySavedThemeFuture) async {
-            String savedTheme = await previouslySavedThemeFuture;
+            String? savedTheme = await previouslySavedThemeFuture;
             if (savedTheme != null) {
               controller.setTheme(savedTheme);
             }
@@ -386,7 +387,7 @@ void main() {
     await tester.pump();
   });
 
-  testWidgets('Persistency auto load parameter', (tester) async {
+  testWidgets('Persistence auto load parameter', (tester) async {
     SharedPreferences.setMockInitialValues(Map());
 
     var buildWidgetTree = (Key scaffoldKey) async {
@@ -431,7 +432,7 @@ void main() {
   testWidgets('Multiple Theme Providers', (tester) async {
     SharedPreferences.setMockInitialValues(Map());
 
-    var buildWidgetTree = (Key scaffoldKey, [String providerId]) async {
+    var buildWidgetTree = (Key scaffoldKey, String providerId) async {
       await tester.pumpWidget(
         ThemeProvider(
           child: MaterialApp(

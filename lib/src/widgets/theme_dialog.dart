@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../provider/theme_provider.dart';
 import '../data/app_theme.dart';
+import '../provider/theme_provider.dart';
 
 /// Gives a [AppTheme] and builds a [Color].
 ///
@@ -24,11 +24,11 @@ class ThemeDialog extends StatelessWidget {
 
   /// Builder for inner circle color.
   /// If not provided, uses `primaryColor`.
-  final ColorBuilderByAppTheme innerCircleColorBuilder;
+  final ColorBuilderByAppTheme? innerCircleColorBuilder;
 
   /// Builder for outer circle color.
   /// If not provided, uses `accentColor`.
-  final ColorBuilderByAppTheme outerCircleColorBuilder;
+  final ColorBuilderByAppTheme? outerCircleColorBuilder;
 
   /// Duration for item selection checkmark opacity animation.
   /// Value is in milliseconds.
@@ -100,12 +100,11 @@ class ThemeDialog extends StatelessWidget {
         children: <Widget>[
           CircleAvatar(
             backgroundColor: outerCircleColorBuilder != null
-                ? outerCircleColorBuilder(theme)
+                ? outerCircleColorBuilder!(theme)
                 : theme.data.accentColor,
             child: CircleAvatar(
-              backgroundColor: innerCircleColorBuilder != null
-                  ? innerCircleColorBuilder(theme)
-                  : theme.data.primaryColor,
+              backgroundColor: innerCircleColorBuilder?.call(theme) ??
+                  theme.data.primaryColor,
               radius: innerCircleRadius,
             ),
           ),
