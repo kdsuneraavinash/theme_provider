@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import '../provider/theme_provider.dart';
 
 /// Simple [IconButton] which cycles themes when pressed.
-/// Use as a descendent of [ThemeProvider].
+/// Use as a descendant of [ThemeProvider].
 class CycleThemeIconButton extends StatelessWidget {
   final IconData icon;
 
-  const CycleThemeIconButton({Key key, this.icon = Icons.palette})
+  const CycleThemeIconButton({Key? key, this.icon = Icons.palette})
       : super(key: key);
 
   @override

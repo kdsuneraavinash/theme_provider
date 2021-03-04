@@ -15,8 +15,7 @@ class SharedPreferenceAdapter extends SaveAdapter {
   SharedPreferenceAdapter({this.saveKey = 'theme_provider.theme'});
 
   @override
-  Future<String> loadTheme({String providerId, String defaultId}) async {
-    assert(providerId != null, "Provider ID must be provided");
+  Future<String?> loadTheme(String providerId, [String? defaultId]) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     return preferences.getString("$saveKey.$providerId") ?? defaultId;
   }

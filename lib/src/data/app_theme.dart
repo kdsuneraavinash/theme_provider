@@ -44,7 +44,7 @@ class AppTheme {
   ///
   /// Then the option can be retrieved as
   /// `ThemeProvider.optionsOf<MyThemeOptions>(context).specificButtonColor`.
-  final AppThemeOptions options;
+  final AppThemeOptions? options;
 
   /// Unique ID which defines the theme.
   /// Don't use conflicting strings.
@@ -72,16 +72,11 @@ class AppTheme {
   ///
   /// [description] is optional. If not given it takes default to as 'Light Theme' or 'Dark Theme'.
   AppTheme({
-    @required this.id,
-    @required ThemeData data,
-    String description,
+    required this.id,
+    required this.data,
+    required this.description,
     this.options,
-  })  : this.data = data,
-        this.description = description ??
-            (data.brightness == Brightness.light
-                ? "Light Theme"
-                : "Dark Theme") {
-    assert(description != null, "Theme $id does not have a description");
+  }) {
     assert(description.length < 30, "Theme description too long ($id)");
     assert(id.isNotEmpty, "Id cannot be empty");
     assert(id.toLowerCase() == id, "Id has to be a lowercase string");
@@ -89,7 +84,7 @@ class AppTheme {
   }
 
   /// Default light theme
-  factory AppTheme.light({String id}) {
+  factory AppTheme.light({String? id}) {
     return AppTheme(
       data: ThemeData.light(),
       id: id ?? "default_light_theme",
@@ -98,7 +93,7 @@ class AppTheme {
   }
 
   /// Default dark theme
-  factory AppTheme.dark({String id}) {
+  factory AppTheme.dark({String? id}) {
     return AppTheme(
       data: ThemeData.dark(),
       id: id ?? "default_dark_theme",
@@ -107,22 +102,24 @@ class AppTheme {
   }
 
   /// Additional purple theme constructor
-  factory AppTheme.purple({String id}) {
+  factory AppTheme.purple({String? id}) {
     return AppTheme(
-        data: ThemeData.light().copyWith(
-          primaryColor: Colors.purple,
-          accentColor: Colors.pink,
-        ),
-        id: id);
+      data: ThemeData.light().copyWith(
+        primaryColor: Colors.purple,
+        accentColor: Colors.pink,
+      ),
+      id: id ?? "default_purple_theme",
+      description: "Custom Default Purple Theme",
+    );
   }
 
   /// Creates a copy of this [AppTheme] but with the given fields replaced with the new values.
   /// Id will be replaced by the given [id].
   AppTheme copyWith({
-    @required String id,
-    String description,
-    ThemeData data,
-    AppThemeOptions options,
+    required String id,
+    String? description,
+    ThemeData? data,
+    AppThemeOptions? options,
   }) {
     return AppTheme(
       id: id,

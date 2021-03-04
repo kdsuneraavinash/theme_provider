@@ -9,7 +9,7 @@ class ThemeConsumer extends StatelessWidget {
 
   /// Wrap a widget to use the theme of the closest app theme of the [ThemeProvider].
   /// If you have multiple screens, wrap each entry point with this widget.
-  const ThemeConsumer({Key key, this.child}) : super(key: key);
+  const ThemeConsumer({Key? key, required this.child}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
