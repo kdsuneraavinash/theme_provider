@@ -116,7 +116,7 @@ Access theme data:
 
 #### Wrapping material app with `ThemeProvider`
 
-If you provide the theme consumer on `MaterialTheme` then you don't have to provide `ThemeConsumer` on routes. However that would disable the ability to use multiple theme controllers. Also a visible flickr may occur at the start of app when the saved theme is loaded.
+If you provide the theme consumer on `MaterialApp` then you don't have to provide `ThemeConsumer` on routes. However that would disable the ability to use multiple theme controllers. Also a visible flickr may occur at the start of app when the saved theme is loaded.
 
 This approach is much easier to integrate and works well with all other material components such as `SearchDelegates` and `DialogBoxes` without wrapping with `ThemeConsumer`s.
 
