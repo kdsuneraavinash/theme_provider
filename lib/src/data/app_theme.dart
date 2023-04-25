@@ -106,7 +106,8 @@ class AppTheme {
     return AppTheme(
       data: ThemeData.light().copyWith(
         primaryColor: Colors.purple,
-        accentColor: Colors.pink,
+        colorScheme:
+            ThemeData.light().colorScheme.copyWith(secondary: Colors.pink),
       ),
       id: id ?? "default_purple_theme",
       description: "Custom Default Purple Theme",

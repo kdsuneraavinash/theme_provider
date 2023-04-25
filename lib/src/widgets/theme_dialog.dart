@@ -101,7 +101,7 @@ class ThemeDialog extends StatelessWidget {
           CircleAvatar(
             backgroundColor: outerCircleColorBuilder != null
                 ? outerCircleColorBuilder!(theme)
-                : theme.data.accentColor,
+                : theme.data.colorScheme.secondary,
             child: CircleAvatar(
               backgroundColor: innerCircleColorBuilder?.call(theme) ??
                   theme.data.primaryColor,
