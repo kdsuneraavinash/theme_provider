@@ -103,10 +103,13 @@ class AppTheme {
 
   /// Additional purple theme constructor
   factory AppTheme.purple({String? id}) {
+    final theme = ThemeData.light();
     return AppTheme(
-      data: ThemeData.light().copyWith(
-        primaryColor: Colors.purple,
-        accentColor: Colors.pink,
+      data: theme.copyWith(
+        colorScheme: theme.colorScheme.copyWith(
+          secondary: Colors.pink,
+          primary: Colors.purple,
+        ),
       ),
       id: id ?? "default_purple_theme",
       description: "Custom Default Purple Theme",

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:theme_provider/theme_provider.dart';
 
-import '../controller/theme_controller.dart';
-import '../data/app_theme.dart';
 import 'inherited_theme.dart';
 
 // Callback to called after theme changed
