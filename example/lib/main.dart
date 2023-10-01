@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:theme_provider/theme_provider.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ThemeProvider(
       saveThemesOnChange: true,
       loadThemeOnInit: false,
       onInitCallback: (controller, previouslySavedThemeFuture) async {
+        final view = View.of(context);
         String? savedTheme = await previouslySavedThemeFuture;
         if (savedTheme != null) {
           controller.setTheme(savedTheme);
         } else {
           Brightness platformBrightness =
-              SchedulerBinding.instance.platformDispatcher.platformBrightness;
+              // ignore: use_build_context_synchronously
+              view.platformDispatcher.platformBrightness;
           if (platformBrightness == Brightness.dark) {
             controller.setTheme('dark');
           } else {
@@ -34,7 +37,7 @@ class MyApp extends StatelessWidget {
           builder: (themeContext) => MaterialApp(
             theme: ThemeProvider.themeOf(themeContext).data,
             title: 'Material App',
-            home: HomePage(),
+            home: const HomePage(),
           ),
         ),
       ),
@@ -43,24 +46,16 @@ class MyApp extends StatelessWidget {
 }
 
 class HomePage extends StatelessWidget {
-  static final String customAppThemeId = 'custom_theme';
+  static const String customAppThemeId = 'custom_theme';
+
+  const HomePage({super.key});
 
   AppTheme customAppTheme() {
     return AppTheme(
       id: customAppThemeId,
       description: "Custom Color Scheme",
       data: ThemeData(
-        primaryColor: Colors.red,
-        scaffoldBackgroundColor: Colors.yellow[200],
-        dialogBackgroundColor: Colors.yellow,
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.red,
-            surfaceTintColor: Colors.amber,
-          ),
-        ),
-        colorScheme:
-            ColorScheme.fromSwatch().copyWith(secondary: Colors.yellow),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
       ),
     );
   }
@@ -70,7 +65,7 @@ class HomePage extends StatelessWidget {
     var controller = ThemeProvider.controllerOf(context);
 
     return Scaffold(
-      appBar: AppBar(title: Text("Example App")),
+      appBar: AppBar(title: const Text("Example App")),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -88,11 +83,11 @@ class HomePage extends StatelessWidget {
             _buildButton(
               text: "Second Screen",
               onPressed: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => SecondPage()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => const SecondPage()));
               },
             ),
-            Divider(),
+            const Divider(),
             _buildButton(
               text: "Add Custom Theme",
               onPressed: controller.hasTheme(customAppThemeId)
@@ -107,9 +102,9 @@ class HomePage extends StatelessWidget {
                       : null
                   : null,
             ),
-            Divider(),
+            const Divider(),
             controller.hasTheme(customAppThemeId)
-                ? Text('Custom theme added')
+                ? const Text('Custom theme added')
                 : Container(),
             Text('Current theme: ${controller.theme.id}'),
           ],
@@ -122,8 +117,8 @@ class HomePage extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: ElevatedButton(
-        child: Text(text),
         onPressed: onPressed,
+        child: Text(text),
       ),
     );
   }
@@ -138,12 +133,12 @@ class SecondPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Second Screen"),
+        title: const Text("Second Screen"),
       ),
       body: Center(
         child: ElevatedButton(
-          child: Text("Next Theme"),
           onPressed: ThemeProvider.controllerOf(context).nextTheme,
+          child: const Text("Next Theme"),
         ),
       ),
     );
